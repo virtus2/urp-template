@@ -77,6 +77,5 @@ namespace MapGen
                 Gizmos.DrawLine(right, right + new Vector3(gizmoLineLength, 0, 0));
             }
         }
-
     }
 }

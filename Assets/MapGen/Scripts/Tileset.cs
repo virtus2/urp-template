@@ -7,13 +7,13 @@ namespace MapGen
     public class Tileset : ScriptableObject
     {
         [SerializeField]
-        private List<Tile> tiles;
+        private List<Tile> Tiles;
 
-        private Dictionary<Tile.ConnectionPoint, List<Tile>> ruleTiles = new();
+        public Dictionary<Tile.ConnectionPoint, List<Tile>> ruleTiles = new();
 
-        private void OnEnable()
+        public void Initialize()
         {
-            foreach(var t in tiles)
+            foreach (var t in Tiles)
             {
                 if (!ruleTiles.ContainsKey(t.ConnectionPoints))
                     ruleTiles[t.ConnectionPoints] = new List<Tile>();
