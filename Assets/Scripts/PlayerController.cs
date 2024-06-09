@@ -30,6 +30,10 @@ namespace Core
             Vector3 forward = playerInputComponent.MoveInput.y * Vector3.forward;
             Vector3 right = playerInputComponent.MoveInput.x * Vector3.right;
             Vector3 movement = (forward + right);
+            if(movement.sqrMagnitude > 1f)
+            {
+                movement.Normalize();
+            }
 
             movement *= character.movementSettings.Acceleration;
 

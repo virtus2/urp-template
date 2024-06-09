@@ -19,6 +19,8 @@ namespace Core
         public Controller controller; // The controller that controls the character
         public MovementSettings movementSettings;
 
+        public bool IsDashing { get; private set; }
+
         private void Awake()
         {
             controller.Init(this);
