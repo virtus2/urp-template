@@ -3,8 +3,11 @@ using UnityEngine.InputSystem;
 
 namespace Core
 {
+    /// <summary>
+    /// 플레이어의 입력을 처리하는 컴포넌트
+    /// </summary>
     [RequireComponent(typeof(PlayerInput))]
-    public class PlayerInputComponent : MonoBehaviour
+    public class PlayerInputHandler : MonoBehaviour
     {
         public Vector2 MoveInput { get; private set; }
         public Vector2 LookInput { get; private set; }

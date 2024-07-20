@@ -15,15 +15,20 @@ namespace Core
     }
 
     public class Character : MonoBehaviour
-    {
-        public Controller controller; // The controller that controls the character
+    { 
         public MovementSettings movementSettings;
+        
+        public Controller controller;
+        public CharacterStateMachine stateMachine;
 
-        public bool IsDashing { get; private set; }
-
-        private void Awake()
+        public void SetController(Controller controller)
         {
-            controller.Init(this);
+            this.controller = controller;
+        }
+
+        private void FixedUpdate()
+        {
+            
         }
     }
 }
