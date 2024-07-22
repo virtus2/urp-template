@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace Core
 {
-    public class IdleState : ICharacterState
+    public class GroundMoveState : ICharacterState
     {
-        public CharacterState State => CharacterState.Idle;
+        public CharacterState State => CharacterState.GroundMove;
 
         public void OnStateEnter(Character character, CharacterState prevState)
         {
-            Debug.Log("IdleState OnStateEnter");
+            Debug.Log("GroundMoveState OnStateEnter");
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
-            Debug.Log("IdleState OnStateExit");
+            Debug.Log("GroundMoveState OnStateExit");
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            if(character.Velocity.sqrMagnitude > 0)
+            if (character.Velocity.sqrMagnitude <= 0)
             {
-                stateMachine.TransitionToState(CharacterState.GroundMove);
+                stateMachine.TransitionToState(CharacterState.Idle);
                 return;
             }
         }

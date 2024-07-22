@@ -3,25 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Core
 {
-    private PlayerInputHandler inputHandler;
-    private PlayerCharacterController characterController;
-    private Character character;
-
-    public Character testCharacter;
-    
-    private void Awake()
+    public class Player : MonoBehaviour
     {
-        inputHandler = GetComponent<PlayerInputHandler>();
-        characterController = GetComponent<PlayerCharacterController>();
+        private PlayerInputHandler inputHandler;
+        private PlayerCharacterController characterController;
+        private Camera playerCamera; // TODO: 시네머신 카메라 어떻게 다루는지 알아보고 변경하기
 
-        OnPlayerCharacterSpawned(testCharacter);
-    }
+        public Character testCharacter;
 
-    private void OnPlayerCharacterSpawned(Character character)
-    {
-        this.character = character;
-        character.SetController(characterController);
+        private void Awake()
+        {
+            inputHandler = GetComponent<PlayerInputHandler>();
+            characterController = GetComponent<PlayerCharacterController>();
+            playerCamera = Camera.main;
+
+            OnPlayerCharacterSpawned(testCharacter);
+        }
+
+        private void OnPlayerCharacterSpawned(Character character)
+        {
+            characterController.SetCamera(playerCamera);
+            characterController.SetCharacter(character);
+            character.SetController(characterController);
+        }
     }
 }

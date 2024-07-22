@@ -1,26 +1,29 @@
-
-public enum CharacterState
+namespace Core
 {
-    Uninitialized,
+    public enum CharacterState
+    {
+        Uninitialized,
 
-    Idle,
-    GroundMove,
-    Crouched,
-    AirMove,
-    WallRun,
-    Rolling,
-    LedgeGrab,
-    LedgeStandingUp,
-    Dashing,
-    Swimming,
-    Climbing,
-    FlyingNoCollisions,
-    RopeSwing,
-}
+        Idle,
+        GroundMove,
+        Crouched,
+        AirMove,
+        WallRun,
+        Rolling,
+        LedgeGrab,
+        LedgeStandingUp,
+        Dashing,
+        Swimming,
+        Climbing,
+        FlyingNoCollisions,
+        RopeSwing,
+    }
 
-public interface ICharacterState
-{
-    void OnStateEnter();
-    void OnStateExit();
-    void GetMoveVectorFromPlayerInput();
+    public interface ICharacterState
+    {
+        CharacterState State { get; }
+        void OnStateEnter(Character character, CharacterState prevState);
+        void OnStateExit(Character character, CharacterState newState);
+        void UpdateState(Character character, CharacterStateMachine stateMachine);
+    }
 }

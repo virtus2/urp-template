@@ -4,27 +4,23 @@ using UnityEngine;
 
 namespace Core
 {
-    public class IdleState : ICharacterState
+    public class UninitializedState : ICharacterState
     {
-        public CharacterState State => CharacterState.Idle;
+        public CharacterState State => CharacterState.Uninitialized;
 
         public void OnStateEnter(Character character, CharacterState prevState)
         {
-            Debug.Log("IdleState OnStateEnter");
+            Debug.Log("UninitializedState OnStateEnter");
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
-            Debug.Log("IdleState OnStateExit");
+            Debug.Log("UninitializedState OnStateExit");
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            if(character.Velocity.sqrMagnitude > 0)
-            {
-                stateMachine.TransitionToState(CharacterState.GroundMove);
-                return;
-            }
+            Debug.LogWarning($"UninitializedState Being Updated!!! Check {character.name}'s StateMachine.");
         }
     }
 }
