@@ -73,3 +73,6 @@ crashlytics-build.properties
 
 # Samples
 /[Aa]ssets/[Ss]amples
+
+# Asset Store
+/[Aa]ssets/Opsive/*
