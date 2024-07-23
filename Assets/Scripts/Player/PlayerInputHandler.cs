@@ -12,7 +12,7 @@ namespace Core
         public Vector2 MoveInput { get; private set; }
         public Vector2 LookInput { get; private set; }
         public bool JumpInput { get; private set; }
-        public bool DashInput { get; private set; }
+        public bool RollInput { get; private set; }
 
         public void OnMoveAction(InputAction.CallbackContext context)
         {
@@ -36,15 +36,15 @@ namespace Core
             }
         }
 
-        public void OnDashAction(InputAction.CallbackContext context)
+        public void OnRollAction(InputAction.CallbackContext context)
         {
             if (context.started || context.performed)
             {
-                DashInput = true;
+                RollInput = true;
             }
             else if (context.canceled)
             {
-                DashInput = false;
+                RollInput = false;
             }
         }
     }

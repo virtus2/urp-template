@@ -22,30 +22,13 @@ namespace Core
             playerCamera = camera;
         }
 
-        public override Vector3 GetMovementVector3()
+        protected override void Update()
         {
-            Vector2 movementInput = inputHandler.MoveInput;
-            movementInput.Normalize();
+            Vector2 playerInput = inputHandler.MoveInput;
+            playerInput.Normalize();
+            MovementInput = playerInput;
 
-            // 탑뷰니까 카메라는 계산에서 제외한다.
-            // Quaternion cameraRotation = playerCamera.transform.rotation;
-
-            Vector3 movementVector = Vector3.right * movementInput.x + Vector3.forward * movementInput.y;
-
-            switch (stateMachine.CurrentState)
-            {
-                // Idle, GroundMove 상태는 플레이어 인풋을 따라서 그대로 움직인다.
-                case CharacterState.Idle:
-                case CharacterState.GroundMove:
-                    return movementVector;
-
-                // 추후에 사다리타기나 벽타기 등의 상태에서는 다르게 움직여줘야한다.
-                case CharacterState.LedgeStandingUp:
-                case CharacterState.WallRun:
-                    break;
-            }
-
-            return Vector3.zero;
+            RollPressed = inputHandler.RollInput;
         }
     }
 }

@@ -20,10 +20,18 @@ namespace Core
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            if (character.Velocity.sqrMagnitude <= 0)
+            Vector2 movementInput = character.Controller.MovementInput;
+            character.Controller.MovementVector = Vector3.right * movementInput.x + Vector3.forward * movementInput.y;
+            character.Controller.MovementVector *= character.movementSettings.RunningSpeed;
+
+            if(character.Controller.MovementInput.sqrMagnitude <= 0)
             {
                 stateMachine.TransitionToState(CharacterState.Idle);
-                return;
+            }
+
+            if(character.Controller.RollPressed && character.CanRoll())
+            {
+                stateMachine.TransitionToState(CharacterState.Rolling);
             }
         }
     }
