@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,7 +47,11 @@ namespace Core
 
         private void Update()
         {
-            RollingCooldownTime += Time.deltaTime;
+            // êµ¬ë¥´ê¸°ì¤‘ì´ ì•„ë‹ë•Œì—ë§Œ êµ¬ë¥´ê¸° ì¿¨ë‹¤ìš´ì‹œê°„ì´ íë¥¸ë‹¤.
+            if(!IsRolling)
+            {
+                RollingCooldownTime += Time.deltaTime;
+            }
         }
 
         public void SetController(Controller controller)
@@ -58,7 +62,7 @@ namespace Core
         public bool CanRoll()
         {
             bool IsOnCooldown = RollingCooldownTime <= movementSettings.RollingCooldownTime;
-            // Ä³¸¯ÅÍÀÇ ÇöÀç »óÅÂ°¡ ±¸¸£±â »óÅÂ·Î ³Ñ¾î°¥ ¼ö ÀÖ´ÂÁöµµ Ã¼Å©ÇØ¾ßÇÒ ¼öµµ ÀÖÀ½.
+            // ìºë¦­í„°ì˜ í˜„ì¬ ìƒíƒœê°€ êµ¬ë¥´ê¸° ìƒíƒœë¡œ ë„˜ì–´ê°ˆ ìˆ˜ ìˆëŠ”ì§€ë„ ì²´í¬í•´ì•¼í•  ìˆ˜ë„ ìˆìŒ.
             // ...
             return !IsOnCooldown && !IsRolling;
         }
