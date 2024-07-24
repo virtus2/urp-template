@@ -14,6 +14,8 @@ namespace Core
         protected CharacterStateMachine stateMachine;
 
         public Vector3 MovementVector;
+
+        // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public Vector2 MovementInput;
         public bool RollPressed;
 
