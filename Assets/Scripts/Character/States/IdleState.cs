@@ -20,7 +20,7 @@ namespace Core
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            if(character.Controller.MovementInput.sqrMagnitude > 0)
+            if(character.Controller.MovementInput != Vector2.zero)
             {
                 if(character.Controller.RollPressed && character.CanRoll())
                 {

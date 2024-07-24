@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace Core
 {
@@ -24,7 +25,7 @@ namespace Core
             character.Controller.MovementVector = Vector3.right * movementInput.x + Vector3.forward * movementInput.y;
             character.Controller.MovementVector *= character.movementSettings.RunningSpeed;
 
-            if(character.Controller.MovementInput.sqrMagnitude <= 0)
+            if (character.Controller.MovementInput == Vector2.zero)
             {
                 stateMachine.TransitionToState(CharacterState.Idle);
             }

@@ -14,9 +14,8 @@ namespace Core
         protected CharacterStateMachine stateMachine;
 
         public Vector3 MovementVector;
-
-        // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        public Vector2 MovementInput;
+        public Vector2 MovementInput; // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        public float VerticalVelocity;
         public bool RollPressed;
 
         public virtual void SetCharacter(Character character)
@@ -32,6 +31,7 @@ namespace Core
 
         protected void FixedUpdate()
         {
+            MovementVector.y = VerticalVelocity;
             characterController.Move(MovementVector * Time.deltaTime);
         }
     }

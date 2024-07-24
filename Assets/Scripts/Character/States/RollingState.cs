@@ -36,11 +36,9 @@ namespace Core
             timeElapsed += Time.deltaTime;
             if(timeElapsed >= character.movementSettings.RollingDuration)
             {
-                if (character.Controller.MovementInput.sqrMagnitude <= 0)
+                if (character.Controller.MovementInput == Vector2.zero)
                 {
-                    character.Controller.MovementVector = Vector3.zero;
                     stateMachine.TransitionToState(CharacterState.Idle);
-
                 }
                 else
                 {
