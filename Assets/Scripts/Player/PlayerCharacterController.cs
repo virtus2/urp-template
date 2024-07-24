@@ -1,4 +1,4 @@
-using Core;
+﻿using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +6,9 @@ using UnityEngine.Windows;
 
 namespace Core
 {
+    /// <summary>
+    /// 플레이어의 입력값을 기반으로 한 컨트롤러
+    /// </summary>
     public class PlayerCharacterController : Controller
     {
         private PlayerInputHandler inputHandler;
