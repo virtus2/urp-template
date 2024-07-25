@@ -38,15 +38,14 @@ namespace Core
         private void Awake()
         {
             character = GetComponent<Character>();
-        }
-
-        private void Update()
-        {
             if (CurrentState == CharacterState.Uninitialized)
             {
                 TransitionToState(CharacterState.Idle);
             }
+        }
 
+        private void Update()
+        {
             States[CurrentState].UpdateState(character, this);
         }
 

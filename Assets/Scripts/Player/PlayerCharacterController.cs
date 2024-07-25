@@ -32,6 +32,8 @@ namespace Core
             MovementInput = playerInput;
 
             RollPressed = inputHandler.RollInput;
+
+            base.Update();
         }
     }
 }
