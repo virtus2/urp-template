@@ -39,13 +39,15 @@ namespace Core
     {
         public MovementSettings movementSettings;
         public Controller Controller;
+        public GameObject MeshParent;
         public Vector3 Velocity => Controller.Velocity;
         public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
         public bool IsRolling = false;
         public float RollingCooldownTime;
         public bool IsGrounded = false;
+        public bool OverrideMovementVector = false; 
+        public Vector2 OverridedMovementVector = Vector2.zero; 
 
-        public Vector3 MovementOverrideVector;
         public float HorizontalSpeed = 0f;
         public float TargetHorizontalSpeed = 0f;
         public float VerticalSpeed = 0f;
@@ -86,10 +88,9 @@ namespace Core
             CheckIsGrounded();
             UpdateHorizontalSpeed();
             UpdateVerticalSpeed();
+            UpdateMovementVector();
             UpdateRotation();
             UpdateAnimations();
-            // TODO: 구르기는 MovementInput이 0이어도 구르기상태에 들어갔던 방향 그대로 움직여야함
-            Controller.MovementVector = new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y) * HorizontalSpeed + Vector3.up * VerticalSpeed;
 
             // 게임 시스템
             UpdateRollCooldownTime();
@@ -133,6 +134,15 @@ namespace Core
             {
                 VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -40.0f, 9.81f * Time.deltaTime);
             }
+        }
+
+        private void UpdateMovementVector()
+        {
+            Vector3 movement = OverrideMovementVector ?
+                new Vector3(OverridedMovementVector.x, 0, OverridedMovementVector.y) :
+                new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y);
+
+            Controller.MovementVector = movement * HorizontalSpeed + Vector3.up * VerticalSpeed;
         }
 
         private void UpdateRotation()
