@@ -7,7 +7,7 @@ namespace Core
     public class IdleState : ICharacterState
     {
         public CharacterState State => CharacterState.Idle;
-
+        
         public void OnStateEnter(Character character, CharacterState prevState)
         {
             Debug.Log("IdleState OnStateEnter");

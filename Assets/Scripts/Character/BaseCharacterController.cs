@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public abstract class Controller : MonoBehaviour
+    public abstract class BaseCharacterController : MonoBehaviour
     {
         public Vector3 Velocity => characterController.velocity;
         public Vector3 MovementVector;
@@ -21,8 +21,18 @@ namespace Core
         public virtual void SetCharacter(Character character)
         {
             this.character = character;
+            
             characterController = character.GetComponent<CharacterController>();
+            if(!characterController)
+            {
+                Debug.LogWarning($"{character.name}에 유니티 CharacterController 컴포넌트가 없습니다.");
+            }
+
             stateMachine = character.GetComponent<CharacterStateMachine>();
+            if(!stateMachine)
+            {
+                Debug.LogWarning($"{character.name}에 CharacterStateMachine 컴포넌트가 없습니다.");
+            }
         }
 
         protected virtual void Update()

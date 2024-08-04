@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
 
 namespace Core
 {
+    public enum CharacterControllerType { None, Player, AI };
     [System.Serializable]
     public class MovementSettings
     {
@@ -37,9 +39,9 @@ namespace Core
 
     public class Character : MonoBehaviour
     {
-        public MovementSettings movementSettings;
-        public Controller Controller;
-        public GameObject MeshParent;
+        public MovementSettings MovementSettings;
+        public BaseCharacterController Controller;
+        public CharacterControllerType ControllerType;
         public Vector3 Velocity => Controller.Velocity;
         public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
         public bool IsRolling = false;
@@ -64,9 +66,21 @@ namespace Core
         /// 이 캐릭터를 조종할 컨트롤러를 설정한다. 
         /// </summary>
         /// <param name="controller"></param>
-        public void SetController(Controller controller)
+        public void SetController(BaseCharacterController controller)
         {
             this.Controller = controller;
+            if (controller is AICharacterController)
+            {
+                ControllerType = CharacterControllerType.AI;
+            }
+            else if (controller is PlayerCharacterController)
+            {
+                ControllerType = CharacterControllerType.Player;
+            }
+            else
+            {
+                ControllerType = CharacterControllerType.None;
+            }
         }
 
         private void Awake()
@@ -79,7 +93,7 @@ namespace Core
         private void Initialize()
         {
             IsRolling = false;
-            RollingCooldownTime = movementSettings.RollingCooldownTime;
+            RollingCooldownTime = MovementSettings.RollingCooldownTime;
         }
 
         private void Update()
@@ -102,8 +116,8 @@ namespace Core
         private void CheckIsGrounded()
         {
             // set sphere position, with offset
-            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - movementSettings.GroundedOffset, transform.position.z);
-            IsGrounded = Physics.CheckSphere(spherePosition, movementSettings.GroundedRadius, movementSettings.GroundLayers, QueryTriggerInteraction.Ignore);
+            Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - MovementSettings.GroundedOffset, transform.position.z);
+            IsGrounded = Physics.CheckSphere(spherePosition, MovementSettings.GroundedRadius, MovementSettings.GroundLayers, QueryTriggerInteraction.Ignore);
         }
 
         private void UpdateHorizontalSpeed()
@@ -115,7 +129,7 @@ namespace Core
             // 자연스러운 속도 변경을 위해서 목표 속도에 가까워지게 감속 또는 가속한다.
             if (AccelerateToTargetHorizontalSpeed)
             {
-                float acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? movementSettings.Acceleration : movementSettings.Decceleration;
+                float acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? MovementSettings.Acceleration : MovementSettings.Decceleration;
                 HorizontalSpeed = Mathf.MoveTowards(HorizontalSpeed, TargetHorizontalSpeed, acceleration * Time.deltaTime);
             }
             else
@@ -150,7 +164,7 @@ namespace Core
             Vector3 horizontalMovementVector = new Vector3(Controller.MovementVector.x, 0, Controller.MovementVector.z);
             if (horizontalMovementVector.sqrMagnitude > 0.0f)
             {
-                float rotationSpeed = Mathf.Lerp(movementSettings.MaxRotationSpeed, movementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
+                float rotationSpeed = Mathf.Lerp(MovementSettings.MaxRotationSpeed, MovementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
 
                 Quaternion targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -186,7 +200,7 @@ namespace Core
         /// </summary>
         public bool CanRoll()
         {
-            bool IsOnCooldown = RollingCooldownTime <= movementSettings.RollingCooldownTime;
+            bool IsOnCooldown = RollingCooldownTime <= MovementSettings.RollingCooldownTime;
             // 캐릭터의 현재 상태가 구르기 상태로 넘어갈 수 있는지도 체크해야할 수도 있음.
             // ...
             return !IsOnCooldown && !IsRolling;
@@ -205,8 +219,8 @@ namespace Core
             else Gizmos.color = transparentRed;
 
             // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-            Vector3 sphereCenter = new Vector3(transform.position.x, transform.position.y - movementSettings.GroundedOffset, transform.position.z);
-            Gizmos.DrawSphere(sphereCenter, movementSettings.GroundedRadius);
+            Vector3 sphereCenter = new Vector3(transform.position.x, transform.position.y - MovementSettings.GroundedOffset, transform.position.z);
+            Gizmos.DrawSphere(sphereCenter, MovementSettings.GroundedRadius);
         }
     }
 }

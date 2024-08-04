@@ -20,7 +20,7 @@ namespace Core
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            Debug.LogWarning($"UninitializedState Being Updated!!! Check {character.name}'s StateMachine.");
+            Debug.LogWarning($"UninitializedState Being Updated!!! Check {character.name}'s CharacterStateMachine.");
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Core
             character.OverrideMovementVector = true; // 구르기 상태는 입력한 방향으로 강제로 움직인다.
             character.OverridedMovementVector = character.Controller.MovementInput;
             character.RollingCooldownTime = 0.0f;
-            character.TargetHorizontalSpeed = character.movementSettings.RollingSpeed;
+            character.TargetHorizontalSpeed = character.MovementSettings.RollingSpeed;
         }
 
         public void OnStateExit(Character character, CharacterState newState)
@@ -37,17 +37,17 @@ namespace Core
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
             timeElapsed += Time.deltaTime;
-            if(timeElapsed >= character.movementSettings.RollingDuration)
+            if(timeElapsed >= character.MovementSettings.RollingDuration)
             {
                 Debug.Log(timeElapsed);
                 if (character.Controller.MovementInput == Vector2.zero)
                 {
-                    character.HorizontalSpeed = character.TargetHorizontalSpeed = character.movementSettings.WalkSpeed;
+                    character.HorizontalSpeed = character.TargetHorizontalSpeed = character.MovementSettings.WalkSpeed;
                     stateMachine.TransitionToState(CharacterState.Idle);
                 }
                 else
                 {
-                    character.HorizontalSpeed = character.TargetHorizontalSpeed = character.movementSettings.WalkSpeed;
+                    character.HorizontalSpeed = character.TargetHorizontalSpeed = character.MovementSettings.WalkSpeed;
                     stateMachine.TransitionToState(CharacterState.GroundMove);
                 }
             }

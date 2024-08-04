@@ -9,7 +9,7 @@ namespace Core
     /// <summary>
     /// 플레이어의 입력값을 기반으로 한 컨트롤러
     /// </summary>
-    public class PlayerCharacterController : Controller
+    public class PlayerCharacterController : BaseCharacterController
     {
         private PlayerInputHandler inputHandler;
         private Character playerCharacter;

@@ -1,4 +1,4 @@
-using Core;
+ï»¿using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +7,10 @@ namespace Core
 {
     public class Player : MonoBehaviour
     {
+        public Character PlayerCharacter { get; private set; }
         private PlayerInputHandler inputHandler;
         private PlayerCharacterController characterController;
-        private Camera playerCamera; // TODO: ½Ã³×¸Ó½Å Ä«¸Ş¶ó ¾î¶»°Ô ´Ù·ç´ÂÁö ¾Ë¾Æº¸°í º¯°æÇÏ±â
+        private Camera playerCamera; // TODO: ì‹œë„¤ë¨¸ì‹  ì¹´ë©”ë¼ ì–´ë–»ê²Œ ë‹¤ë£¨ëŠ”ì§€ ì•Œì•„ë³´ê³  ë³€ê²½í•˜ê¸°
 
         public Character testCharacter;
 
@@ -24,8 +25,11 @@ namespace Core
 
         private void OnPlayerCharacterSpawned(Character character)
         {
+            PlayerCharacter = character;
+
             characterController.SetCamera(playerCamera);
             characterController.SetCharacter(character);
+
             character.SetController(characterController);
         }
     }

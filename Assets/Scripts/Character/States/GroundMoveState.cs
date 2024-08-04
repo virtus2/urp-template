@@ -14,7 +14,7 @@ namespace Core
             Debug.Log("GroundMoveState OnStateEnter");
 
             character.AccelerateToTargetHorizontalSpeed = true;
-            character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.movementSettings.SprintSpeed : character.movementSettings.WalkSpeed;
+            character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.MovementSettings.SprintSpeed : character.MovementSettings.WalkSpeed;
         }
 
         public void OnStateExit(Character character, CharacterState newState)
@@ -38,7 +38,7 @@ namespace Core
                 stateMachine.TransitionToState(CharacterState.Rolling);
                 return;
             }
-            character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.movementSettings.SprintSpeed : character.movementSettings.WalkSpeed;
+            character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.MovementSettings.SprintSpeed : character.MovementSettings.WalkSpeed;
         }
     }
 }
