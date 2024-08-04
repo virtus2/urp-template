@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Core.AI
 {
@@ -12,17 +13,22 @@ namespace Core.AI
 
         public void OnStateEnter(Character character, AIState prevState)
         {
-            Debug.Log("IdleState OnStateEnter");
+            timeElapsed = 0f;
         }
 
         public void OnStateExit(Character character, AIState newState)
         {
-            Debug.Log("IdleState OnStateExit");
+            timeElapsed = 0f;
         }
 
         public void UpdateState(Character character, AIStateMachine stateMachine)
         {
             timeElapsed += Time.deltaTime;
+
+            if (timeElapsed > 3f)
+            {
+                stateMachine.TransitionToState(AIState.Wandering);
+            }
         }
     }
 }

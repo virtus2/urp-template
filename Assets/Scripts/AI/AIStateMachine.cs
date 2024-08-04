@@ -16,11 +16,14 @@ namespace Core
         {
             [AIState.Uninitialized] = new AI.UninitializedState(),
             [AIState.Idle] = new AI.IdleState(),
-
+            [AIState.Wandering] = new AI.WanderingState(),
         };
 
+        public AI.WanderingState wanderingState; 
+
+        public NavMeshAgent Agent;
+
         private Character character;
-        private NavMeshAgent navMeshAgent;
         /*
         public GroundMoveState GroundMoveState;
         public CrouchedState CrouchedState;
@@ -38,9 +41,10 @@ namespace Core
 
         private void Awake()
         {
-            character = GetComponent<Character>();
-            navMeshAgent = GetComponent<NavMeshAgent>();
+            Agent = GetComponent<NavMeshAgent>();
 
+            character = GetComponent<Character>();
+            wanderingState = (AI.WanderingState)States[AIState.Wandering];
             if (CurrentState == AIState.Uninitialized)
             {
                 TransitionToState(AIState.Idle);

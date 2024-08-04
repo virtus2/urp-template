@@ -10,12 +10,10 @@ namespace Core
         
         public void OnStateEnter(Character character, CharacterState prevState)
         {
-            Debug.Log("IdleState OnStateEnter");
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
-            Debug.Log("IdleState OnStateExit");
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)

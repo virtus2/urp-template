@@ -1,3 +1,5 @@
+using UnityEngine.AI;
+
 namespace Core
 {
     public enum AIState

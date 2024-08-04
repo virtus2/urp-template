@@ -11,15 +11,12 @@ namespace Core
 
         public void OnStateEnter(Character character, CharacterState prevState)
         {
-            Debug.Log("GroundMoveState OnStateEnter");
-
             character.AccelerateToTargetHorizontalSpeed = true;
             character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.MovementSettings.SprintSpeed : character.MovementSettings.WalkSpeed;
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
-            Debug.Log("GroundMoveState OnStateExit");
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)

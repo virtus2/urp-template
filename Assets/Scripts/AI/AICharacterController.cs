@@ -40,12 +40,5 @@ namespace Core
                 Debug.LogWarning($"{character.name}에 AIStateMachine 컴포넌트가 없습니다.");
             }
         }
-
-        private void Update()
-        {
-            Vector3 toTarget = chaseTarget.transform.position - character.transform.position;
-            MovementInput = new Vector2(toTarget.x, toTarget.z);
-            MovementInput.Normalize();
-        }
     }
 }

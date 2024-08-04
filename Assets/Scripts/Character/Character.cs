@@ -63,6 +63,9 @@ namespace Core
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
         private Quaternion targetRotation = Quaternion.identity;
 
+        // AI 관련
+        public bool IsReachedDestination = false;
+
         /// 이 캐릭터를 조종할 컨트롤러를 설정한다. 
         /// </summary>
         /// <param name="controller"></param>
