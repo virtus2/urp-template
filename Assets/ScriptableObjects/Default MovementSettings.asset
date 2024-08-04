@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a9f490affad36438255207cf057a7a, type: 3}
   m_Name: Default MovementSettings
   m_EditorClassIdentifier: 
-  WalkSpeed: 1.25
-  SprintSpeed: 3.5
-  Acceleration: 10
-  Decceleration: 10
+  WalkSpeed: 3.5
+  SprintSpeed: 6
+  Acceleration: 15
+  Decceleration: 15
   JumpSpeed: 10
   JumpAbortSpeed: 10
-  RollingSpeed: 5
+  RollingSpeed: 10
   RollingDuration: 0.25
   RollingCooldownTime: 0.5
   MaxRotationSpeed: 1200
   MinRotationSpeed: 600
-  GroundedOffset: -0.14
+  GroundedOffset: 0
   GroundedRadius: 0.28
   GroundLayers:
     serializedVersion: 2

@@ -96,6 +96,10 @@ namespace Core
             // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - MovementSettings.GroundedOffset, transform.position.z);
             IsGrounded = Physics.CheckSphere(spherePosition, MovementSettings.GroundedRadius, MovementSettings.GroundLayers, QueryTriggerInteraction.Ignore);
+            if(ControllerType == CharacterControllerType.Player)
+            {
+                Debug.Log(IsGrounded);
+            }
         }
 
         private void UpdateHorizontalSpeed()
@@ -118,13 +122,13 @@ namespace Core
 
         private void UpdateVerticalSpeed()
         {
-            if(IsGrounded)
+            if (!IsGrounded)
             {
                 VerticalSpeed = -9.81f;
             }
             else
             {
-                VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -40.0f, 5f * Time.deltaTime);
+                VerticalSpeed = 0.0f;
             }
         }
 
@@ -163,7 +167,8 @@ namespace Core
         {
             animator.SetFloat(AnimationID_MotionSpeed, 1f);
             animator.SetFloat(AnimationID_Speed, HorizontalSpeed);
-            animator.SetBool(AnimationID_FreeFall, !IsGrounded);
+            // animator.SetBool(AnimationID_FreeFall, !IsGrounded);
+            animator.SetBool(AnimationID_Grounded, IsGrounded);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
@@ -208,6 +213,15 @@ namespace Core
             // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
             Vector3 sphereCenter = new Vector3(transform.position.x, transform.position.y - MovementSettings.GroundedOffset, transform.position.z);
             Gizmos.DrawSphere(sphereCenter, MovementSettings.GroundedRadius);
+
+            if (Controller)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawRay(transform.position, Controller.MovementVector);
+
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(transform.position, Controller.MovementInput);
+            }
         }
     }
 }
