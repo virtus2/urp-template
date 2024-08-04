@@ -8,37 +8,10 @@ using UnityEngine.Windows;
 
 namespace Core
 {
-    public enum CharacterControllerType { None, Player, AI };
-    [System.Serializable]
-    public class MovementSettings
-    {
-        /* In meters/second */
-        public float WalkSpeed = 1.25f; // 걷기 이동 속도
-        public float SprintSpeed= 3.5f; // 달리기 이동 속도
-        public float Acceleration = 10.0f; // 걷기<->달리기 가속도
-        public float Decceleration = 10.0f; // 걷기<->달리기 감속도
-        public float JumpSpeed = 10.0f; //  점프 속도
-        public float JumpAbortSpeed = 10.0f;
-
-        public float RollingSpeed = 5.0f; // 구르기 이동속도
-        public float RollingDuration = 0.25f; // 구르기 상태 지속 시간
-        public float RollingCooldownTime = 0.5f; // 구르기 쿨다운 타임 
-
-        public float MaxRotationSpeed = 1200.0f;
-        public float MinRotationSpeed = 600.0f;
-
-        [Tooltip("Useful for rough ground")]
-        public float GroundedOffset = -0.14f;
-
-        [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-        public float GroundedRadius = 0.28f;
-
-        [Tooltip("What layers the character uses as ground")]
-        public LayerMask GroundLayers;
-    }
-
     public class Character : MonoBehaviour
     {
+        public enum CharacterControllerType { None, Player, AI };
+
         public MovementSettings MovementSettings;
         public BaseCharacterController Controller;
         public CharacterControllerType ControllerType;
@@ -61,6 +34,7 @@ namespace Core
         private int AnimationID_Speed = Animator.StringToHash("Speed");
         private int AnimationID_Grounded = Animator.StringToHash("Grounded");
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
+        private int AnimationID_FreeFall = Animator.StringToHash("FreeFall");
         private Quaternion targetRotation = Quaternion.identity;
 
         // AI 관련
@@ -89,6 +63,7 @@ namespace Core
         private void Awake()
         {
             stateMachine = GetComponent<CharacterStateMachine>();
+            animator = GetComponent<Animator>();
 
             Initialize();
         }
@@ -149,7 +124,7 @@ namespace Core
             }
             else
             {
-                VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -40.0f, 9.81f * Time.deltaTime);
+                VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -40.0f, 5f * Time.deltaTime);
             }
         }
 
@@ -186,6 +161,9 @@ namespace Core
 
         private void UpdateAnimations()
         {
+            animator.SetFloat(AnimationID_MotionSpeed, 1f);
+            animator.SetFloat(AnimationID_Speed, HorizontalSpeed);
+            animator.SetBool(AnimationID_FreeFall, !IsGrounded);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
@@ -209,8 +187,14 @@ namespace Core
             return !IsOnCooldown && !IsRolling;
         }
 
-        // TODO: AnimationEvent를 통해서 발소리 내기 등등 함수 만들기
-        // ...
+
+        private void OnFootstep(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                // TODO: 발소리 내기?
+            }
+        }
 
 
         private void OnDrawGizmosSelected()
