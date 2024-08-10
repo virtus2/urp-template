@@ -11,12 +11,12 @@ namespace Core.AI
 
         private float timeElapsed = 0f;
 
-        public void OnStateEnter(Character character, AIState prevState)
+        public void OnStateEnter(Character character, AIState prevState, AIStateMachine stateMachine)
         {
             timeElapsed = 0f;
         }
 
-        public void OnStateExit(Character character, AIState newState)
+        public void OnStateExit(Character character, AIState newState, AIStateMachine stateMachine)
         {
             timeElapsed = 0f;
         }

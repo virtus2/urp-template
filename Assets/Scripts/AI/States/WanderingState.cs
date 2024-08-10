@@ -1,6 +1,7 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 using static Core.AI.WanderingState;
@@ -17,26 +18,23 @@ namespace Core.AI
         }
 
         private float maxWanderingTime = 3f;
-        private float maxDistance = 5f;
+        private float maxDistance = 5f; // TODO: ì ë‹¹í•œ ê°’ ì°¾ê¸° https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
 
         private PathfindingState pathfindingState;
         private float timeElapsed = 0f;
 
         private Vector3 currentDestination;
         private int currentPathIndex = 0;
-        private NavMeshPath path;
 
-        public void OnStateEnter(Character character, AIState prevState)
+        public void OnStateEnter(Character character, AIState prevState, AIStateMachine stateMachine)
         {
             timeElapsed = 0f;
 
             currentPathIndex = 0;
             pathfindingState = PathfindingState.Begin;
-            if (path == null) path = new NavMeshPath();
-            else path.ClearCorners();
         }
 
-        public void OnStateExit(Character character, AIState newState)
+        public void OnStateExit(Character character, AIState newState, AIStateMachine stateMachine)
         {
             timeElapsed = 0f;
         }
@@ -45,7 +43,7 @@ namespace Core.AI
         {
             timeElapsed += Time.deltaTime;
             
-            // ÀÏÁ¤ ½Ã°£ÀÌ Áö³ª¸é °­Á¦·Î Á¾·á ÇÑ´Ù.
+            // ì¼ì • ì‹œê°„ì´ ì§€ë‚˜ë©´ ê°•ì œë¡œ ì¢…ë£Œ í•œë‹¤.
             if(timeElapsed > maxWanderingTime)
             {
                 pathfindingState = PathfindingState.Completed;
@@ -53,9 +51,10 @@ namespace Core.AI
 
             switch (pathfindingState)
             {
-                // Begin ´Ü°è¿¡¼­´Â ÁÖº¯ ¹«ÀÛÀ§ À§Ä¡¸¦ °è»êÇÑ´Ù.
+                // Begin ë‹¨ê³„ì—ì„œëŠ” ì£¼ë³€ ë¬´ì‘ìœ„ ìœ„ì¹˜ë¥¼ ê³„ì‚°í•œë‹¤.
                 case PathfindingState.Begin:
                     Vector3 randomPosition = Random.insideUnitSphere * maxDistance + character.transform.position;
+                    stateMachine.Destination = randomPosition;
                     NavMeshHit hit;
                     bool positionFound = NavMesh.SamplePosition(randomPosition, out hit, maxDistance, NavMesh.AllAreas);
 
@@ -65,18 +64,18 @@ namespace Core.AI
                     }
                     else
                     {
-                        if(stateMachine.Agent.CalculatePath(hit.position, path))
+                        if(stateMachine.Agent.CalculatePath(hit.position, stateMachine.Path))
                         {
                             pathfindingState = PathfindingState.Move;
                             currentPathIndex = 0;
-                            currentDestination = path.corners[currentPathIndex];
+                            currentDestination = stateMachine.Path.corners[currentPathIndex];
                         }
                     }
 
                     break;
-                // Move ´Ü°è¿¡¼­´Â °è»êµÈ °æ·Î¸¦ µû¶ó ¿òÁ÷ÀÎ´Ù.
+                // Move ë‹¨ê³„ì—ì„œëŠ” ê³„ì‚°ëœ ê²½ë¡œë¥¼ ë”°ë¼ ì›€ì§ì¸ë‹¤.
                 case PathfindingState.Move:
-                    if (currentPathIndex >= path.corners.Length)
+                    if (currentPathIndex >= stateMachine.Path.corners.Length)
                     {
                         pathfindingState = PathfindingState.Completed;
                         break;
@@ -84,12 +83,12 @@ namespace Core.AI
                     if ((character.transform.position - currentDestination).sqrMagnitude < 0.01f)
                     {
                         currentPathIndex++;
-                        if(currentPathIndex >= path.corners.Length)
+                        if(currentPathIndex >= stateMachine.Path.corners.Length)
                         {
                             pathfindingState = PathfindingState.Completed;
                             break;
                         }
-                        currentDestination = path.corners[currentPathIndex];
+                        currentDestination = stateMachine.Path.corners[currentPathIndex];
                     }
                     Vector3 toTarget = currentDestination - character.transform.position;
                     toTarget.Normalize();
@@ -97,7 +96,7 @@ namespace Core.AI
 
 
                     break;
-                // Completed ´Ü°è¿¡¼± Idle »óÅÂ·Î ³Ñ¾î°¡°ÔÇÑ´Ù.
+                // Completed ë‹¨ê³„ì—ì„  Idle ìƒíƒœë¡œ ë„˜ì–´ê°€ê²Œí•œë‹¤.
                 case PathfindingState.Completed:
                     character.Controller.MovementInput = Vector2.zero;
                     stateMachine.TransitionToState(AIState.Idle);

@@ -15,13 +15,15 @@ namespace Core
         public MovementSettings MovementSettings;
         public BaseCharacterController Controller;
         public CharacterControllerType ControllerType;
+
         public Vector3 Velocity => Controller.Velocity;
+        public float CapsuleRadius => Controller.Radius;
         public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
         public bool IsRolling = false;
         public float RollingCooldownTime;
         public bool IsGrounded = false;
         public bool OverrideMovementVector = false; 
-        public Vector2 OverridedMovementVector = Vector2.zero; 
+        public Vector2 OverridedMovementVector = Vector2.zero;
 
         public float HorizontalSpeed = 0f;
         public float TargetHorizontalSpeed = 0f;
@@ -39,6 +41,7 @@ namespace Core
 
         // AI 관련
         public bool IsReachedDestination = false;
+        public Character ChaseTarget;
 
         /// 이 캐릭터를 조종할 컨트롤러를 설정한다. 
         /// </summary>

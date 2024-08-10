@@ -1,6 +1,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.LowLevel;
@@ -17,11 +19,14 @@ namespace Core
             [AIState.Uninitialized] = new AI.UninitializedState(),
             [AIState.Idle] = new AI.IdleState(),
             [AIState.Wandering] = new AI.WanderingState(),
+            [AIState.Chase] = new AI.ChaseState(),
         };
 
         public AI.WanderingState wanderingState; 
 
         public NavMeshAgent Agent;
+        public NavMeshPath Path;
+        public Vector3 Destination;
 
         private Character character;
         /*
@@ -42,6 +47,7 @@ namespace Core
         private void Awake()
         {
             Agent = GetComponent<NavMeshAgent>();
+            Path = new NavMeshPath();
 
             character = GetComponent<Character>();
             wanderingState = (AI.WanderingState)States[AIState.Wandering];
@@ -67,12 +73,30 @@ namespace Core
 
         public void OnStateEnter(AIState prevState, AIState state)
         {
-            States[state].OnStateEnter(character, prevState);
+            States[state].OnStateEnter(character, prevState, this);
         }
 
         public void OnStateExit(AIState state, AIState newState)
         {
-            States[state].OnStateExit(character, newState);
+            States[state].OnStateExit(character, newState, this);
+        }
+
+        private void OnDrawGizmos()
+        {
+            if(Path != null)
+            {
+                if(Path.corners != null && Path.corners.Length > 0)
+                {
+                    Gizmos.color = UnityEngine.Color.yellow;
+                    foreach (var point in Path.corners)
+                    {
+                        Gizmos.DrawCube(point, Vector3.one * 0.2f);
+                    }
+
+                    Gizmos.color = UnityEngine.Color.magenta;
+                    Gizmos.DrawCube(Destination, Vector3.one * 0.2f);
+                }
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Core
     public abstract class BaseCharacterController : MonoBehaviour
     {
         public Vector3 Velocity => characterController.velocity;
+        public float Radius => characterController.radius;
+
         public Vector3 MovementVector;
         public Vector2 MovementInput; // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public float VerticalVelocity;

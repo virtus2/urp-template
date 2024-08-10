@@ -9,12 +9,12 @@ namespace Core.AI
     {
         public AIState State => AIState.Uninitialized;
 
-        public void OnStateEnter(Character character, AIState prevState)
+        public void OnStateEnter(Character character, AIState prevState, AIStateMachine stateMachine)
         {
 
         }
 
-        public void OnStateExit(Character character, AIState newState)
+        public void OnStateExit(Character character, AIState newState, AIStateMachine stateMachine)
         { 
         }
 
