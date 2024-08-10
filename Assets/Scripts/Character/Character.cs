@@ -22,13 +22,20 @@ namespace Core
         public bool IsRolling = false;
         public float RollingCooldownTime;
         public bool IsGrounded = false;
+        public bool IsAttacking = false;
+        public bool IsWalkedOffALedge = false; // 
+
+        /* Controller의 입력과 상관없이 캐릭터를 강제로 움직임 */
         public bool OverrideMovementVector = false; 
         public Vector2 OverridedMovementVector = Vector2.zero;
 
-        public float HorizontalSpeed = 0f;
-        public float TargetHorizontalSpeed = 0f;
-        public float VerticalSpeed = 0f;
-        public bool AccelerateToTargetHorizontalSpeed = false;
+        /* 캐릭터의 이동 */
+        public float HorizontalSpeed = 0f; // 현재 수평 속도 (x축, z축)
+        public float TargetHorizontalSpeed = 0f; // 타겟 수평 속도 (가/감속 전)
+        public float VerticalSpeed = 0f; // 현재 수직 속도 (y축)
+        public bool AccelerateToTargetHorizontalSpeed = false; // 타겟 속도까지 가/감속 할 지 여부
+
+        private Quaternion targetRotation = Quaternion.identity;
 
         private CharacterStateMachine stateMachine;
         private Animator animator;
@@ -36,8 +43,8 @@ namespace Core
         private int AnimationID_Speed = Animator.StringToHash("Speed");
         private int AnimationID_Grounded = Animator.StringToHash("Grounded");
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
+        private int AnimationID_Attack = Animator.StringToHash("Attack"); // TODO: 애니메이터 컨트롤러에 매개변수 추가
         private int AnimationID_FreeFall = Animator.StringToHash("FreeFall");
-        private Quaternion targetRotation = Quaternion.identity;
 
         // AI 관련
         public bool IsReachedDestination = false;
@@ -99,10 +106,6 @@ namespace Core
             // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - MovementSettings.GroundedOffset, transform.position.z);
             IsGrounded = Physics.CheckSphere(spherePosition, MovementSettings.GroundedRadius, MovementSettings.GroundLayers, QueryTriggerInteraction.Ignore);
-            if(ControllerType == CharacterControllerType.Player)
-            {
-                Debug.Log(IsGrounded);
-            }
         }
 
         private void UpdateHorizontalSpeed()
@@ -125,13 +128,18 @@ namespace Core
 
         private void UpdateVerticalSpeed()
         {
-            if (!IsGrounded)
+            if (IsGrounded)
             {
-                VerticalSpeed = -9.81f;
+                VerticalSpeed = -MovementSettings.GroundedGravity;
             }
             else
             {
-                VerticalSpeed = 0.0f;
+                if(IsWalkedOffALedge)
+                {
+                    VerticalSpeed = 0.0f;
+                }
+
+                VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -MovementSettings.MaxFallSpeed, MovementSettings.Gravity * Time.deltaTime);
             }
         }
 
@@ -151,7 +159,7 @@ namespace Core
             {
                 float rotationSpeed = Mathf.Lerp(MovementSettings.MaxRotationSpeed, MovementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
 
-                Quaternion targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
+                targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
@@ -169,8 +177,8 @@ namespace Core
         private void UpdateAnimations()
         {
             animator.SetFloat(AnimationID_MotionSpeed, 1f);
-            animator.SetFloat(AnimationID_Speed, HorizontalSpeed);
-            // animator.SetBool(AnimationID_FreeFall, !IsGrounded);
+            animator.SetFloat(AnimationID_Speed, HorizontalSpeed); // TODO: Override MovementVector때문에 캐릭터의 최종 속도 기준으로 값을 변경해야한다.
+            // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
             animator.SetBool(AnimationID_Grounded, IsGrounded);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);

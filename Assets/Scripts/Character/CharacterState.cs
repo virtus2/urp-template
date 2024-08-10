@@ -6,6 +6,9 @@ namespace Core
 
         Idle,
         GroundMove,
+        Attack,
+
+
         Crouched,
         AirMove,
         WallRun,

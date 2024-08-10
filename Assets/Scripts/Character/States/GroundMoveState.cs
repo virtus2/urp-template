@@ -35,6 +35,14 @@ namespace Core
                 stateMachine.TransitionToState(CharacterState.Rolling);
                 return;
             }
+
+            // 공격 입력 시 Attack 상태로 전환한다.
+            if(character.Controller.AttackPressed)
+            {
+                stateMachine.TransitionToState(CharacterState.Attack);
+                return;
+            }
+
             character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.MovementSettings.SprintSpeed : character.MovementSettings.WalkSpeed;
         }
     }

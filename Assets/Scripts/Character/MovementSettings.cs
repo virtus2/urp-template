@@ -24,6 +24,10 @@ namespace Core
         public float MaxRotationSpeed = 1200.0f;
         public float MinRotationSpeed = 600.0f;
 
+        public float GroundedGravity = 5.0f;
+        public float Gravity = 20.0f;
+        public float MaxFallSpeed = 40.0f;
+
         [Tooltip("Useful for rough ground")]
         public float GroundedOffset = -0.14f;
 

@@ -16,7 +16,8 @@ namespace Core
             [CharacterState.Uninitialized] = new UninitializedState(),
             [CharacterState.Idle] = new IdleState(),
             [CharacterState.GroundMove] = new GroundMoveState(),
-            [CharacterState.Rolling] = new RollingState()
+            [CharacterState.Rolling] = new RollingState(),
+            [CharacterState.Attack] = new AttackState(),
         };
 
         private Character character;

@@ -13,6 +13,7 @@ namespace Core
         public Vector2 LookInput { get; private set; }
         public bool JumpInput { get; private set; }
         public bool RollInput { get; private set; }
+        public bool AttackInput { get; private set; }
 
         public void OnMoveAction(InputAction.CallbackContext context)
         {
@@ -45,6 +46,18 @@ namespace Core
             else if (context.canceled)
             {
                 RollInput = false;
+            }
+        }
+
+        public void OnAttackAction(InputAction.CallbackContext context)
+        {
+            if (context.started || context.performed)
+            {
+                AttackInput = true;
+            }
+            else if (context.canceled)
+            {
+                AttackInput = false;
             }
         }
     }

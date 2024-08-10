@@ -18,6 +18,7 @@ namespace Core
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
+            // 이동 입력이 있을 때
             if(character.Controller.MovementInput != Vector2.zero)
             {
                 if(character.Controller.RollPressed && character.CanRoll())
@@ -26,6 +27,13 @@ namespace Core
                     return;
                 }
                 stateMachine.TransitionToState(CharacterState.GroundMove);
+            }
+
+            // 공격 입력 시 Attack 상태로 전환한다.
+            if (character.Controller.AttackPressed)
+            {
+                stateMachine.TransitionToState(CharacterState.Attack);
+                return;
             }
         }
     }

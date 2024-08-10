@@ -32,6 +32,7 @@ namespace Core
             MovementInput = playerInput;
 
             RollPressed = inputHandler.RollInput;
+            AttackPressed = inputHandler.AttackInput;
 
             base.Update();
         }

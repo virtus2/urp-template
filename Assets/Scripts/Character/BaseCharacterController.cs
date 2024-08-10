@@ -14,6 +14,7 @@ namespace Core
         public Vector2 MovementInput; // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public float VerticalVelocity;
         public bool RollPressed;
+        public bool AttackPressed;
         public bool SprintPressed;
 
         protected Character character;
@@ -44,7 +45,6 @@ namespace Core
 
         protected void FixedUpdate()
         {
-            // TODO: 점프나 사다리타기 등 수직 속도에 대해서 처리할것이 꽤 많다...
             characterController.Move(MovementVector * Time.deltaTime);
         }
     }
