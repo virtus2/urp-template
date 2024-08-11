@@ -16,15 +16,13 @@ namespace Core
             timeElapsed = 0.0f;
 
             character.IsAttacking = true;
-            character.OverrideMovementVector = true;
-            character.OverridedMovementVector = Vector2.zero;
+            character.SetOverrideMovementVector(true, Vector2.zero);
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
             character.IsAttacking = false;
-            character.OverrideMovementVector = false;
-            character.OverridedMovementVector = Vector2.zero;
+            character.SetOverrideMovementVector(false, Vector2.zero);
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)

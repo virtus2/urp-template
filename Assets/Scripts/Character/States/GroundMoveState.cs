@@ -12,7 +12,7 @@ namespace Core
         public void OnStateEnter(Character character, CharacterState prevState)
         {
             character.AccelerateToTargetHorizontalSpeed = true;
-            character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.MovementSettings.SprintSpeed : character.MovementSettings.WalkSpeed;
+            character.TargetHorizontalSpeed = character.Controller.RunPressed ? character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
         }
 
         public void OnStateExit(Character character, CharacterState newState)
@@ -43,7 +43,7 @@ namespace Core
                 return;
             }
 
-            character.TargetHorizontalSpeed = character.Controller.SprintPressed ? character.MovementSettings.SprintSpeed : character.MovementSettings.WalkSpeed;
+            character.TargetHorizontalSpeed = character.Controller.RunPressed ? character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
         }
     }
 }

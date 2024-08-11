@@ -34,7 +34,7 @@ namespace Core.AI
             if ((character.ChaseTarget.transform.position - character.transform.position).magnitude <= stateMachine.Agent.radius + character.CapsuleRadius)
             {
                 // TODO: 공격이나 다른 행동
-                character.Controller.MovementInput = Vector2.zero;
+                character.Controller.SetMovementInput(Vector2.zero);
                 stateMachine.TransitionToState(AIState.Idle);
                 return;
             }
@@ -52,7 +52,7 @@ namespace Core.AI
 
                         Vector3 toTarget = currentDestination - character.transform.position;
                         toTarget.Normalize();
-                        character.Controller.MovementInput = new Vector2(toTarget.x, toTarget.z);
+                        character.Controller.SetMovementInput(new Vector2(toTarget.x, toTarget.z));
                     }
                 }
             }

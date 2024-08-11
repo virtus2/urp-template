@@ -29,7 +29,7 @@ namespace Core
         {
             Vector2 playerInput = inputHandler.MoveInput;
             playerInput.Normalize();
-            MovementInput = playerInput;
+            SetMovementInput(playerInput);
 
             RollPressed = inputHandler.RollInput;
             AttackPressed = inputHandler.AttackInput;

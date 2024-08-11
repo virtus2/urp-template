@@ -13,16 +13,19 @@ MonoBehaviour:
   m_Name: Default MovementSettings
   m_EditorClassIdentifier: 
   WalkSpeed: 3.5
-  SprintSpeed: 6
+  RunSpeed: 3.5
   Acceleration: 15
   Decceleration: 15
   JumpSpeed: 10
   JumpAbortSpeed: 10
-  RollingSpeed: 10
-  RollingDuration: 0.25
+  RollingSpeed: 8
+  RollingDuration: 0.467
   RollingCooldownTime: 0.5
   MaxRotationSpeed: 1200
   MinRotationSpeed: 600
+  GroundedGravity: 5
+  Gravity: 20
+  MaxFallSpeed: 40
   GroundedOffset: 0
   GroundedRadius: 0.28
   GroundLayers:

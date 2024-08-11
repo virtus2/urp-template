@@ -26,8 +26,8 @@ namespace Core
         public bool IsWalkedOffALedge = false; // 
 
         /* Controller의 입력과 상관없이 캐릭터를 강제로 움직임 */
-        public bool OverrideMovementVector = false; 
-        public Vector2 OverridedMovementVector = Vector2.zero;
+        protected bool IsMovementVectorOverrided = false; 
+        protected Vector2 OverridedMovementVector = Vector2.zero;
 
         /* 캐릭터의 이동 */
         public float HorizontalSpeed = 0f; // 현재 수평 속도 (x축, z축)
@@ -36,12 +36,14 @@ namespace Core
         public bool AccelerateToTargetHorizontalSpeed = false; // 타겟 속도까지 가/감속 할 지 여부
 
         private Quaternion targetRotation = Quaternion.identity;
+        private Vector3 targetDirection = Vector3.forward;
 
         private CharacterStateMachine stateMachine;
         private Animator animator;
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
         private int AnimationID_Grounded = Animator.StringToHash("Grounded");
+        private int AnimationID_IsRolling = Animator.StringToHash("IsRolling"); 
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
         private int AnimationID_Attack = Animator.StringToHash("Attack"); // TODO: 애니메이터 컨트롤러에 매개변수 추가
         private int AnimationID_FreeFall = Animator.StringToHash("FreeFall");
@@ -145,9 +147,14 @@ namespace Core
 
         private void UpdateMovementVector()
         {
-            Vector3 movement = OverrideMovementVector ?
-                new Vector3(OverridedMovementVector.x, 0, OverridedMovementVector.y) :
-                new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y);
+            Vector3 movement = Controller.HasMovementInput ?
+                new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y) :
+                new Vector3(Controller.LastMovementInput.x, 0, Controller.LastMovementInput.y);
+
+            if (IsMovementVectorOverrided)
+            {
+                movement = new Vector3(OverridedMovementVector.x, 0, OverridedMovementVector.y);
+            }
 
             Controller.MovementVector = movement * HorizontalSpeed + Vector3.up * VerticalSpeed;
         }
@@ -161,6 +168,8 @@ namespace Core
 
                 targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+                targetDirection = horizontalMovementVector.normalized;
             }
         }
 
@@ -177,9 +186,10 @@ namespace Core
         private void UpdateAnimations()
         {
             animator.SetFloat(AnimationID_MotionSpeed, 1f);
-            animator.SetFloat(AnimationID_Speed, HorizontalSpeed); // TODO: Override MovementVector때문에 캐릭터의 최종 속도 기준으로 값을 변경해야한다.
+            animator.SetFloat(AnimationID_Speed, Velocity.magnitude); // TODO: Override MovementVector때문에 캐릭터의 최종 속도 기준으로 값을 변경해야한다.
             // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
             animator.SetBool(AnimationID_Grounded, IsGrounded);
+            animator.SetBool(AnimationID_IsRolling, IsRolling);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
@@ -190,6 +200,13 @@ namespace Core
             animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (animationBlend < 0.01f) animationBlend = 0f;
             */
+        }
+        private void OnFootstep(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                // TODO: 발소리 내기?
+            }
         }
 
         /// <summary>
@@ -203,15 +220,19 @@ namespace Core
             return !IsOnCooldown && !IsRolling;
         }
 
-
-        private void OnFootstep(AnimationEvent animationEvent)
+        /// <summary>
+        /// 컨트롤러의 입력과 상관없이 캐릭터를 강제로 움직이게 한다.
+        /// </summary>
+        /// <param name="movement">강제로 움직일 방향</param>
+        public void SetOverrideMovementVector(bool overrideMovement, Vector2 movement)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                // TODO: 발소리 내기?
-            }
-        }
+            IsMovementVectorOverrided = overrideMovement;
+            OverridedMovementVector = movement;
 
+            // HACK: 인풋값도 초기화시켜준다.
+            Controller.LastMovementInput = Vector2.zero;
+            Controller.MovementInput = Vector2.zero;
+        }
 
         private void OnDrawGizmosSelected()
         {
@@ -232,6 +253,9 @@ namespace Core
 
                 Gizmos.color = Color.red;
                 Gizmos.DrawRay(transform.position, Controller.MovementInput);
+
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawRay(transform.position, Controller.LastMovementInput);
             }
         }
     }

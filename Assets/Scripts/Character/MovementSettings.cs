@@ -9,9 +9,11 @@ namespace Core
     [System.Serializable]
     public class MovementSettings : ScriptableObject
     {
-        /* In meters/second */
+        [Header("이동 관련 변수들")]
+        [Header("주의사항: CharacterAnimationController에서도 Blend Tree등에 같은 값으로 맞춰줘야함")]
+        [Header("미터/초")]
         public float WalkSpeed = 1.25f; // 걷기 이동 속도
-        public float SprintSpeed = 3.5f; // 달리기 이동 속도
+        public float RunSpeed = 3.5f; // 달리기 이동 속도
         public float Acceleration = 10.0f; // 걷기<->달리기 가속도
         public float Decceleration = 10.0f; // 걷기<->달리기 감속도
         public float JumpSpeed = 10.0f; //  점프 속도

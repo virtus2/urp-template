@@ -12,10 +12,12 @@ namespace Core
 
         public Vector3 MovementVector;
         public Vector2 MovementInput; // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        public Vector2 LastMovementInput;
         public float VerticalVelocity;
+        public bool HasMovementInput;
         public bool RollPressed;
         public bool AttackPressed;
-        public bool SprintPressed;
+        public bool RunPressed;
 
         protected Character character;
         protected CharacterController characterController; // Unity's CharacterController Component
@@ -40,12 +42,20 @@ namespace Core
 
         protected virtual void Update()
         {
-
+            characterController.Move(MovementVector * Time.deltaTime);
         }
 
-        protected void FixedUpdate()
+        public void SetMovementInput(Vector2 input)
         {
-            characterController.Move(MovementVector * Time.deltaTime);
+            bool inputChanged = input.sqrMagnitude > 0.0f;
+
+            if (HasMovementInput && !inputChanged)
+            {
+                LastMovementInput = MovementInput;
+            }
+
+            MovementInput = input;
+            HasMovementInput = inputChanged;
         }
     }
 }
