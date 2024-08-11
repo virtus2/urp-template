@@ -77,3 +77,4 @@ crashlytics-build.properties
 # Asset Store
 /[Aa]ssets/Opsive/*
 /[Aa]ssets/Opsive.meta
+/[Aa]ssets/Art/
