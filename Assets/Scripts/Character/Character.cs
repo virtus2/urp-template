@@ -13,6 +13,7 @@ namespace Core
         public enum CharacterControllerType { None, Player, AI };
 
         public MovementSettings MovementSettings;
+        public RollingSettings RollingSettings;
         public BaseCharacterController Controller;
         public CharacterControllerType ControllerType;
 
@@ -34,6 +35,7 @@ namespace Core
         public float TargetHorizontalSpeed = 0f; // 타겟 수평 속도 (가/감속 전)
         public float VerticalSpeed = 0f; // 현재 수직 속도 (y축)
         public bool AccelerateToTargetHorizontalSpeed = false; // 타겟 속도까지 가/감속 할 지 여부
+        public float Acceleration = 0f;
 
         private Quaternion targetRotation = Quaternion.identity;
         private Vector3 targetDirection = Vector3.forward;
@@ -83,7 +85,7 @@ namespace Core
         private void Initialize()
         {
             IsRolling = false;
-            RollingCooldownTime = MovementSettings.RollingCooldownTime;
+            RollingCooldownTime = RollingSettings.RollingCooldownTime;
         }
 
         private void Update()
@@ -119,8 +121,16 @@ namespace Core
             // 자연스러운 속도 변경을 위해서 목표 속도에 가까워지게 감속 또는 가속한다.
             if (AccelerateToTargetHorizontalSpeed)
             {
-                float acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? MovementSettings.Acceleration : MovementSettings.Decceleration;
-                HorizontalSpeed = Mathf.MoveTowards(HorizontalSpeed, TargetHorizontalSpeed, acceleration * Time.deltaTime);
+                if(IsRolling)
+                {
+                    Acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? RollingSettings.Acceleration : RollingSettings.Decceleration;
+                }
+                else
+                {
+                    Acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? MovementSettings.Acceleration : MovementSettings.Decceleration;
+                }
+
+                HorizontalSpeed = Mathf.MoveTowards(HorizontalSpeed, TargetHorizontalSpeed, Acceleration * Time.deltaTime);
             }
             else
             {
@@ -214,7 +224,7 @@ namespace Core
         /// </summary>
         public bool CanRoll()
         {
-            bool IsOnCooldown = RollingCooldownTime <= MovementSettings.RollingCooldownTime;
+            bool IsOnCooldown = RollingCooldownTime <= RollingSettings.RollingCooldownTime;
             // 캐릭터의 현재 상태가 구르기 상태로 넘어갈 수 있는지도 체크해야할 수도 있음.
             // ...
             return !IsOnCooldown && !IsRolling;

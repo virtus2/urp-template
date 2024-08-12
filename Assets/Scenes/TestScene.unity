@@ -2441,6 +2441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -2448,12 +2449,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &170961213
@@ -2932,10 +2932,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 984170341}
@@ -4188,10 +4190,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 542388955}
@@ -5983,6 +5987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -5990,12 +5995,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &542388956
@@ -6182,6 +6186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -6189,12 +6194,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &551404007
@@ -7911,10 +7915,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 874822233}
@@ -9067,6 +9073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -9074,12 +9081,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &874822234
@@ -10820,6 +10826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -10827,12 +10834,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &984170342
@@ -11116,6 +11122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -11123,12 +11130,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 170961212}
 --- !u!143 &995838872
@@ -11547,10 +11553,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 995838871}
@@ -13155,6 +13163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -13162,12 +13171,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &1213992005
@@ -13432,10 +13440,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 1213992004}
@@ -14921,10 +14931,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 1927080253}
@@ -16436,10 +16448,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 1632964900}
@@ -16968,10 +16982,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
   chaseTarget: {fileID: 0}
   aiStateMachine: {fileID: 0}
   testAICharacter: {fileID: 551404006}
@@ -17350,10 +17366,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
 --- !u!1 &1621021105
 GameObject:
   m_ObjectHideFlags: 0
@@ -17698,6 +17716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -17705,12 +17724,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!143 &1632964901
@@ -20566,6 +20584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
+  RollingSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -20573,12 +20592,11 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  OverrideMovementVector: 0
-  OverridedMovementVector: {x: 0, y: 0}
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
   AccelerateToTargetHorizontalSpeed: 0
+  Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 170961212}
 --- !u!143 &1927080254

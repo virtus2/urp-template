@@ -19,10 +19,6 @@ namespace Core
         public float JumpSpeed = 10.0f; //  점프 속도
         public float JumpAbortSpeed = 10.0f;
 
-        public float RollingSpeed = 5.0f; // 구르기 이동속도
-        public float RollingDuration = 0.25f; // 구르기 상태 지속 시간
-        public float RollingCooldownTime = 0.5f; // 구르기 쿨다운 타임 
-
         public float MaxRotationSpeed = 1200.0f;
         public float MinRotationSpeed = 600.0f;
 

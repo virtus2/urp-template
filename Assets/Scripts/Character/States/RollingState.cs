@@ -12,20 +12,15 @@ namespace Core
 
         public void OnStateEnter(Character character, CharacterState prevState)
         {
-            Debug.Log($"{prevState} -> RollingState ");
-
             timeElapsed = 0.0f;
             character.IsRolling = true;
-            character.AccelerateToTargetHorizontalSpeed = false; // 구르기 상태에서는 가속/감속 없이 속력을 일시적으로 변경한다.
+            character.AccelerateToTargetHorizontalSpeed = character.RollingSettings.AccelerationToTargetSpeed; // 구르기 상태에서는 가속/감속 없이 속력을 일시적으로 변경한다.
             character.SetOverrideMovementVector(true, character.Controller.MovementInput); // 구르기 상태는 입력한 방향으로 강제로 움직인다.
             character.RollingCooldownTime = 0.0f;
-            character.TargetHorizontalSpeed = character.MovementSettings.RollingSpeed;
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
-            Debug.Log($"RollingState -> {newState}");
-
             timeElapsed = 0.0f;
             character.IsRolling = false;
             character.AccelerateToTargetHorizontalSpeed = true; // 가속/감속을 다시 원래대로 되돌린다.
@@ -35,7 +30,9 @@ namespace Core
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
             timeElapsed += Time.deltaTime;
-            if(timeElapsed >= character.MovementSettings.RollingDuration)
+            character.TargetHorizontalSpeed = character.RollingSettings.RollingSpeedCurve.Evaluate(timeElapsed);
+
+            if (timeElapsed >= character.RollingSettings.RollingDuration)
             {
                 Debug.Log(timeElapsed);
                 if (character.Controller.MovementInput == Vector2.zero)
