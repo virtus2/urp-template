@@ -130,7 +130,7 @@ namespace Core
                     Acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? MovementSettings.Acceleration : MovementSettings.Decceleration;
                 }
 
-                HorizontalSpeed = Mathf.MoveTowards(HorizontalSpeed, TargetHorizontalSpeed, Acceleration * Time.deltaTime);
+                HorizontalSpeed = Mathf.MoveTowards(HorizontalSpeed, TargetHorizontalSpeed * inputMagnitude, Acceleration * Time.deltaTime);
             }
             else
             {
@@ -259,7 +259,7 @@ namespace Core
             if (Controller)
             {
                 Gizmos.color = Color.blue;
-                Gizmos.DrawRay(transform.position, Controller.MovementVector);
+                Gizmos.DrawRay(transform.position, new Vector3(Controller.MovementVector.x, 0, Controller.MovementVector.z));
 
                 Gizmos.color = Color.red;
                 Gizmos.DrawRay(transform.position, Controller.MovementInput);

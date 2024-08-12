@@ -80,7 +80,7 @@ namespace Core.AI
                         pathfindingState = PathfindingState.Completed;
                         break;
                     }
-                    if ((character.transform.position - currentDestination).sqrMagnitude < 0.01f)
+                    if ((character.transform.position - currentDestination).sqrMagnitude < character.CapsuleRadius)
                     {
                         currentPathIndex++;
                         if(currentPathIndex >= stateMachine.Path.corners.Length)

@@ -5987,7 +5987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -6186,7 +6186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -10826,7 +10826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -11122,7 +11122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -13163,7 +13163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -17716,7 +17716,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -20584,7 +20584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 0}
+  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0

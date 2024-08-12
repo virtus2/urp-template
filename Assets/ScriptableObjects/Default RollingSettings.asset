@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ae1c11c9a19bf4a95b8fb4be3ad1b1, type: 3}
   m_Name: Default RollingSettings
   m_EditorClassIdentifier: 
-  RollingSpeed: 9
   RollingDuration: 0.8
   RollingCooldownTime: 0.5
   RollingSpeedCurve:
@@ -20,7 +19,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 30
+      value: 7
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -28,8 +27,26 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.25
+      value: 15
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.56331855
+      value: 9.50823
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 0.8
-      value: 10
+      value: 7
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -40,5 +57,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   AccelerationToTargetSpeed: 1
-  Acceleration: 100
-  Decceleration: 100
+  Acceleration: 10
+  Decceleration: 5
