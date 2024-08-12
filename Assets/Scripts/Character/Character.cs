@@ -124,6 +124,7 @@ namespace Core
                 if(IsRolling)
                 {
                     Acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? RollingSettings.Acceleration : RollingSettings.Decceleration;
+                    inputMagnitude = 1f;
                 }
                 else
                 {
