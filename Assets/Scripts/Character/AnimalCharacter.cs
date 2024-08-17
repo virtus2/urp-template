@@ -106,6 +106,7 @@ public class AnimalCharacter : Core.Character
             if(spawnResourcesCount >= data.spawnResourceCount)
             {
                 IsFull = false;
+                spawnResourcesCount = 0;
             }
             if (spawnResourceTimeElapsed >= data.spawnResourceTime)
             {

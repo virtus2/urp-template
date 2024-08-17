@@ -8,6 +8,7 @@ TagManager:
   - Food
   - Level
   - FoodSpawn
+  - Gold
   layers:
   - Default
   - TransparentFX

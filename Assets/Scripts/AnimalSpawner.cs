@@ -52,6 +52,6 @@ public class AnimalSpawner : MonoBehaviour
     public void SpawnGold(Vector3 position)
     {
         var gold = Instantiate(Gold, position, Random.rotation);
-        
+        Debug.Log("GOLD SPAWN");
     }
 }
