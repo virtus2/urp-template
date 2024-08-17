@@ -15,14 +15,20 @@ public class AnimalData : ScriptableObject
     [Header("허기 - 초기 허기 게이지")]
     public float startHunger = 100f;
 
+    [Header("허기 - 먹이 먹었을 때 충전량")]
+    public float hungerAlarm = 30f;
+
     [Header("허기 - 먹이를 먹기 시작하는 허기 게이지")]
     public float hungerToStartEat= 15f;
 
-    [Header("허기 - 프레임 당 허기 게이지 감소량")]
+    [Header("허기 - 초당 허기 게이지 감소량")]
     public float hungerDecreasePerFrame = 0.05f;
 
     [Header("허기 - 먹이 먹었을 때 충전량")]
     public float hungerEarnedWhenEat= 0.05f;
+
+    [Header("돈 생산 - x초마다 생산")]
+    public float spawnResourceTime = 5.0f;
 
     [Header("돈 생산 - 1회 생성 갯수")]
     public int spawnResourceCount = 1;

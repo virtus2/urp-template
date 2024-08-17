@@ -25,6 +25,7 @@ namespace Core
         public bool IsGrounded = false;
         public bool IsAttacking = false;
         public bool IsWalkedOffALedge = false; // 
+        public bool IsDead = false;
 
         /* Controller의 입력과 상관없이 캐릭터를 강제로 움직임 */
         protected bool IsMovementVectorOverrided = false; 
@@ -41,7 +42,7 @@ namespace Core
         private Vector3 targetDirection = Vector3.forward;
 
         private CharacterStateMachine stateMachine;
-        private Animator animator;
+        protected Animator animator;
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
         private int AnimationID_IsGrounded = Animator.StringToHash("IsGrounded");
@@ -49,6 +50,7 @@ namespace Core
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
         private int AnimationID_Attack = Animator.StringToHash("Attack"); // TODO: 애니메이터 컨트롤러에 매개변수 추가
         private int AnimationID_FreeFall = Animator.StringToHash("FreeFall");
+        private int AnimationID_IsDead = Animator.StringToHash("IsDead");
 
         // AI 관련
         public bool IsReachedDestination = false;
@@ -74,7 +76,7 @@ namespace Core
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             stateMachine = GetComponent<CharacterStateMachine>();
             animator = GetComponent<Animator>();
@@ -141,18 +143,21 @@ namespace Core
 
         private void UpdateVerticalSpeed()
         {
-            if (IsGrounded)
+            if (MovementSettings.ApplyGravity)
             {
-                VerticalSpeed = -MovementSettings.GroundedGravity;
-            }
-            else
-            {
-                if(IsWalkedOffALedge)
+                if (IsGrounded)
                 {
-                    VerticalSpeed = 0.0f;
+                    VerticalSpeed = -MovementSettings.GroundedGravity;
                 }
+                else
+                {
+                    if (IsWalkedOffALedge)
+                    {
+                        VerticalSpeed = 0.0f;
+                    }
 
-                VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -MovementSettings.MaxFallSpeed, MovementSettings.Gravity * Time.deltaTime);
+                    VerticalSpeed = Mathf.MoveTowards(VerticalSpeed, -MovementSettings.MaxFallSpeed, MovementSettings.Gravity * Time.deltaTime);
+                }
             }
         }
 
@@ -161,6 +166,11 @@ namespace Core
             Vector3 movement = Controller.HasMovementInput ?
                 new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y) :
                 new Vector3(Controller.LastMovementInput.x, 0, Controller.LastMovementInput.y);
+
+            if(IsDead)
+            {
+                movement = Vector3.zero;
+            }
 
             if (IsMovementVectorOverrided)
             {
@@ -201,6 +211,7 @@ namespace Core
             // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
             animator.SetBool(AnimationID_IsGrounded, IsGrounded);
             animator.SetBool(AnimationID_IsRolling, IsRolling);
+            animator.SetBool(AnimationID_IsDead, IsDead);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
