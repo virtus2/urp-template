@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c67d6a93c2229b48834ab0a69d4bd1d, type: 3}
+  m_Name: Chicken Data
+  m_EditorClassIdentifier: 
+  AnimalToSpawn: {fileID: 8267107776476655873, guid: 38e0ac97aabbb6846823e419f15a09cf,
+    type: 3}
+  price: 0
+  icon: {fileID: 21300000, guid: 5e040e12b42d9424ca2fd4ba99ad34da, type: 3}
+  maxHunger: 100
+  hungerToStartEat: 15
+  hungerDecreasePerFrame: 0.05
+  hungerEarnedWhenEat: 0.05
+  spawnResourceCount: 1
+  resourcePrice: 15
+  AnimalController: {fileID: 1689967342984959523, guid: 8fabaef063baa5e46a3411385b03b1c9,
+    type: 3}

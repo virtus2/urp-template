@@ -21,15 +21,6 @@ namespace Core
             aiStateMachine = GetComponent<AIStateMachine>();
 
         }
-        private void Start()
-        {
-            Player player = FindObjectOfType<Player>();
-            chaseTarget = player.PlayerCharacter.gameObject;
-
-            SetCharacter(testAICharacter);
-            testAICharacter.SetController(this);
-        }
-        
         public override void SetCharacter(Character character)
         {
             base.SetCharacter(character); 
