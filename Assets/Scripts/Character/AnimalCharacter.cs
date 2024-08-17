@@ -1,3 +1,4 @@
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,14 @@ using UnityEngine;
 public class AnimalCharacter : Core.Character
 {
     AnimalData data;
+    AnimalSpawner spawner;
 
     [SerializeField] SkinnedMeshRenderer meshRenderer;
     public float currentHunger;
     public bool IsHungry = false;
     public bool IsFull = false;
 
+    public int spawnResourcesCount = 0;
     public float spawnResourceTimeElapsed = 0f;
     public float deadTimeElapsed = 0f;
     
@@ -21,9 +24,10 @@ public class AnimalCharacter : Core.Character
 
         meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
     }
-    public void SetAnimalData(AnimalData data)
+    public void SetAnimalData(AnimalData data, AnimalSpawner spawner)
     {
         this.data = data;
+        this.spawner = spawner;
 
         currentHunger = data.startHunger;
         spawnResourceTimeElapsed = data.spawnResourceTime;
@@ -33,7 +37,15 @@ public class AnimalCharacter : Core.Character
     {
         if(collision.transform.CompareTag("Food"))
         {
+            Debug.Log("FOOD EAT");
             // TODO: 먹이 먹어서 허기 게이지 채움, 만복상태 돌입체크
+            Destroy(collision.gameObject);
+            currentHunger += 10.0f;
+            if(currentHunger >= 100.0f)
+            {
+                currentHunger = 100.0f;
+                IsFull = true;
+            }
         }
     }
 
@@ -47,6 +59,7 @@ public class AnimalCharacter : Core.Character
             IsDead = true;
             return;
         }
+
         if(IsHungry)
         {
             if(currentHunger >= data.hungerAlarm)
@@ -57,6 +70,29 @@ public class AnimalCharacter : Core.Character
                     meshRenderer.material.color = Color.white;
                 }
             }
+            if (currentHunger <= data.hungerToStartEat)
+            {
+                if (spawner.foods.Count > 0)
+                {
+                    float minDistance = float.MaxValue;
+                    int idx = 0;
+                    for (int i = 0; i < spawner.foods.Count; i++)
+                    {
+                        float distance = (transform.position - spawner.foods[i].transform.position).sqrMagnitude;
+                        if (minDistance >= distance)
+                        {
+                            idx = i;
+                            minDistance = distance;
+                        }
+                    }
+                    ChaseTarget = spawner.foods[idx];
+                    var aiController = Controller as AICharacterController;
+                    if (aiController)
+                    {
+                        aiController.aiStateMachine.TransitionToState(AIState.Chase);
+                    }
+                }
+            }
         }
         else
         {
@@ -65,14 +101,20 @@ public class AnimalCharacter : Core.Character
                 IsHungry = true;
                 meshRenderer.material.color = new Color(145, 205, 0, 255);
             }
+            
         }
 
         if(IsFull)
         {
+            if(spawnResourcesCount >= data.spawnResourceCount)
+            {
+                IsFull = false;
+            }
             if (spawnResourceTimeElapsed >= data.spawnResourceTime)
             {
                 // 골드 생산
                 spawnResourceTimeElapsed -= data.spawnResourceTime;
+                spawnResourcesCount++;
             }
             spawnResourceTimeElapsed += Time.deltaTime;
         }

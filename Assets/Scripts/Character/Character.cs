@@ -41,7 +41,7 @@ namespace Core
         private Quaternion targetRotation = Quaternion.identity;
         private Vector3 targetDirection = Vector3.forward;
 
-        private CharacterStateMachine stateMachine;
+        protected CharacterStateMachine stateMachine;
         protected Animator animator;
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
@@ -54,7 +54,7 @@ namespace Core
 
         // AI 관련
         public bool IsReachedDestination = false;
-        public Character ChaseTarget;
+        public GameObject ChaseTarget;
 
         /// 이 캐릭터를 조종할 컨트롤러를 설정한다. 
         /// </summary>

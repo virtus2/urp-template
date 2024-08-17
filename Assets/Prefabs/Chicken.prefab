@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7478253035924770924}
   - component: {fileID: 8444519912084279644}
   - component: {fileID: 6713852881799681382}
+  - component: {fileID: 5260806463090888609}
   m_Layer: 3
   m_Name: Chicken
   m_TagString: Player
@@ -107,6 +108,7 @@ MonoBehaviour:
   IsGrounded: 0
   IsAttacking: 0
   IsWalkedOffALedge: 0
+  IsDead: 0
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
@@ -117,6 +119,10 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   currentHunger: 0
   IsHungry: 0
+  IsFull: 0
+  spawnResourcesCount: 0
+  spawnResourceTimeElapsed: 0
+  deadTimeElapsed: 0
 --- !u!114 &7478253035924770924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +175,29 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &5260806463090888609
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3054708748561193485}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.29
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4523879796451160563
 PrefabInstance:
   m_ObjectHideFlags: 0

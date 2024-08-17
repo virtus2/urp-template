@@ -17,6 +17,7 @@ namespace Core
         public Vector3 MousePositionWorld;
         public Vector2 MousePositionScreen;
 
+        public AnimalSpawner spawner;
         private Camera mainCamera;
 
         private void Awake()
@@ -28,8 +29,19 @@ namespace Core
         {
             MousePositionScreen = Mouse.current.position.ReadValue();
 
-            Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
-            Debug.DrawRay(ray.origin, ray.direction);
+            if(Mouse.current.leftButton.isPressed)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
+                Debug.DrawRay(ray.origin, ray.direction);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                {
+                    if (hitInfo.collider.CompareTag("Respawn"))
+                    {
+                        spawner.SpawnFood(hitInfo.point);
+                        Debug.Log("ASDASD");
+                    }
+                }
+            }
         }
 
         public void OnMoveAction(InputAction.CallbackContext context)

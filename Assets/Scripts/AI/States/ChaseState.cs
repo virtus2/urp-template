@@ -12,7 +12,7 @@ namespace Core.AI
         public AIState State => AIState.Chase;
 
         private float timeElapsed = 0f;
-        private float maxDistance = 1.0f; // TODO: 적당한 값 찾기 https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+        private float maxDistance = 5.0f; // TODO: 적당한 값 찾기 https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
 
         public void OnStateEnter(Character character, AIState prevState, AIStateMachine stateMachine)
         {

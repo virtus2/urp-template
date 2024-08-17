@@ -612,6 +612,7 @@ MonoBehaviour:
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
+  IsDead: 0
   HorizontalSpeed: 0
   TargetHorizontalSpeed: 0
   VerticalSpeed: 0
@@ -1905,6 +1906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55836d315b0b9234d9810c25423733e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Food: {fileID: 8526960335059523900, guid: a3586da1c86f9744bb590c42da5bafe2, type: 3}
   SpawnCube: {fileID: 1077592422}
 --- !u!4 &851000320
 Transform:
@@ -2530,7 +2532,7 @@ GameObject:
   - component: {fileID: 1077592423}
   m_Layer: 0
   m_Name: "\uB3D9\uBB3C \uC2A4\uD3F0 \uC601\uC5ED"
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4071,6 +4073,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MousePositionWorld: {x: 0, y: 0, z: 0}
   MousePositionScreen: {x: 0, y: 0}
+  spawner: {fileID: 851000319}
 --- !u!114 &1620454040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4901,8 +4904,8 @@ SceneRoots:
   - {fileID: 1684160581}
   - {fileID: 928802917}
   - {fileID: 913511304}
+  - {fileID: 1941318913}
   - {fileID: 792823602}
   - {fileID: 1313434972}
   - {fileID: 53624168}
   - {fileID: 1811371294}
-  - {fileID: 1941318913}

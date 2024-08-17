@@ -5,7 +5,13 @@ using UnityEngine;
 public class AnimalSpawner : MonoBehaviour
 {
     [SerializeField]
+    private GameObject Food;
+
+    [SerializeField]
     private GameObject SpawnCube;
+
+    public List<GameObject> foods = new List<GameObject>(1000);
+
     private Bounds SpawnBounds;
 
     private void Awake()
@@ -25,6 +31,12 @@ public class AnimalSpawner : MonoBehaviour
         var character = Instantiate(data.AnimalToSpawn, target, Quaternion.identity) as AnimalCharacter;
         controller.SetCharacter(character);
         character.SetController(controller);
-        character.SetAnimalData(data);
+        character.SetAnimalData(data, this);
+    }
+
+    public void SpawnFood(Vector3 position)
+    {
+        var food = Instantiate(Food, position, Random.rotation);
+        foods.Add(food);
     }
 }
