@@ -14,6 +14,23 @@ namespace Core
         public bool JumpInput { get; private set; }
         public bool RollInput { get; private set; }
         public bool AttackInput { get; private set; }
+        public Vector3 MousePositionWorld;
+        public Vector2 MousePositionScreen;
+
+        private Camera mainCamera;
+
+        private void Awake()
+        {
+            mainCamera = Camera.main;
+        }
+
+        private void Update()
+        {
+            MousePositionScreen = Mouse.current.position.ReadValue();
+
+            Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
+            Debug.DrawRay(ray.origin, ray.direction);
+        }
 
         public void OnMoveAction(InputAction.CallbackContext context)
         {
