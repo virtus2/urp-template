@@ -44,7 +44,7 @@ namespace Core
         private Animator animator;
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
-        private int AnimationID_Grounded = Animator.StringToHash("Grounded");
+        private int AnimationID_IsGrounded = Animator.StringToHash("IsGrounded");
         private int AnimationID_IsRolling = Animator.StringToHash("IsRolling"); 
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
         private int AnimationID_Attack = Animator.StringToHash("Attack"); // TODO: 애니메이터 컨트롤러에 매개변수 추가
@@ -199,7 +199,7 @@ namespace Core
             animator.SetFloat(AnimationID_MotionSpeed, 1f);
             animator.SetFloat(AnimationID_Speed, Velocity.magnitude); // TODO: Override MovementVector때문에 캐릭터의 최종 속도 기준으로 값을 변경해야한다.
             // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
-            animator.SetBool(AnimationID_Grounded, IsGrounded);
+            animator.SetBool(AnimationID_IsGrounded, IsGrounded);
             animator.SetBool(AnimationID_IsRolling, IsRolling);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
