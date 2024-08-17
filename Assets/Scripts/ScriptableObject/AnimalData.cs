@@ -15,7 +15,7 @@ public class AnimalData : ScriptableObject
     [Header("허기 - 초기 허기 게이지")]
     public float startHunger = 100f;
 
-    [Header("허기 - 먹이 먹었을 때 충전량")]
+    [Header("허기 - 허기 알람")]
     public float hungerAlarm = 30f;
 
     [Header("허기 - 먹이를 먹기 시작하는 허기 게이지")]
@@ -27,6 +27,9 @@ public class AnimalData : ScriptableObject
     [Header("허기 - 먹이 먹었을 때 충전량")]
     public float hungerEarnedWhenEat= 0.05f;
 
+    [Header("돈 생산 - 먹이 먹고 x이상의 허기됐을때 생산")]
+    public float minHungerToSpawnResources = 5.0f;
+
     [Header("돈 생산 - x초마다 생산")]
     public float spawnResourceTime = 5.0f;
 
@@ -36,6 +39,6 @@ public class AnimalData : ScriptableObject
     [Header("돈 생산 - 1회 생성 가격")]
     public int resourcePrice = 15;
 
-    [Header("동물을 제어할 컨트롤러(플레이어가 조종한다거나 특별한 일 없으면 수정X")]
+    [Header("수정X")]
     public Core.BaseCharacterController AnimalController;
 }

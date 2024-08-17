@@ -206,7 +206,7 @@ namespace Core
 
         private void UpdateAnimations()
         {
-            animator.SetFloat(AnimationID_MotionSpeed, 1f);
+            // animator.SetFloat(AnimationID_MotionSpeed, 1f);
             animator.SetFloat(AnimationID_Speed, Velocity.magnitude); // TODO: Override MovementVector때문에 캐릭터의 최종 속도 기준으로 값을 변경해야한다.
             // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
             animator.SetBool(AnimationID_IsGrounded, IsGrounded);
@@ -256,7 +256,7 @@ namespace Core
             Controller.MovementInput = Vector2.zero;
         }
 
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
             Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
             Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);

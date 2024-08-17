@@ -16,12 +16,13 @@ MonoBehaviour:
     type: 3}
   price: 0
   icon: {fileID: 21300000, guid: 5e040e12b42d9424ca2fd4ba99ad34da, type: 3}
-  maxHunger: 100
-  startHunger: 100
+  maxHunger: 30
+  startHunger: 20
   hungerAlarm: 30
   hungerToStartEat: 15
   hungerDecreasePerFrame: 3
-  hungerEarnedWhenEat: 0.05
+  hungerEarnedWhenEat: 15
+  minHungerToSpawnResources: 15
   spawnResourceTime: 5
   spawnResourceCount: 1
   resourcePrice: 15

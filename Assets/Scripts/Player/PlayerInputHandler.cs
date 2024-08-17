@@ -35,10 +35,9 @@ namespace Core
                 Debug.DrawRay(ray.origin, ray.direction);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo))
                 {
-                    if (hitInfo.collider.CompareTag("Respawn"))
+                    if (hitInfo.collider.CompareTag("FoodSpawn"))
                     {
                         spawner.SpawnFood(hitInfo.point);
-                        Debug.Log("ASDASD");
                     }
                 }
             }

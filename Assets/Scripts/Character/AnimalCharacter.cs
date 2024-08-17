@@ -33,17 +33,16 @@ public class AnimalCharacter : Core.Character
         spawnResourceTimeElapsed = data.spawnResourceTime;
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.CompareTag("Food"))
+        if(other.transform.CompareTag("Food"))
         {
-            Debug.Log("FOOD EAT");
             // TODO: 먹이 먹어서 허기 게이지 채움, 만복상태 돌입체크
-            Destroy(collision.gameObject);
-            currentHunger += 10.0f;
-            if(currentHunger >= 100.0f)
+            spawner.DespawnFood(other.gameObject);
+            currentHunger += data.hungerEarnedWhenEat;
+            if(currentHunger >= data.minHungerToSpawnResources)
             {
-                currentHunger = 100.0f;
+                IsHungry = false;
                 IsFull = true;
             }
         }
@@ -98,9 +97,8 @@ public class AnimalCharacter : Core.Character
             if (currentHunger <= data.hungerAlarm)
             {
                 IsHungry = true;
-                meshRenderer.material.color = new Color(145, 205, 0, 255);
+                meshRenderer.material.SetColor("_BaseColor", new Color(145, 205, 0, 255));
             }
-            
         }
 
         if(IsFull)
@@ -112,6 +110,7 @@ public class AnimalCharacter : Core.Character
             if (spawnResourceTimeElapsed >= data.spawnResourceTime)
             {
                 // 골드 생산
+                spawner.SpawnGold(transform.position);
                 spawnResourceTimeElapsed -= data.spawnResourceTime;
                 spawnResourcesCount++;
             }
@@ -122,11 +121,28 @@ public class AnimalCharacter : Core.Character
         {
             if(deadTimeElapsed >= 3.0f)
             {
-                Destroy(Controller);
+                Destroy(Controller.gameObject);
                 Destroy(gameObject);
             }
             
             deadTimeElapsed += Time.deltaTime;
         }
+    }
+
+    protected void OnDrawGizmos()
+    {
+
+        Gizmos.color = IsHungry ? Color.yellow : Color.green;
+        if (IsHungry && currentHunger <= data.hungerToStartEat)
+        {
+            Gizmos.color = Color.red;
+        }
+        if(IsFull)
+        {
+            Gizmos.color = Color.cyan;
+        }
+
+
+        Gizmos.DrawSphere(transform.position, currentHunger / data.maxHunger);
     }
 }

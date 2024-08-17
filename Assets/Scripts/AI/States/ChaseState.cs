@@ -29,7 +29,20 @@ namespace Core.AI
         public void UpdateState(Character character, AIStateMachine stateMachine)
         {
             // TODO: 왜 이 상태에서는 이동속도가 더 빠르지??? 버그 수정하기
-
+            if(character.ChaseTarget == null)
+            {
+                if(Random.Range(0,2) == 0)
+                {
+                    character.Controller.SetMovementInput(Vector2.zero);
+                    stateMachine.TransitionToState(AIState.Idle);
+                }
+                else
+                {
+                    character.Controller.SetMovementInput(Vector2.zero);
+                    stateMachine.TransitionToState(AIState.Wandering);
+                }
+                return;
+            }
             // 대상에 도착했을 때
             if ((character.ChaseTarget.transform.position - character.transform.position).magnitude <= stateMachine.Agent.radius + character.CapsuleRadius)
             {

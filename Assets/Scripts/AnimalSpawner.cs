@@ -5,6 +5,9 @@ using UnityEngine;
 public class AnimalSpawner : MonoBehaviour
 {
     [SerializeField]
+    private GameObject Gold;
+
+    [SerializeField]
     private GameObject Food;
 
     [SerializeField]
@@ -38,5 +41,17 @@ public class AnimalSpawner : MonoBehaviour
     {
         var food = Instantiate(Food, position, Random.rotation);
         foods.Add(food);
+    }
+    
+    public void DespawnFood(GameObject go)
+    {
+        foods.Remove(go);
+        Destroy(go);
+    }
+
+    public void SpawnGold(Vector3 position)
+    {
+        var gold = Instantiate(Gold, position, Random.rotation);
+        
     }
 }
