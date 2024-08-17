@@ -18,10 +18,10 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 5e040e12b42d9424ca2fd4ba99ad34da, type: 3}
   maxHunger: 30
   startHunger: 20
-  hungerAlarm: 30
+  hungerAlarm: 10
   hungerToStartEat: 15
   hungerDecreasePerFrame: 3
-  hungerEarnedWhenEat: 15
+  hungerEarnedWhenEat: 25
   minHungerToSpawnResources: 15
   spawnResourceTime: 5
   spawnResourceCount: 1

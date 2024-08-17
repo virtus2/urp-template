@@ -37,13 +37,16 @@ public class AnimalCharacter : Core.Character
     {
         if(other.transform.CompareTag("Food"))
         {
-            // TODO: 먹이 먹어서 허기 게이지 채움, 만복상태 돌입체크
-            spawner.DespawnFood(other.gameObject);
-            currentHunger += data.hungerEarnedWhenEat;
-            if(currentHunger >= data.minHungerToSpawnResources)
+            if (IsHungry)
             {
-                IsHungry = false;
-                IsFull = true;
+                spawner.DespawnFood(other.gameObject);
+                currentHunger += data.hungerEarnedWhenEat;
+                if (currentHunger >= data.minHungerToSpawnResources)
+                {
+                    meshRenderer.material.color = Color.white;
+                    IsHungry = false;
+                    IsFull = true;
+                }
             }
         }
     }
@@ -52,7 +55,11 @@ public class AnimalCharacter : Core.Character
     {
         base.Update();
 
-        currentHunger -= Mathf.Clamp(data.hungerDecreasePerFrame * Time.deltaTime, 0, data.maxHunger);
+        if(!IsFull)
+        {
+            currentHunger -= Mathf.Clamp(data.hungerDecreasePerFrame * Time.deltaTime, 0, data.maxHunger);
+        }
+        
         if(currentHunger <= 0)
         {
             IsDead = true;
@@ -97,13 +104,13 @@ public class AnimalCharacter : Core.Character
             if (currentHunger <= data.hungerAlarm)
             {
                 IsHungry = true;
-                meshRenderer.material.SetColor("_BaseColor", new Color(145, 205, 0, 255));
+                meshRenderer.material.SetColor("_BaseColor", new Color(0.5686275f, 8039216f, 0, 1.0f));
             }
         }
 
         if(IsFull)
         {
-            if(spawnResourcesCount >= data.spawnResourceCount)
+            if(spawnResourcesCount >= data.spawnResourceCount * 3)
             {
                 IsFull = false;
                 spawnResourcesCount = 0;
