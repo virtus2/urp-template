@@ -20,7 +20,7 @@ MonoBehaviour:
   startHunger: 100
   hungerAlarm: 30
   hungerToStartEat: 15
-  hungerDecreasePerFrame: 15
+  hungerDecreasePerFrame: 3
   hungerEarnedWhenEat: 0.05
   spawnResourceTime: 5
   spawnResourceCount: 1

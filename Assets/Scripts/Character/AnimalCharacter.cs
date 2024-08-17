@@ -57,7 +57,6 @@ public class AnimalCharacter : Core.Character
         if(currentHunger <= 0)
         {
             IsDead = true;
-            return;
         }
 
         if(IsHungry)
@@ -87,7 +86,7 @@ public class AnimalCharacter : Core.Character
                     }
                     ChaseTarget = spawner.foods[idx];
                     var aiController = Controller as AICharacterController;
-                    if (aiController)
+                    if (aiController&& aiController.aiStateMachine.CurrentState != AIState.Chase)
                     {
                         aiController.aiStateMachine.TransitionToState(AIState.Chase);
                     }
@@ -126,6 +125,7 @@ public class AnimalCharacter : Core.Character
                 Destroy(Controller);
                 Destroy(gameObject);
             }
+            
             deadTimeElapsed += Time.deltaTime;
         }
     }

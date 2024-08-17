@@ -18,9 +18,11 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: 34876a211acd8384698d3ba9d4519629, type: 3}
   maxHunger: 100
   startHunger: 100
-  hungerToStartEat: 15
-  hungerDecreasePerFrame: 0.05
+  hungerAlarm: 30
+  hungerToStartEat: 30
+  hungerDecreasePerFrame: 3
   hungerEarnedWhenEat: 0.05
+  spawnResourceTime: 5
   spawnResourceCount: 1
   resourcePrice: 15
   AnimalController: {fileID: 1689967342984959523, guid: 8fabaef063baa5e46a3411385b03b1c9,
