@@ -15,8 +15,10 @@ public class AnimalCharacter : Core.Character
         currentHunger = data.startHunger;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         currentHunger -= data.hungerDecreasePerFrame * Time.deltaTime;
     }
 }

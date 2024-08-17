@@ -88,7 +88,7 @@ namespace Core
             RollingCooldownTime = RollingSettings.RollingCooldownTime;
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             // 로코모션
             CheckIsGrounded();

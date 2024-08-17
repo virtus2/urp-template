@@ -104,7 +104,7 @@ MonoBehaviour:
   ControllerType: 0
   IsRolling: 0
   RollingCooldownTime: 0
-  IsGrounded: 1
+  IsGrounded: 0
   IsAttacking: 0
   IsWalkedOffALedge: 0
   HorizontalSpeed: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   Acceleration: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
+  currentHunger: 0
 --- !u!114 &7478253035924770924
 MonoBehaviour:
   m_ObjectHideFlags: 0

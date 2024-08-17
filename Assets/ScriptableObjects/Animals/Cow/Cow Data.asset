@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c67d6a93c2229b48834ab0a69d4bd1d, type: 3}
   m_Name: Cow Data
   m_EditorClassIdentifier: 
-  AnimalToSpawn: {fileID: 4485903925522383181, guid: 93f17684fe0e9014ea45ae58b8112957,
+  AnimalToSpawn: {fileID: -8575352774934108901, guid: 93f17684fe0e9014ea45ae58b8112957,
     type: 3}
   price: 0
   icon: {fileID: 21300000, guid: 34876a211acd8384698d3ba9d4519629, type: 3}
   maxHunger: 100
+  startHunger: 100
+  hungerToStartEat: 15
   hungerDecreasePerFrame: 0.05
+  hungerEarnedWhenEat: 0.05
   spawnResourceCount: 1
   resourcePrice: 15
   AnimalController: {fileID: 1689967342984959523, guid: 8fabaef063baa5e46a3411385b03b1c9,
