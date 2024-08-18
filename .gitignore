@@ -80,3 +80,7 @@ crashlytics-build.properties
 /[Aa]ssets/Art/
 /[Aa]ssets/ANIMALS FULL PACK/*
 /[Aa]ssets/ANIMALS FULL PACK.meta
+
+# Build Files
+/Builds
+/GMTK2024Builds
