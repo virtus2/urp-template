@@ -57,11 +57,11 @@ public class AnimalSpawner : MonoBehaviour
 
     public void SpawnFood(Vector3 position)
     {
-        if (playerData.gameData.goldAmount > foods.Count)
+        if (playerData.gameData.foodMaxCount > foods.Count)
         {
-            if(PlayerData.balance >= playerData.gameData.goldAmount)
+            if(PlayerData.balance >= playerData.gameData.foodPrice)
             {
-                PlayerData.balance -= playerData.gameData.goldAmount;
+                PlayerData.balance -= playerData.gameData.foodPrice;
                 var food = Instantiate(Food, position, Random.rotation);
                 foods.Add(food);
             }
