@@ -16,8 +16,8 @@ namespace Core
         public bool AttackInput { get; private set; }
         public Vector3 MousePositionWorld;
         public Vector2 MousePositionScreen;
-
         public AnimalSpawner spawner;
+        
         private Camera mainCamera;
 
         private void Awake()
@@ -29,15 +29,28 @@ namespace Core
         {
             MousePositionScreen = Mouse.current.position.ReadValue();
 
-            if(Mouse.current.leftButton.isPressed)
+            if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
-                Debug.DrawRay(ray.origin, ray.direction);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                LayerMask layerMask = 1 << LayerMask.NameToLayer("Default");
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, layerMask))
                 {
+                    if (hitInfo.collider.CompareTag("Gold"))
+                    {
+                        PlayerData.balance += PlayerData.goldAmount;
+                        Destroy(hitInfo.collider.gameObject);
+                        return;
+                    }
                     if (hitInfo.collider.CompareTag("FoodSpawn"))
                     {
                         spawner.SpawnFood(hitInfo.point);
+                        return;
+                    }
+                    if (hitInfo.collider.CompareTag("Diamond"))
+                    {
+                        PlayerData.balance += PlayerData.diamondAmount;
+                        Destroy(hitInfo.collider.gameObject);
+                        return;
                     }
                 }
             }

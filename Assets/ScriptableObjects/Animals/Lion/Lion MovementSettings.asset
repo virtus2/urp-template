@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29a9f490affad36438255207cf057a7a, type: 3}
-  m_Name: Cow MovementSettings
+  m_Name: Lion MovementSettings
   m_EditorClassIdentifier: 
   WalkSpeed: 3.5
   RunSpeed: 3.5

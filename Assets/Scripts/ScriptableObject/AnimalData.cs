@@ -2,12 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Animal
+{
+    Chicken,
+    Cow,
+    Lion,
+    Dragon,
+}
 [CreateAssetMenu]
 public class AnimalData : ScriptableObject
 {
     public Core.Character AnimalToSpawn;
+    public Animal animal;
     public uint price;
     public Sprite icon;
+    public Sprite lockIcon;
+
+    [Header("잠금 - 닭 수")]
+    public uint unlockWhenChickenCount = 0;
+    [Header("잠금 - 소 수")]
+    public uint unlockWhenCowCount = 0;
+    [Header("잠금 - 사자 수")]
+    public uint unlockWhenLionCount = 0;
 
     [Header("허기 - 최대 허기 게이지")]
     public float maxHunger = 100f;

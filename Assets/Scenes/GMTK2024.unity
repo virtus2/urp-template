@@ -241,6 +241,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12949798}
   m_CullTransparentMesh: 1
+--- !u!1 &34860058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 34860059}
+  - component: {fileID: 34860060}
+  m_Layer: 0
+  m_Name: NavMesh Surface - Lion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &34860059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34860058}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.064962454, y: 7.046521, z: -2.3445182}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 928802917}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &34860060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 34860058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedVersion: 0
+  m_AgentTypeID: -1923039037
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.22333334
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 3030db8441987aa4c8bdc2cf1f44b203, type: 2}
+  m_BuildHeightMesh: 0
 --- !u!1 &53624165
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +405,7 @@ GameObject:
   - component: {fileID: 128170857}
   - component: {fileID: 128170859}
   - component: {fileID: 128170858}
+  - component: {fileID: 128170860}
   m_Layer: 5
   m_Name: Balance Panel
   m_TagString: Untagged
@@ -406,6 +471,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 128170856}
   m_CullTransparentMesh: 1
+--- !u!114 &128170860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128170856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cedeb86aeb868c74b868d28de7d8e6bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balanceText: {fileID: 2137493486}
 --- !u!1 &157866989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,6 +2006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gold: {fileID: 8526960335059523900, guid: b3dc0c47612ed964ab21bbd18a44d849, type: 3}
+  Diamond: {fileID: 8526960335059523900, guid: 35a6a7f8b31af4940bd399b0571bcda1, type: 3}
   Food: {fileID: 8526960335059523900, guid: a3586da1c86f9744bb590c42da5bafe2, type: 3}
   SpawnCube: {fileID: 1077592422}
   foods: []
@@ -2242,6 +2321,7 @@ Transform:
   m_Children:
   - {fileID: 1251083983}
   - {fileID: 160905370}
+  - {fileID: 34860059}
   - {fileID: 1630864047}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2590,7 +2670,7 @@ Transform:
   m_GameObject: {fileID: 1077592422}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.35, z: -0.09}
+  m_LocalPosition: {x: -0, y: 1.74, z: 0.81}
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3477,7 +3557,7 @@ Transform:
   m_GameObject: {fileID: 1357377773}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.87, z: 0.71}
+  m_LocalPosition: {x: 0, y: 0.011, z: 0.71}
   m_LocalScale: {x: 23.6, y: 1, z: 10.66}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4304,9 +4384,9 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.18333334
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: a91af666f065ac84999d520de7ae2d65, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a0b55299d0bcdc34ebddaceb1007b67b, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1630864047
 Transform:

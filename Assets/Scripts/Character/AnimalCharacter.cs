@@ -35,17 +35,42 @@ public class AnimalCharacter : Core.Character
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.transform.CompareTag("Food"))
+        if(data.animal == Animal.Lion)
         {
-            if (IsHungry)
+            var animal = other.GetComponent<AnimalCharacter>();
+            if (animal)
             {
-                spawner.DespawnFood(other.gameObject);
-                currentHunger += data.hungerEarnedWhenEat;
-                if (currentHunger >= data.minHungerToSpawnResources)
+                if (animal.data.animal == Animal.Chicken)
                 {
-                    meshRenderer.material.color = Color.white;
-                    IsHungry = false;
-                    IsFull = true;
+                    if (IsHungry && currentHunger <= data.hungerToStartEat)
+                    {
+                        animal.IsDead = true;
+                        spawner.Despawn(animal.data.animal, animal.gameObject);
+                        currentHunger += data.hungerEarnedWhenEat;
+                        if (currentHunger >= data.minHungerToSpawnResources)
+                        {
+                            meshRenderer.material.color = Color.white;
+                            IsHungry = false;
+                            IsFull = true;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (other.transform.CompareTag("Food"))
+            {
+                if (IsHungry)
+                {
+                    spawner.DespawnFood(other.gameObject);
+                    currentHunger += data.hungerEarnedWhenEat;
+                    if (currentHunger >= data.minHungerToSpawnResources)
+                    {
+                        meshRenderer.material.color = Color.white;
+                        IsHungry = false;
+                        IsFull = true;
+                    }
                 }
             }
         }
@@ -64,71 +89,106 @@ public class AnimalCharacter : Core.Character
         {
             IsDead = true;
         }
-
-        if(IsHungry)
+        if (!IsDead)
         {
-            if(currentHunger >= data.hungerAlarm)
+
+            if (IsHungry)
             {
-                IsHungry = false;
-                if (meshRenderer.material.color != Color.white)
+                if (currentHunger >= data.hungerAlarm)
                 {
-                    meshRenderer.material.color = Color.white;
-                }
-            }
-            if (currentHunger <= data.hungerToStartEat)
-            {
-                if (spawner.foods.Count > 0)
-                {
-                    float minDistance = float.MaxValue;
-                    int idx = 0;
-                    for (int i = 0; i < spawner.foods.Count; i++)
+                    IsHungry = false;
+                    if (meshRenderer.material.color != Color.white)
                     {
-                        float distance = (transform.position - spawner.foods[i].transform.position).sqrMagnitude;
-                        if (minDistance >= distance)
+                        meshRenderer.material.color = Color.white;
+                    }
+                }
+                if (currentHunger <= data.hungerToStartEat)
+                {
+                    if (data.animal == Animal.Lion)
+                    {
+                        if (spawner.animals[Animal.Chicken].Count > 0)
                         {
-                            idx = i;
-                            minDistance = distance;
+                            float minDistance = float.MaxValue;
+                            int idx = 0;
+                            for (int i = 0; i < spawner.animals[Animal.Chicken].Count; i++)
+                            {
+                                float distance = (transform.position - spawner.animals[Animal.Chicken][i].transform.position).sqrMagnitude;
+                                if (minDistance >= distance)
+                                {
+                                    idx = i;
+                                    minDistance = distance;
+                                }
+                            }
+                            ChaseTarget = spawner.animals[Animal.Chicken][idx];
+                            var aiController = Controller as AICharacterController;
+                            if (aiController && aiController.aiStateMachine.CurrentState != AIState.Chase)
+                            {
+                                aiController.aiStateMachine.TransitionToState(AIState.Chase);
+                            }
                         }
                     }
-                    ChaseTarget = spawner.foods[idx];
-                    var aiController = Controller as AICharacterController;
-                    if (aiController&& aiController.aiStateMachine.CurrentState != AIState.Chase)
+                    else
                     {
-                        aiController.aiStateMachine.TransitionToState(AIState.Chase);
+                        if (spawner.foods.Count > 0)
+                        {
+                            float minDistance = float.MaxValue;
+                            int idx = 0;
+                            for (int i = 0; i < spawner.foods.Count; i++)
+                            {
+                                float distance = (transform.position - spawner.foods[i].transform.position).sqrMagnitude;
+                                if (minDistance >= distance)
+                                {
+                                    idx = i;
+                                    minDistance = distance;
+                                }
+                            }
+                            ChaseTarget = spawner.foods[idx];
+                            var aiController = Controller as AICharacterController;
+                            if (aiController && aiController.aiStateMachine.CurrentState != AIState.Chase)
+                            {
+                                aiController.aiStateMachine.TransitionToState(AIState.Chase);
+                            }
+                        }
                     }
                 }
             }
-        }
-        else
-        {
-            if (currentHunger <= data.hungerAlarm)
+            else
             {
-                IsHungry = true;
-                meshRenderer.material.SetColor("_BaseColor", new Color(0.5686275f, 8039216f, 0, 1.0f));
+                if (currentHunger <= data.hungerAlarm)
+                {
+                    IsHungry = true;
+                    meshRenderer.material.SetColor("_BaseColor", new Color(0.5686275f, 8039216f, 0, 1.0f));
+                }
             }
-        }
 
-        if(IsFull)
-        {
-            if(spawnResourcesCount >= data.spawnResourceCount * 3)
+            if (IsFull)
             {
-                IsFull = false;
-                spawnResourcesCount = 0;
+                if (spawnResourcesCount >= data.spawnResourceCount * 3)
+                {
+                    IsFull = false;
+                    spawnResourcesCount = 0;
+                }
+                if (spawnResourceTimeElapsed >= data.spawnResourceTime)
+                {
+                    // °ñµå »ý»ê
+                    bool isGold = true;
+                    if (data.animal == Animal.Lion)
+                    {
+                        isGold = false;
+                    }
+                    spawner.SpawnGold(transform.position, isGold);
+                    spawnResourceTimeElapsed -= data.spawnResourceTime;
+                    spawnResourcesCount++;
+                }
+                spawnResourceTimeElapsed += Time.deltaTime;
             }
-            if (spawnResourceTimeElapsed >= data.spawnResourceTime)
-            {
-                // °ñµå »ý»ê
-                spawner.SpawnGold(transform.position);
-                spawnResourceTimeElapsed -= data.spawnResourceTime;
-                spawnResourcesCount++;
-            }
-            spawnResourceTimeElapsed += Time.deltaTime;
         }
 
         if (IsDead)
         {
             if(deadTimeElapsed >= 3.0f)
             {
+                spawner.Despawn(data.animal, gameObject);
                 Destroy(Controller.gameObject);
                 Destroy(gameObject);
             }
@@ -139,13 +199,12 @@ public class AnimalCharacter : Core.Character
 
     protected void OnDrawGizmos()
     {
-
         Gizmos.color = IsHungry ? Color.yellow : Color.green;
         if (IsHungry && currentHunger <= data.hungerToStartEat)
         {
             Gizmos.color = Color.red;
         }
-        if(IsFull)
+        if (IsFull)
         {
             Gizmos.color = Color.cyan;
         }

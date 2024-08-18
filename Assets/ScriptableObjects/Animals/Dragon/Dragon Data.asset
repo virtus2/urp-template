@@ -13,5 +13,21 @@ MonoBehaviour:
   m_Name: Dragon Data
   m_EditorClassIdentifier: 
   AnimalToSpawn: {fileID: 0}
+  animal: 3
   price: 0
   icon: {fileID: 21300000, guid: defa338b87217f74eb710ea58b78d6ef, type: 3}
+  lockIcon: {fileID: 21300000, guid: 49230b2ef5a4d2e4fad703045671846b, type: 3}
+  unlockWhenChickenCount: 10
+  unlockWhenCowCount: 5
+  unlockWhenLionCount: 0
+  maxHunger: 100
+  startHunger: 100
+  hungerAlarm: 30
+  hungerToStartEat: 15
+  hungerDecreasePerFrame: 0.05
+  hungerEarnedWhenEat: 0.05
+  minHungerToSpawnResources: 5
+  spawnResourceTime: 5
+  spawnResourceCount: 1
+  resourcePrice: 15
+  AnimalController: {fileID: 0}

@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimalToSpawn: {fileID: 8267107776476655873, guid: 38e0ac97aabbb6846823e419f15a09cf,
     type: 3}
-  price: 0
+  animal: 0
+  price: 100
   icon: {fileID: 21300000, guid: 5e040e12b42d9424ca2fd4ba99ad34da, type: 3}
+  lockIcon: {fileID: 21300000, guid: 49230b2ef5a4d2e4fad703045671846b, type: 3}
+  unlockWhenChickenCount: 0
+  unlockWhenCowCount: 0
+  unlockWhenLionCount: 0
   maxHunger: 30
   startHunger: 20
   hungerAlarm: 10
