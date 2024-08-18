@@ -19,7 +19,7 @@ public class AnimalSpawner : MonoBehaviour
     private GameObject SpawnCube;
 
     public List<GameObject> foods = new List<GameObject>(1000);
-
+    public PlayerData playerData;
     public Dictionary<Animal, List<GameObject>> animals = new Dictionary<Animal, List<GameObject>>();
 
     private Bounds SpawnBounds;
@@ -57,11 +57,11 @@ public class AnimalSpawner : MonoBehaviour
 
     public void SpawnFood(Vector3 position)
     {
-        if (PlayerData.foodMaxCount > foods.Count)
+        if (playerData.gameData.goldAmount > foods.Count)
         {
-            if(PlayerData.balance >= PlayerData.foodPrice)
+            if(PlayerData.balance >= playerData.gameData.goldAmount)
             {
-                PlayerData.balance -= PlayerData.foodPrice;
+                PlayerData.balance -= playerData.gameData.goldAmount;
                 var food = Instantiate(Food, position, Random.rotation);
                 foods.Add(food);
             }

@@ -1577,7 +1577,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $0
+  m_text: $100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2010,6 +2010,7 @@ MonoBehaviour:
   Food: {fileID: 8526960335059523900, guid: a3586da1c86f9744bb590c42da5bafe2, type: 3}
   SpawnCube: {fileID: 1077592422}
   foods: []
+  playerData: {fileID: 884224407}
 --- !u!4 &851000320
 Transform:
   m_ObjectHideFlags: 0
@@ -2100,6 +2101,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871694227}
   m_CullTransparentMesh: 1
+--- !u!1 &884224406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 884224408}
+  - component: {fileID: 884224407}
+  m_Layer: 2
+  m_Name: PlayerData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &884224407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884224406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587a490d769de6c46b57b767eaf66227, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: 9623f8100b431ba49a02c3879046e1e9, type: 2}
+--- !u!4 &884224408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884224406}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.74, z: 0.81}
+  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &913511302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,6 +2428,7 @@ MonoBehaviour:
   priceText: {fileID: 1540455499}
   buyButton: {fileID: 1320891303}
   spawner: {fileID: 851000319}
+  unlocked: 0
 --- !u!114 &931849696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2973,6 +3020,7 @@ MonoBehaviour:
   priceText: {fileID: 1327311778}
   buyButton: {fileID: 12949800}
   spawner: {fileID: 851000319}
+  unlocked: 0
 --- !u!114 &1166792590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3431,7 +3479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $0
+  m_text: $1000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3651,6 +3699,7 @@ MonoBehaviour:
   priceText: {fileID: 798931149}
   buyButton: {fileID: 2060374005}
   spawner: {fileID: 851000319}
+  unlocked: 0
 --- !u!114 &1414858779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3874,6 +3923,7 @@ MonoBehaviour:
   priceText: {fileID: 756223709}
   buyButton: {fileID: 842886759}
   spawner: {fileID: 851000319}
+  unlocked: 0
 --- !u!1 &1540455497
 GameObject:
   m_ObjectHideFlags: 0
@@ -3931,7 +3981,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $0
+  m_text: $400
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4230,6 +4280,7 @@ MonoBehaviour:
   MousePositionWorld: {x: 0, y: 0, z: 0}
   MousePositionScreen: {x: 0, y: 0}
   spawner: {fileID: 851000319}
+  playerData: {fileID: 884224407}
 --- !u!114 &1620454040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5052,6 +5103,7 @@ SceneRoots:
   - {fileID: 839182145}
   - {fileID: 1620454038}
   - {fileID: 1047080750}
+  - {fileID: 884224408}
   - {fileID: 1077592424}
   - {fileID: 1357377775}
   - {fileID: 851000320}

@@ -17,6 +17,7 @@ namespace Core
         public Vector3 MousePositionWorld;
         public Vector2 MousePositionScreen;
         public AnimalSpawner spawner;
+        public PlayerData playerData;
         
         private Camera mainCamera;
 
@@ -37,7 +38,7 @@ namespace Core
                 {
                     if (hitInfo.collider.CompareTag("Gold"))
                     {
-                        PlayerData.balance += PlayerData.goldAmount;
+                        PlayerData.balance += playerData.gameData.goldAmount;
                         Destroy(hitInfo.collider.gameObject);
                         return;
                     }
@@ -48,7 +49,7 @@ namespace Core
                     }
                     if (hitInfo.collider.CompareTag("Diamond"))
                     {
-                        PlayerData.balance += PlayerData.diamondAmount;
+                        PlayerData.balance += playerData.gameData.diamondAmount;
                         Destroy(hitInfo.collider.gameObject);
                         return;
                     }

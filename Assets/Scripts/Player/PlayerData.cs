@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class PlayerData
+public class PlayerData : MonoBehaviour
 {
+    public GameData gameData;
+
     private static uint _balance = 250;
     public static uint balance
     {
@@ -18,11 +20,6 @@ public static class PlayerData
             OnBalanceChanged?.Invoke();
         }
     }
-    public static float foodHunger = 60f;
-    public static uint foodPrice = 5;
-    public static uint foodMaxCount = 3;
-    public static uint goldAmount = 25;
-    public static uint diamondAmount = 100;
 
     public static uint chickenCount = 0;
     public static uint cowCount = 0;

@@ -52,7 +52,6 @@ public class AnimalBuyPanel : MonoBehaviour
         {
             if(spawner.animals.ContainsKey(Animal.Chicken))
             {
-                Debug.Log($"Chicken Count {spawner.animals[Animal.Chicken].Count}");
                 chickenCondition |= spawner.animals[Animal.Chicken].Count >= data.unlockWhenChickenCount;
             }
         }
