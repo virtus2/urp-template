@@ -10,6 +10,7 @@ TagManager:
   - FoodSpawn
   - Gold
   - Diamond
+  - Pearl
   layers:
   - Default
   - TransparentFX

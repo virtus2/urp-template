@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ResourceType
+{
+    Gold,
+    Diamond,
+    Pearl,
+}
 public class AnimalSpawner : MonoBehaviour
 {
     [SerializeField]
@@ -8,6 +14,9 @@ public class AnimalSpawner : MonoBehaviour
 
     [SerializeField]
     private GameObject Diamond;
+
+    [SerializeField]
+    private GameObject Pearl;
 
     [SerializeField]
     private GameObject Food;
@@ -50,11 +59,12 @@ public class AnimalSpawner : MonoBehaviour
     public void Despawn(Animal animal, GameObject go)
     {
         animals[animal].Remove(go);
+        AudioManager.Instance.sfxDie.Play();
     }
 
     public void SpawnFood(Vector3 position)
     {
-        if (playerData.gameData.foodMaxCount > foods.Count)
+        if (playerData.gameData.foodMaxCount  + PlayerData.foodCountUpgrade > foods.Count)
         {
             if(PlayerData.balance >= playerData.gameData.foodPrice)
             {
@@ -71,15 +81,24 @@ public class AnimalSpawner : MonoBehaviour
         Destroy(go);
     }
 
-    public void SpawnGold(Vector3 position, bool isGold)
+    public void SpawnGold(Vector3 position, ResourceType resource)
     {
-        if (isGold)
+        GameObject prefab = null;
+        switch (resource)
         {
-            var gold = Instantiate(Gold, position, Random.rotation);
+            case ResourceType.Gold:
+                prefab = Gold;
+                break;
+            case ResourceType.Diamond:
+                prefab = Diamond;
+                break;
+            case ResourceType.Pearl:
+                prefab = Pearl;
+                break;
+            default:
+                break;
         }
-        else
-        {
-            var diamond = Instantiate(Diamond, position, Random.rotation);
-        }
+
+        Instantiate(prefab, position, Random.rotation);
     }
 }

@@ -49,6 +49,7 @@ public class AnimalCharacter : Core.Character
                         currentHunger += data.hungerEarnedWhenEat;
                         if (currentHunger >= data.minHungerToSpawnResources)
                         {
+                            AudioManager.Instance.sfxEat.Play();
                             meshRenderer.material.color = Color.white;
                             IsHungry = false;
                             IsFull = true;
@@ -67,6 +68,7 @@ public class AnimalCharacter : Core.Character
                     currentHunger += data.hungerEarnedWhenEat;
                     if (currentHunger >= data.minHungerToSpawnResources)
                     {
+                        AudioManager.Instance.sfxEat.Play();
                         meshRenderer.material.color = Color.white;
                         IsHungry = false;
                         IsFull = true;
@@ -171,12 +173,30 @@ public class AnimalCharacter : Core.Character
                 if (spawnResourceTimeElapsed >= data.spawnResourceTime)
                 {
                     // °ñµå »ý»ê
-                    bool isGold = true;
-                    if (data.animal == Animal.Lion)
+                    ResourceType resource = ResourceType.Gold;
+                    switch (data.animal)
                     {
-                        isGold = false;
+                        case Animal.Chicken:
+                            resource = ResourceType.Gold;
+                            break;
+                        case Animal.Cow:
+                            resource = ResourceType.Gold;
+                            break;
+                        case Animal.Lion:
+                            resource = ResourceType.Pearl;
+                            break;
+                        case Animal.Deer:
+                            resource = ResourceType.Diamond;
+                            break;
+                        case Animal.Dragon:
+                            break;
+                        default:
+                            break;
                     }
-                    spawner.SpawnGold(transform.position, isGold);
+                    for(int i=0; i<data.spawnResourceCount; i++)
+                    {
+                        spawner.SpawnGold(transform.position, resource);
+                    }
                     spawnResourceTimeElapsed -= data.spawnResourceTime;
                     spawnResourcesCount++;
                 }

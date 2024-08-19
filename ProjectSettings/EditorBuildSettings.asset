@@ -15,8 +15,14 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScene.unity
     guid: d618df7bf4cb0fc4893a78dbe5735684
   - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: f48e6ad8b4fb2bf498ca55555efe849f
+  - enabled: 1
     path: Assets/Scenes/GMTK2024.unity
     guid: 4098b9ac0a78d8a4e92be419f4ad5608
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: b1607a409c5b67a44b9f4b5efe6fc1ee
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5e3f005ea6b5e96418178745d8debb04,
       type: 2}

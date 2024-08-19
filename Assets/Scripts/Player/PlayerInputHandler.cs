@@ -36,10 +36,12 @@ namespace Core
                 LayerMask layerMask = 1 << LayerMask.NameToLayer("Default");
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 1000f, layerMask))
                 {
+                    float increaseAmount = 1.0f + 0.1f * PlayerData.foodUpgrade;
                     if (hitInfo.collider.CompareTag("Gold"))
                     {
-                        PlayerData.balance += playerData.gameData.goldAmount;
+                        PlayerData.balance += (uint)Mathf.Floor((float)playerData.gameData.goldAmount * increaseAmount);
                         Destroy(hitInfo.collider.gameObject);
+                        AudioManager.Instance.sfxCoin.Play();
                         return;
                     }
                     if (hitInfo.collider.CompareTag("FoodSpawn"))
@@ -49,8 +51,16 @@ namespace Core
                     }
                     if (hitInfo.collider.CompareTag("Diamond"))
                     {
-                        PlayerData.balance += playerData.gameData.diamondAmount;
+                        PlayerData.balance += (uint)Mathf.Floor((float)playerData.gameData.diamondAmount * increaseAmount);
                         Destroy(hitInfo.collider.gameObject);
+                        AudioManager.Instance.sfxCoin.Play();
+                        return;
+                    }
+                    if (hitInfo.collider.CompareTag("Pearl"))
+                    {
+                        PlayerData.balance += (uint)Mathf.Floor((float)playerData.gameData.pearlAmount * increaseAmount);
+                        Destroy(hitInfo.collider.gameObject);
+                        AudioManager.Instance.sfxCoin.Play();
                         return;
                     }
                 }

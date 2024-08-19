@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c67d6a93c2229b48834ab0a69d4bd1d, type: 3}
-  m_Name: Cow Data
+  m_Name: Deer Data
   m_EditorClassIdentifier: 
-  AnimalToSpawn: {fileID: -8575352774934108901, guid: 93f17684fe0e9014ea45ae58b8112957,
+  AnimalToSpawn: {fileID: -8575352774934108901, guid: 6b5f7071821053943828c09dc2dfe3e8,
     type: 3}
-  animal: 1
-  price: 400
-  icon: {fileID: 21300000, guid: 34876a211acd8384698d3ba9d4519629, type: 3}
+  animal: 3
+  price: 1000
+  icon: {fileID: 21300000, guid: 7d5bda559dd94e84997e5c4da7322d74, type: 3}
   lockIcon: {fileID: 21300000, guid: 49230b2ef5a4d2e4fad703045671846b, type: 3}
   unlockWhenChickenCount: 3
-  unlockWhenCowCount: 0
+  unlockWhenCowCount: 1
   unlockWhenDeerCount: 0
   unlockWhenLionCount: 0
   maxHunger: 60
@@ -30,7 +30,7 @@ MonoBehaviour:
   hungerEarnedWhenEat: 25
   minHungerToSpawnResources: 20
   spawnResourceTime: 5
-  spawnResourceCount: 3
-  resourcePrice: 15
+  spawnResourceCount: 1
+  resourcePrice: 100
   AnimalController: {fileID: 1689967342984959523, guid: 8fabaef063baa5e46a3411385b03b1c9,
     type: 3}

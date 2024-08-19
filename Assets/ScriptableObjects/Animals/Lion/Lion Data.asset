@@ -15,11 +15,12 @@ MonoBehaviour:
   AnimalToSpawn: {fileID: -4447736396035979448, guid: 3dfe0343b8682634485878413d71bb8c,
     type: 3}
   animal: 2
-  price: 1000
+  price: 3000
   icon: {fileID: 21300000, guid: c06c6ffcc30cd7c42be0bd52905c516b, type: 3}
   lockIcon: {fileID: 21300000, guid: 49230b2ef5a4d2e4fad703045671846b, type: 3}
-  unlockWhenChickenCount: 10
-  unlockWhenCowCount: 5
+  unlockWhenChickenCount: 3
+  unlockWhenCowCount: 1
+  unlockWhenDeerCount: 1
   unlockWhenLionCount: 0
   maxHunger: 70
   startHunger: 50

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum Animal
@@ -7,6 +5,7 @@ public enum Animal
     Chicken,
     Cow,
     Lion,
+    Deer,
     Dragon,
 }
 [CreateAssetMenu]
@@ -22,6 +21,8 @@ public class AnimalData : ScriptableObject
     public uint unlockWhenChickenCount = 0;
     [Header("잠금 - 소 수")]
     public uint unlockWhenCowCount = 0;
+    [Header("잠금 - 사슴 수")]
+    public uint unlockWhenDeerCount = 0;
     [Header("잠금 - 사자 수")]
     public uint unlockWhenLionCount = 0;
 

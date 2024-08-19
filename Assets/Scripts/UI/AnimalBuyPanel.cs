@@ -72,7 +72,20 @@ public class AnimalBuyPanel : MonoBehaviour
             cowCondition = true;
         }
 
-        if (chickenCondition && cowCondition)
+        bool deerCondition = false;
+        if(data.unlockWhenDeerCount > 0)
+        {
+            if (spawner.animals.ContainsKey(Animal.Deer))
+            {
+                deerCondition |= spawner.animals[Animal.Deer].Count >= data.unlockWhenDeerCount;
+            }
+        }
+        else
+        {
+            deerCondition = true;
+        }
+
+        if (chickenCondition && cowCondition && deerCondition)
             unlocked = true;
 
 
@@ -90,6 +103,10 @@ public class AnimalBuyPanel : MonoBehaviour
     {
         if(PlayerData.balance >= data.price)
         {
+            if(!unlocked)
+            {
+                return;
+            }    
             PlayerData.balance -= data.price;
 
             spawner.Spawn(data);

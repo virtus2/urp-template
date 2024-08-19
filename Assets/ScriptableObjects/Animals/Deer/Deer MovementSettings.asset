@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29a9f490affad36438255207cf057a7a, type: 3}
-  m_Name: Lion MovementSettings
+  m_Name: Deer MovementSettings
   m_EditorClassIdentifier: 
-  WalkSpeed: 5
-  RunSpeed: 5
+  WalkSpeed: 3.5
+  RunSpeed: 3.5
   Acceleration: 15
   Decceleration: 15
   JumpSpeed: 10

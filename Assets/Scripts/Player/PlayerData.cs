@@ -24,6 +24,12 @@ public class PlayerData : MonoBehaviour
     public static uint chickenCount = 0;
     public static uint cowCount = 0;
     public static uint lionCount = 0;
+    public static uint eggCount = 0;
+
+    public static uint foodMaxUpgrade = 5;
+    public static uint foodCountMaxUpgrade = 4;
+    public static uint foodUpgrade = 0;
+    public static uint foodCountUpgrade = 0;
 
     public static Action OnBalanceChanged;
 }
