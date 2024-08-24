@@ -23,9 +23,6 @@ namespace Core
         }
         private void Start()
         {
-            Player player = FindObjectOfType<Player>();
-            chaseTarget = player.PlayerCharacter.gameObject;
-
             SetCharacter(testAICharacter);
             testAICharacter.SetController(this);
         }

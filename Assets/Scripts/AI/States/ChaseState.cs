@@ -13,6 +13,7 @@ namespace Core.AI
 
         private float timeElapsed = 0f;
         private float maxDistance = 1.0f; // TODO: 적당한 값 찾기 https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+        private Vector3 destination = Vector3.zero;
 
         public void OnStateEnter(Character character, AIState prevState, AIStateMachine stateMachine)
         {
@@ -29,9 +30,10 @@ namespace Core.AI
         public void UpdateState(Character character, AIStateMachine stateMachine)
         {
             // TODO: 왜 이 상태에서는 이동속도가 더 빠르지??? 버그 수정하기
+            if (!character.ChaseTarget) return;
 
             // 대상에 도착했을 때
-            if ((character.ChaseTarget.transform.position - character.transform.position).magnitude <= stateMachine.Agent.radius + character.CapsuleRadius)
+            if ((destination - character.transform.position).sqrMagnitude <= character.CapsuleRadius)
             {
                 // TODO: 공격이나 다른 행동
                 character.Controller.SetMovementInput(Vector2.zero);
@@ -49,6 +51,7 @@ namespace Core.AI
                     {
                         Vector3 currentDestination = stateMachine.Path.corners[1];
                         stateMachine.Destination = currentDestination;
+                        destination = currentDestination;
 
                         Vector3 toTarget = currentDestination - character.transform.position;
                         toTarget.Normalize();

@@ -59,6 +59,7 @@ namespace Core
 
         private void Update()
         {
+            if (!character) return;
             States[CurrentState].UpdateState(character, this);
         }
 

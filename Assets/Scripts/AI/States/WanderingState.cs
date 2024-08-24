@@ -54,7 +54,6 @@ namespace Core.AI
                 // Begin 단계에서는 주변 무작위 위치를 계산한다.
                 case PathfindingState.Begin:
                     Vector3 randomPosition = Random.insideUnitSphere * maxDistance + character.transform.position;
-                    stateMachine.Destination = randomPosition;
                     NavMeshHit hit;
                     bool positionFound = NavMesh.SamplePosition(randomPosition, out hit, maxDistance, NavMesh.AllAreas);
 
@@ -69,6 +68,7 @@ namespace Core.AI
                             pathfindingState = PathfindingState.Move;
                             currentPathIndex = 0;
                             currentDestination = stateMachine.Path.corners[currentPathIndex];
+                            stateMachine.Destination = currentDestination;
                         }
                     }
 
@@ -89,6 +89,7 @@ namespace Core.AI
                             break;
                         }
                         currentDestination = stateMachine.Path.corners[currentPathIndex];
+                        stateMachine.Destination = currentDestination;
                     }
                     Vector3 toTarget = currentDestination - character.transform.position;
                     toTarget.Normalize();
