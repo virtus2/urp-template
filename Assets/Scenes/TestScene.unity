@@ -9389,7 +9389,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 8600000, guid: 3781e72c33c43e14d9521f9b6ebffe7d, type: 2}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -9443,7 +9443,7 @@ MonoBehaviour:
   m_CustomShadowLayers: 0
   m_ShadowLayerMask: 1
   m_ShadowRenderingLayers: 1
-  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieSize: {x: 40, y: 40}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
 --- !u!1 &913540833
