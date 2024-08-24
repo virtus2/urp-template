@@ -1,36 +1,55 @@
-﻿using Core;
+﻿using Cinemachine;
+using Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace Core
 {
     public class Player : MonoBehaviour
     {
         public Character PlayerCharacter { get; private set; }
+
+        [SerializeField]
+        private PlayerSettings PlayerSetting;
+
         private PlayerInputHandler inputHandler;
         private PlayerCharacterController characterController;
-        private Camera playerCamera; // TODO: 시네머신 카메라 어떻게 다루는지 알아보고 변경하기
-
-        public Character testCharacter;
+        private Camera mainCamera;
+        private CinemachineBrain cinemachineBrain;
+        private CinemachineVirtualCamera cinemachineVirtualCamera;
 
         private void Awake()
         {
             inputHandler = GetComponent<PlayerInputHandler>();
             characterController = GetComponent<PlayerCharacterController>();
-            playerCamera = Camera.main;
-
-            OnPlayerCharacterSpawned(testCharacter);
         }
 
-        private void OnPlayerCharacterSpawned(Character character)
+        public void SetMainCamera(Camera cam)
         {
-            PlayerCharacter = character;
+            mainCamera = cam;
+            cinemachineBrain = cam.GetComponent<CinemachineBrain>();
+        }
 
-            characterController.SetCamera(playerCamera);
-            characterController.SetCharacter(character);
+        public void SetVirtualCamera(CinemachineVirtualCamera cam)
+        {
+            cinemachineVirtualCamera = cam;
+        }
 
-            character.SetController(characterController);
+        public void SpawnPlayerCharacter()
+        {
+            // 플레이어 캐릭터 생성 
+            PlayerCharacter = Instantiate(PlayerSetting.PlayerCharacter);
+            PlayerCharacter.TransitionToState(CharacterState.Idle);
+
+            // 캐릭터 컨트롤러 설정
+            PlayerCharacter.SetController(characterController);
+            characterController.SetCamera(mainCamera);
+            characterController.SetCharacter(PlayerCharacter);
+
+            // 시네머신 카메라 팔로우 대상 지정
+            cinemachineVirtualCamera.Follow = PlayerCharacter.transform;
         }
     }
 }

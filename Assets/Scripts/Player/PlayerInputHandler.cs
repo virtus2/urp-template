@@ -19,17 +19,19 @@ namespace Core
 
         private Camera mainCamera;
 
-        private void Awake()
-        {
-            mainCamera = Camera.main;
-        }
-
         private void Update()
         {
             MousePositionScreen = Mouse.current.position.ReadValue();
 
-            Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
-            Debug.DrawRay(ray.origin, ray.direction);
+            if (mainCamera)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
+                Debug.DrawRay(ray.origin, ray.direction);
+            }
+            else
+            {
+                mainCamera = Camera.main;
+            }
         }
 
         public void OnMoveAction(InputAction.CallbackContext context)

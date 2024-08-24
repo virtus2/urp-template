@@ -54,7 +54,8 @@ namespace Core
         public bool IsReachedDestination = false;
         public Character ChaseTarget;
 
-        /// 이 캐릭터를 조종할 컨트롤러를 설정한다. 
+        /// <summary>
+        /// 이 캐릭터를 조종할 컨트롤러를 설정한다.
         /// </summary>
         /// <param name="controller"></param>
         public void SetController(BaseCharacterController controller)
@@ -72,6 +73,11 @@ namespace Core
             {
                 ControllerType = CharacterControllerType.None;
             }
+        }
+
+        public void TransitionToState(CharacterState characterState)
+        {
+            stateMachine.TransitionToState(characterState);
         }
 
         private void Awake()
@@ -107,11 +113,13 @@ namespace Core
         /// </summary>
         private void CheckIsGrounded()
         {
-            // set sphere position, with offset
             Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - MovementSettings.GroundedOffset, transform.position.z);
             IsGrounded = Physics.CheckSphere(spherePosition, MovementSettings.GroundedRadius, MovementSettings.GroundLayers, QueryTriggerInteraction.Ignore);
         }
 
+        /// <summary>
+        /// 캐릭터의 수평 속력을 갱신한다.
+        /// </summary>
         private void UpdateHorizontalSpeed()
         {
             // 현재 수평 속력
@@ -121,7 +129,7 @@ namespace Core
             // 자연스러운 속도 변경을 위해서 목표 속도에 가까워지게 감속 또는 가속한다.
             if (AccelerateToTargetHorizontalSpeed)
             {
-                if(IsRolling)
+                if (IsRolling)
                 {
                     Acceleration = currentHorizontalSpeed < TargetHorizontalSpeed ? RollingSettings.Acceleration : RollingSettings.Decceleration;
                     inputMagnitude = 1f;
@@ -139,6 +147,10 @@ namespace Core
             }
         }
 
+
+        /// <summary>
+        /// 캐릭터의 수직 속력을 갱신한다.
+        /// </summary>
         private void UpdateVerticalSpeed()
         {
             if (IsGrounded)
@@ -156,6 +168,23 @@ namespace Core
             }
         }
 
+        /// <summary>
+        /// 컨트롤러의 입력과 상관없이 캐릭터를 강제로 움직이게 한다.
+        /// </summary>
+        /// <param name="movement">강제로 움직일 방향</param>
+        public void SetOverrideMovementVector(bool overrideMovement, Vector2 movement)
+        {
+            IsMovementVectorOverrided = overrideMovement;
+            OverridedMovementVector = movement;
+
+            // HACK: 인풋값도 초기화시켜준다.
+            Controller.LastMovementInput = Vector2.zero;
+            Controller.MovementInput = Vector2.zero;
+        }
+
+        /// <summary>
+        /// 캐릭터의 최종 이동 속도 벡터를 계산한다.
+        /// </summary>
         private void UpdateMovementVector()
         {
             Vector3 movement = Controller.HasMovementInput ?
@@ -170,6 +199,9 @@ namespace Core
             Controller.MovementVector = movement * HorizontalSpeed + Vector3.up * VerticalSpeed;
         }
 
+        /// <summary>
+        /// 캐릭터의 회전각을 갱신한다.
+        /// </summary>
         private void UpdateRotation()
         {
             Vector3 horizontalMovementVector = new Vector3(Controller.MovementVector.x, 0, Controller.MovementVector.z);
@@ -184,16 +216,9 @@ namespace Core
             }
         }
 
-        private void UpdateRollCooldownTime()
-        {
-            // 구르기중이 아닐때에만 구르기 쿨다운시간이 흐른다.
-            // TODO: 쿨다운타임 있는 행동들은 Ability클래스를 따로 만들어서 하는게... 나을려나... 굳이인가?
-            if (!IsRolling)
-            {
-                RollingCooldownTime += Time.deltaTime;
-            }
-        }
-
+        /// <summary>
+        /// 캐릭터의 애니메이터 파라미터값들을 갱신한다.
+        /// </summary>
         private void UpdateAnimations()
         {
             animator.SetFloat(AnimationID_MotionSpeed, 1f);
@@ -212,11 +237,22 @@ namespace Core
             if (animationBlend < 0.01f) animationBlend = 0f;
             */
         }
+
         private void OnFootstep(AnimationEvent animationEvent)
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 // TODO: 발소리 내기?
+            }
+        }
+
+        private void UpdateRollCooldownTime()
+        {
+            // 구르기중이 아닐때에만 구르기 쿨다운시간이 흐른다.
+            // TODO: 쿨다운타임 있는 행동들은 Ability클래스를 따로 만들어서 하는게... 나을려나... 굳이인가?
+            if (!IsRolling)
+            {
+                RollingCooldownTime += Time.deltaTime;
             }
         }
 
@@ -231,21 +267,7 @@ namespace Core
             return !IsOnCooldown && !IsRolling;
         }
 
-        /// <summary>
-        /// 컨트롤러의 입력과 상관없이 캐릭터를 강제로 움직이게 한다.
-        /// </summary>
-        /// <param name="movement">강제로 움직일 방향</param>
-        public void SetOverrideMovementVector(bool overrideMovement, Vector2 movement)
-        {
-            IsMovementVectorOverrided = overrideMovement;
-            OverridedMovementVector = movement;
-
-            // HACK: 인풋값도 초기화시켜준다.
-            Controller.LastMovementInput = Vector2.zero;
-            Controller.MovementInput = Vector2.zero;
-        }
-
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
             Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);

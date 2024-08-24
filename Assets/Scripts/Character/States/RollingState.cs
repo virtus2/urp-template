@@ -34,7 +34,6 @@ namespace Core
 
             if (timeElapsed >= character.RollingSettings.RollingDuration)
             {
-                Debug.Log(timeElapsed);
                 if (character.Controller.MovementInput == Vector2.zero)
                 {
                     character.HorizontalSpeed = character.TargetHorizontalSpeed = character.MovementSettings.WalkSpeed;

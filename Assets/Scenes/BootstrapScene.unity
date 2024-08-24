@@ -153,10 +153,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovementVector: {x: 0, y: 0, z: 0}
   MovementInput: {x: 0, y: 0}
+  LastMovementInput: {x: 0, y: 0}
   VerticalVelocity: 0
+  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
-  SprintPressed: 0
+  RunPressed: 0
 --- !u!114 &1420620927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea38283f9afdf51449a87eb887d731b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MousePositionWorld: {x: 0, y: 0, z: 0}
+  MousePositionScreen: {x: 0, y: 0}
 --- !u!114 &1420620928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52fc8a9b7cc40b43917bbb8383e3cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCharacter: {fileID: 0}
+  PlayerSetting: {fileID: 11400000, guid: 8536be226555bfa419963e434b4de185, type: 2}
 --- !u!114 &1420620929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneName_MainMenu: MainMenuScene
   SceneName_Test: TestScene
+  PlayerInstance: {fileID: 1420620928}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

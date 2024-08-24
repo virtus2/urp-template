@@ -26,7 +26,7 @@ namespace Core
         public virtual void SetCharacter(Character character)
         {
             this.character = character;
-            
+
             characterController = character.GetComponent<CharacterController>();
             if(!characterController)
             {
@@ -38,10 +38,14 @@ namespace Core
             {
                 Debug.LogWarning($"{character.name}에 CharacterStateMachine 컴포넌트가 없습니다.");
             }
+
         }
 
         protected virtual void Update()
         {
+            if (!character) return;
+            if (!characterController) return;
+
             characterController.Move(MovementVector * Time.deltaTime);
         }
 
