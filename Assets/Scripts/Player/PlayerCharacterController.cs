@@ -33,6 +33,7 @@ namespace Core
 
             RollPressed = inputHandler.RollInput;
             AttackPressed = inputHandler.AttackInput;
+            InteractPressed = inputHandler.InteractInput;
 
             base.Update();
         }

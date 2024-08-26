@@ -18,6 +18,7 @@ namespace Core
         public bool RollPressed;
         public bool AttackPressed;
         public bool RunPressed;
+        public bool InteractPressed;
 
         protected Character character;
         protected CharacterController characterController; // Unity's CharacterController Component

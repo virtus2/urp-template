@@ -276,6 +276,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5b6ea198-29bb-4402-ad60-bb36877c25a7
     m_ActionName: 'Player/Attack[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1420620927}
+        m_TargetAssemblyTypeName: Core.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnInteractAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 77492296-bba3-44f5-85b7-91cfdb39fe6b
+    m_ActionName: 'Player/Interact[/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -341,6 +357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName_MainMenu: MainMenuScene
+  SceneName_Play: PlayScene
   SceneName_Test: TestScene
   PlayerInstance: {fileID: 1420620928}
 --- !u!1660057539 &9223372036854775807

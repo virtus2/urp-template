@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,6 +9,12 @@ using UnityEngine.Windows;
 
 namespace Core
 {
+    [Serializable]
+    public class ComponentReferenceCharacter : ComponentReference<Character>
+    {
+        public ComponentReferenceCharacter(string guid) : base(guid) { }
+    }
+
     public class Character : MonoBehaviour
     {
         public enum CharacterControllerType { None, Player, AI };
@@ -24,7 +31,7 @@ namespace Core
         public float RollingCooldownTime;
         public bool IsGrounded = false;
         public bool IsAttacking = false;
-        public bool IsWalkedOffALedge = false; // 
+        public bool IsWalkedOffALedge = false; // Grounded상태였다가 떨어지기 시작한 순간의 프레임에 true
 
         /* Controller의 입력과 상관없이 캐릭터를 강제로 움직임 */
         protected bool IsMovementVectorOverrided = false; 
@@ -83,7 +90,16 @@ namespace Core
         private void Awake()
         {
             stateMachine = GetComponent<CharacterStateMachine>();
+            if (!stateMachine)
+            {
+                Debug.LogWarning($"{name}의 CharacterStateMachine 컴포넌트가 없습니다. 새로 추가해주세요.");
+            }
+
             animator = GetComponent<Animator>();
+            if (!animator)
+            {
+                Debug.LogWarning($"{name}의 Animator 컴포넌트가 없습니다. 새로 추가해주세요.");
+            }
 
             Initialize();
         }

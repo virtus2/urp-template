@@ -14,6 +14,7 @@ namespace Core
         public bool JumpInput { get; private set; }
         public bool RollInput { get; private set; }
         public bool AttackInput { get; private set; }
+        public bool InteractInput { get; private set; }
         public Vector3 MousePositionWorld;
         public Vector2 MousePositionScreen;
 
@@ -79,5 +80,17 @@ namespace Core
                 AttackInput = false;
             }
         }
+
+        public void OnInteractAction(InputAction.CallbackContext context)
+        {
+            if (context.started || context.performed)
+            {
+                InteractInput = true;
+            }
+            else if (context.canceled)
+            {
+                InteractInput = false;
+            }
+        }    
     }
 }
