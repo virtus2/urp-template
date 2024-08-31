@@ -159,6 +159,7 @@ MonoBehaviour:
   RollPressed: 0
   AttackPressed: 0
   RunPressed: 0
+  InteractPressed: 0
 --- !u!114 &1420620927
 MonoBehaviour:
   m_ObjectHideFlags: 0

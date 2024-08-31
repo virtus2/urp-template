@@ -47,8 +47,12 @@ namespace Core
         private Quaternion targetRotation = Quaternion.identity;
         private Vector3 targetDirection = Vector3.forward;
 
+        private CharacterAttributeComponent attributeComponent;
+        private CharacterHealthComponent healthComponent;
         private CharacterStateMachine stateMachine;
         private Animator animator;
+
+
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
         private int AnimationID_IsGrounded = Animator.StringToHash("IsGrounded");
@@ -99,6 +103,18 @@ namespace Core
             if (!animator)
             {
                 Debug.LogWarning($"{name}의 Animator 컴포넌트가 없습니다. 새로 추가해주세요.");
+            }
+
+            attributeComponent = GetComponent<CharacterAttributeComponent>();
+            if(!attributeComponent)
+            {
+                Debug.LogWarning($"{name}의 CharacterAttributeComponent 컴포넌트가 없습니다. 새로 추가해주세요.");
+            }
+
+            healthComponent = GetComponent<CharacterHealthComponent>();
+            if (!healthComponent)
+            {
+                Debug.LogWarning($"{name}의 CharacterHealthComponent 컴포넌트가 없습니다. 새로 추가해주세요.");
             }
 
             Initialize();

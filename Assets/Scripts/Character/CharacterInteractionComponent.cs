@@ -4,18 +4,11 @@ using UnityEngine;
 namespace Core
 {
     [RequireComponent(typeof(Character))]
-    public class CharacterInteractionComponent : MonoBehaviour
+    public class CharacterInteractionComponent : CharacterBaseComponent
     {
         public IInteractable CurrentInteractableObject; 
         public bool CanInteractWithObjects = true;
         public Action<IInteractable> OnInteractableObjectChanged;
-
-        private Character character;
-
-        private void Awake()
-        {
-            character = GetComponent<Character>();
-        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -45,7 +38,7 @@ namespace Core
 
         private void Update()
         {
-            if (CurrentInteractableObject == null) 
+            if (CurrentInteractableObject == null || character == null) 
             { 
                 return;
             }
