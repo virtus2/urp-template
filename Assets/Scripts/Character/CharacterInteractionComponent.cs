@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Core
@@ -7,6 +8,7 @@ namespace Core
     {
         public IInteractable CurrentInteractableObject; 
         public bool CanInteractWithObjects = true;
+        public Action<IInteractable> OnInteractableObjectChanged;
 
         private Character character;
 
@@ -23,6 +25,7 @@ namespace Core
                 if (interactableObject.IsInteractable() && CanInteractWithObjects)
                 {
                     CurrentInteractableObject = interactableObject;
+                    OnInteractableObjectChanged?.Invoke(interactableObject);
                 }
             }
         }
@@ -35,6 +38,7 @@ namespace Core
                 if(interactableObject == CurrentInteractableObject)
                 {
                     CurrentInteractableObject = null;
+                    OnInteractableObjectChanged?.Invoke(null);
                 }
             }
         }

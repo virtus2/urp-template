@@ -23,6 +23,9 @@ namespace Core
                 var vcam = FindAnyObjectByType<CinemachineVirtualCamera>();
                 PlayerInstance.SetVirtualCamera(vcam);
                 PlayerInstance.SetMainCamera(Camera.main);
+
+                var playerHUD = FindAnyObjectByType<PlayerHUD>();
+                PlayerInstance.SetPlayerHUD(playerHUD);
             }));
         }
 

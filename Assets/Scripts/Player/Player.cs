@@ -1,27 +1,32 @@
 ﻿using Cinemachine;
-using Core;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 namespace Core
 {
     public class Player : MonoBehaviour
     {
+        public static Player Instance;
+
         public Character PlayerCharacter { get; private set; }
+
+        public Action<Character> OnPlayerCharacterSpawned;
 
         [SerializeField]
         private PlayerSettings PlayerSetting;
 
         private PlayerInputHandler inputHandler;
         private PlayerCharacterController characterController;
+        private PlayerHUD playerHUD;
+        private PlayerCharacterWidget characterWidget;
         private Camera mainCamera;
         private CinemachineBrain cinemachineBrain;
         private CinemachineVirtualCamera cinemachineVirtualCamera;
 
         private void Awake()
         {
+            Instance = this;
+
             inputHandler = GetComponent<PlayerInputHandler>();
             characterController = GetComponent<PlayerCharacterController>();
         }
@@ -37,8 +42,14 @@ namespace Core
             cinemachineVirtualCamera = cam;
         }
 
+        public void SetPlayerHUD(PlayerHUD hud)
+        {
+            playerHUD = hud;
+        }
+
         public void SpawnPlayerCharacter()
         {
+            // HACK: 플레이어 캐릭터가 여러개 일때는 고려하지 않음
             // 플레이어 캐릭터 생성 
             PlayerCharacter = Instantiate(PlayerSetting.PlayerCharacter);
             PlayerCharacter.TransitionToState(CharacterState.Idle);
@@ -50,6 +61,8 @@ namespace Core
 
             // 시네머신 카메라 팔로우 대상 지정
             cinemachineVirtualCamera.Follow = PlayerCharacter.transform;
+
+            OnPlayerCharacterSpawned?.Invoke(PlayerCharacter);
         }
     }
 }
