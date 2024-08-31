@@ -9,10 +9,8 @@ namespace Core
     public class CharacterHealthComponent : CharacterBaseComponent
     {
         public float MaxHealth;
+        public float CurrentHealth { get; private set; }
         public Action<float> OnHealthValueChanged;
-
-        [ShowNonSerializedField]
-        private float currentHealth;
 
         private void Start()
         {
@@ -21,14 +19,14 @@ namespace Core
 
         public void SetCurrentHealth(float health)
         {
-            currentHealth = health;
-            OnHealthValueChanged?.Invoke(currentHealth);
+            CurrentHealth = health;
+            OnHealthValueChanged?.Invoke(CurrentHealth);
         }
 
         public void AddCurrentHealth(float health)
         {
-            currentHealth += health;
-            OnHealthValueChanged?.Invoke(currentHealth);
+            CurrentHealth += health;
+            OnHealthValueChanged?.Invoke(CurrentHealth);
         }
     }
 }

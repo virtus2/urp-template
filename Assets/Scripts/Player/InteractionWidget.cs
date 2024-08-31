@@ -36,7 +36,17 @@ namespace Core
 
         private void Show(IInteractable interactable)
         {
-            widget.SetActive(interactable != null);
+            if(interactable != null)
+            {
+                if (interactable.NeedToShowWidget())
+                {
+                    widget.SetActive(interactable != null);
+                }
+            }
+            else
+            {
+                widget.SetActive(false);
+            }
         }
     }
 }

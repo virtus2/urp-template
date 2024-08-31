@@ -15,7 +15,7 @@ namespace Core
         public ComponentReferenceCharacter(string guid) : base(guid) { }
     }
 
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour, IDamageable
     {
         public enum CharacterControllerType { None, Player, AI };
 
@@ -32,6 +32,7 @@ namespace Core
         public bool IsGrounded = false;
         public bool IsAttacking = false;
         public bool IsWalkedOffALedge = false; // Grounded상태였다가 떨어지기 시작한 순간의 프레임에 true
+        public bool IsInvincible = false;
 
         /* Controller의 입력과 상관없이 캐릭터를 강제로 움직임 */
         protected bool IsMovementVectorOverrided = false; 
@@ -51,7 +52,6 @@ namespace Core
         private CharacterHealthComponent healthComponent;
         private CharacterStateMachine stateMachine;
         private Animator animator;
-
 
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
@@ -297,6 +297,16 @@ namespace Core
             // 캐릭터의 현재 상태가 구르기 상태로 넘어갈 수 있는지도 체크해야할 수도 있음.
             // ...
             return !IsOnCooldown && !IsRolling;
+        }
+
+        public bool CanTakeDamage()
+        {
+            return healthComponent.CurrentHealth > 0f && !IsInvincible;
+        }
+
+        public void TakeDamage(float damage)
+        {
+            healthComponent.AddCurrentHealth(-damage);
         }
 
         private void OnDrawGizmos()
