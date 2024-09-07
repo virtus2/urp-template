@@ -7,6 +7,7 @@ namespace Core
         Idle,
         GroundMove,
         Attack,
+        Dead,
 
 
         Crouched,

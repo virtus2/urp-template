@@ -12,8 +12,7 @@ namespace Core
 
         public Action<Character> OnPlayerCharacterSpawned;
 
-        [SerializeField]
-        private PlayerSettings PlayerSetting;
+        public PlayerSettings PlayerSetting;
 
         private PlayerInputHandler inputHandler;
         private PlayerCharacterController characterController;
@@ -26,9 +25,19 @@ namespace Core
         private void Awake()
         {
             Instance = this;
-
+            GameManager.OnPlaySceneLoadCompleted += Initialize;
             inputHandler = GetComponent<PlayerInputHandler>();
             characterController = GetComponent<PlayerCharacterController>();
+        }
+
+        private void Initialize()
+        {
+            var vcam = FindAnyObjectByType<CinemachineVirtualCamera>();
+            SetVirtualCamera(vcam);
+            SetMainCamera(Camera.main);
+
+            var playerHUD = FindAnyObjectByType<PlayerHUD>();
+            SetPlayerHUD(playerHUD);
         }
 
         public void SetMainCamera(Camera cam)
@@ -47,11 +56,12 @@ namespace Core
             playerHUD = hud;
         }
 
-        public void SpawnPlayerCharacter()
+        public void SpawnPlayerCharacter(Vector3 position)
         {
             // HACK: 플레이어 캐릭터가 여러개 일때는 고려하지 않음
             // 플레이어 캐릭터 생성 
-            PlayerCharacter = Instantiate(PlayerSetting.PlayerCharacter);
+            PlayerCharacter = Instantiate(PlayerSetting.PlayerCharacterPrefab);
+            PlayerCharacter.transform.position = position;
             PlayerCharacter.TransitionToState(CharacterState.Idle);
 
             // 캐릭터 컨트롤러 설정

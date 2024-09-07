@@ -62,5 +62,10 @@ namespace Core
             MovementInput = input;
             HasMovementInput = inputChanged;
         }
+
+        public void SetDetectCollisions(bool detectCollisions)
+        {
+            characterController.detectCollisions = detectCollisions;
+        }
     }
 }

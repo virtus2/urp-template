@@ -17,33 +17,40 @@ namespace Core
 
     public class Character : MonoBehaviour, IDamageable
     {
-        public enum CharacterControllerType { None, Player, AI };
+        public enum ECharacterControllerType { None, Player, AI };
+        public enum ECharacterType { None, Player, AI };
 
+        public ECharacterType CharacterType;
+
+        [Header("캐릭터 설정값 ScriptableObjects")]
         public MovementSettings MovementSettings;
         public RollingSettings RollingSettings;
-        public BaseCharacterController Controller;
-        public CharacterControllerType ControllerType;
 
         public Vector3 Velocity => Controller.Velocity;
         public float CapsuleRadius => Controller.Radius;
         public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
+
+        [Header("캐릭터 상태")]
+        public BaseCharacterController Controller;
+        public ECharacterControllerType ControllerType;
         public bool IsRolling = false;
         public float RollingCooldownTime;
         public bool IsGrounded = false;
         public bool IsAttacking = false;
         public bool IsWalkedOffALedge = false; // Grounded상태였다가 떨어지기 시작한 순간의 프레임에 true
         public bool IsInvincible = false;
+        public bool IsDead = false;
+        public bool InputEnabled = true;
 
         /* Controller의 입력과 상관없이 캐릭터를 강제로 움직임 */
         protected bool IsMovementVectorOverrided = false; 
         protected Vector2 OverridedMovementVector = Vector2.zero;
-
         /* 캐릭터의 이동 */
-        public float HorizontalSpeed = 0f; // 현재 수평 속도 (x축, z축)
-        public float TargetHorizontalSpeed = 0f; // 타겟 수평 속도 (가/감속 전)
-        public float VerticalSpeed = 0f; // 현재 수직 속도 (y축)
-        public bool AccelerateToTargetHorizontalSpeed = false; // 타겟 속도까지 가/감속 할 지 여부
-        public float Acceleration = 0f;
+        [NonSerialized] public float HorizontalSpeed = 0f; // 현재 수평 속도 (x축, z축)
+        [NonSerialized] public float TargetHorizontalSpeed = 0f; // 타겟 수평 속도 (가/감속 전)
+        [NonSerialized] public float VerticalSpeed = 0f; // 현재 수직 속도 (y축)
+        [NonSerialized] public bool AccelerateToTargetHorizontalSpeed = false; // 타겟 속도까지 가/감속 할 지 여부
+        [NonSerialized] public float Acceleration = 0f;
 
         private Quaternion targetRotation = Quaternion.identity;
         private Vector3 targetDirection = Vector3.forward;
@@ -56,12 +63,13 @@ namespace Core
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
         private int AnimationID_IsGrounded = Animator.StringToHash("IsGrounded");
-        private int AnimationID_IsRolling = Animator.StringToHash("IsRolling"); 
+        private int AnimationID_IsRolling = Animator.StringToHash("IsRolling");
+        private int AnimationID_IsDead = Animator.StringToHash("IsDead");
         private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
         private int AnimationID_Attack = Animator.StringToHash("Attack"); // TODO: 애니메이터 컨트롤러에 매개변수 추가
         private int AnimationID_FreeFall = Animator.StringToHash("FreeFall");
 
-        // AI 관련
+        // TODO: AI 관련. 나중에 따로 클래스 만들수도
         public bool IsReachedDestination = false;
         public Character ChaseTarget;
 
@@ -74,15 +82,15 @@ namespace Core
             this.Controller = controller;
             if (controller is AICharacterController)
             {
-                ControllerType = CharacterControllerType.AI;
+                ControllerType = ECharacterControllerType.AI;
             }
             else if (controller is PlayerCharacterController)
             {
-                ControllerType = CharacterControllerType.Player;
+                ControllerType = ECharacterControllerType.Player;
             }
             else
             {
-                ControllerType = CharacterControllerType.None;
+                ControllerType = ECharacterControllerType.None;
             }
         }
 
@@ -223,6 +231,11 @@ namespace Core
                 new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y) :
                 new Vector3(Controller.LastMovementInput.x, 0, Controller.LastMovementInput.y);
 
+            if (!InputEnabled)
+            {
+                movement = Vector3.zero;
+            }
+
             if (IsMovementVectorOverrided)
             {
                 movement = new Vector3(OverridedMovementVector.x, 0, OverridedMovementVector.y);
@@ -253,11 +266,12 @@ namespace Core
         /// </summary>
         private void UpdateAnimations()
         {
-            animator.SetFloat(AnimationID_MotionSpeed, 1f);
-            animator.SetFloat(AnimationID_Speed, Velocity.magnitude); // TODO: Override MovementVector때문에 캐릭터의 최종 속도 기준으로 값을 변경해야한다.
+            animator.SetFloat(AnimationID_MotionSpeed, 1f); // TODO: 이속 빨라지거나 느려지면(ex: 디버프) 로코모션 재생속도 증감
+            animator.SetFloat(AnimationID_Speed, Velocity.magnitude);
             // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
             animator.SetBool(AnimationID_IsGrounded, IsGrounded);
             animator.SetBool(AnimationID_IsRolling, IsRolling);
+            animator.SetBool(AnimationID_IsDead, IsDead);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
@@ -307,6 +321,10 @@ namespace Core
         public void TakeDamage(float damage)
         {
             healthComponent.AddCurrentHealth(-damage);
+            if(healthComponent.CurrentHealth <= 0f)
+            {
+                stateMachine.TransitionToState(CharacterState.Dead);
+            }
         }
 
         private void OnDrawGizmos()

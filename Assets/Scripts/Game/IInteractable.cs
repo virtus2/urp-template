@@ -1,10 +1,19 @@
-namespace Core
+ï»¿namespace Core
 {
+    // TODO: Input System Interactionsë¡œ ëŒ€ì²´í•  ìˆ˜ ìˆëŠ”ê±´ì§€ í™•ì¸
+    // https://docs.unity3d.com/Packages/com.unity.inputsystem@1.10/manual/Interactions.html
+    public enum EInteractType
+    {
+        Tap, // í•œ ë²ˆ ëˆ„ë¥´ê¸°
+        Hold, // ê¾¹ ëˆ„ë¥´ê¸°
+    }
     /// <summary>
-    /// Interact ¹öÆ°À» ´­·¯¼­ »óÈ£ÀÛ¿ëÇÒ ¼ö ÀÖ´Â ÀÎÅÍÆäÀÌ½º
+    /// Interact ë²„íŠ¼ì„ ëˆŒëŸ¬ì„œ ìƒí˜¸ì‘ìš©í•  ìˆ˜ ìˆëŠ” ì¸í„°í˜ì´ìŠ¤
     /// </summary>
     public interface IInteractable
     {
+        public EInteractType Type { get; }
+        public float HoldDuration { get; }
         public bool NeedToShowWidget();
         public bool IsInteractable();
         public void BeginInteract();

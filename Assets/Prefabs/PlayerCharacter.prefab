@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 324157563107869553}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.04, z: -8.75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -229,20 +229,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94663c0548c25843bae33e88b3d59b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterType: 1
   MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
   RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
-  Controller: {fileID: 0}
-  ControllerType: 0
   IsRolling: 0
   RollingCooldownTime: 0
   IsGrounded: 1
   IsAttacking: 0
   IsWalkedOffALedge: 0
-  HorizontalSpeed: 0
-  TargetHorizontalSpeed: 0
-  VerticalSpeed: 0
-  AccelerateToTargetHorizontalSpeed: 0
-  Acceleration: 0
+  IsInvincible: 0
+  IsDead: 0
+  InputEnabled: 1
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
 --- !u!114 &2397998499951101809

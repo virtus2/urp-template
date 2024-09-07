@@ -16,6 +16,7 @@ namespace Core
             [CharacterState.GroundMove] = new GroundMoveState(),
             [CharacterState.Rolling] = new RollingState(),
             [CharacterState.Attack] = new AttackState(),
+            [CharacterState.Dead] = new DeadState(),
         };
 
         private Character character;

@@ -14,19 +14,11 @@ namespace Core
         public GameObject chaseTarget;
         public AIStateMachine aiStateMachine;
 
-        public Character testAICharacter;
-
         private void Awake()
         {
             aiStateMachine = GetComponent<AIStateMachine>();
+        }
 
-        }
-        private void Start()
-        {
-            SetCharacter(testAICharacter);
-            testAICharacter.SetController(this);
-        }
-        
         public override void SetCharacter(Character character)
         {
             base.SetCharacter(character); 
