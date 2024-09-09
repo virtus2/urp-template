@@ -77,3 +77,6 @@ crashlytics-build.properties
 # Asset Store
 /[Aa]ssets/Art/
 /[Aa]ssets/External/*
+
+# DOTween
+/[Aa]ssets/Plugins/Demigiant/
