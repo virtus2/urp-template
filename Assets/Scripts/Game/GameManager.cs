@@ -1,4 +1,4 @@
-using Cinemachine;
+﻿using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -15,8 +15,6 @@ namespace Core
         public string SceneName_Test = "TestScene";
 
         public Player PlayerInstance;
-
-        public static Action OnPlaySceneLoadCompleted;
         private Scene currentActiveScene;
 
 
@@ -24,15 +22,11 @@ namespace Core
         {
             Instance = this;
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-        {
-            if (scene.name == SceneName_Play)
-            {
-                OnPlaySceneLoadCompleted?.Invoke();
-            }
+            // TODO: 메인메뉴 로드
+            // TODO: 메인메뉴에서 게임 시작 이후 PlayScene 로드
+            StartCoroutine(LoadSceneAsync(SceneName_Play, false, InitializePlayer));
+#if UNITY_EDITOR
+#endif
         }
 
         private IEnumerator LoadSceneAsync(string sceneName, bool activateLoadedScene = false, Action onLoadComplete = null)
@@ -53,16 +47,14 @@ namespace Core
             onLoadComplete?.Invoke();
         }
 
-        private void OnGUI()
+        private void InitializePlayer()
         {
-            if(GUILayout.Button("Load TestScene"))
-            {
-                StartCoroutine(LoadSceneAsync(SceneName_Test));
-            }
-            if (GUILayout.Button("Spawn Player Character"))
-            {
-                PlayerInstance.SpawnPlayerCharacter(Vector3.zero);
-            }
+            var vcam = FindAnyObjectByType<CinemachineVirtualCamera>();
+            PlayerInstance.SetVirtualCamera(vcam);
+            PlayerInstance.SetMainCamera(Camera.main);
+
+            var playerHUD = FindAnyObjectByType<PlayerHUD>();
+            PlayerInstance.SetPlayerHUD(playerHUD);
         }
     }
 }

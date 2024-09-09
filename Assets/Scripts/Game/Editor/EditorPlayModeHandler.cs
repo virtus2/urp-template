@@ -10,10 +10,10 @@ namespace Core.Editor
     [InitializeOnLoad]
     public class EditorPlayModeHandler : MonoBehaviour
     {
-        private static Scene activeScene;
+        private const string EditorPrefsCurrentScene = "CurrentScene";
+
         static EditorPlayModeHandler()
         {
-            Debug.Log(EditorSceneManager.playModeStartScene);
             EditorApplication.playModeStateChanged += PlayModeStateChanged;
         }
 
@@ -25,13 +25,14 @@ namespace Core.Editor
                     break;
                 case PlayModeStateChange.ExitingEditMode:
                     EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+                    EditorPrefs.SetString(EditorPrefsCurrentScene, EditorApplication.currentScene);
+                    EditorSceneManager.playModeStartScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(EditorBuildSettings.scenes[0].path);
                     break;
                 case PlayModeStateChange.EnteredPlayMode:
                     Debug.Log("Entered Play Mode");
-                    activeScene = EditorSceneManager.GetActiveScene();
-                    EditorSceneManager.LoadScene("BootstrapScene", LoadSceneMode.Single);
-                    EditorSceneManager.LoadScene("PlayScene", LoadSceneMode.Additive);
-                    EditorSceneManager.LoadScene(activeScene.name, LoadSceneMode.Additive);
+                    var currentSceneName = EditorPrefs.GetString(EditorPrefsCurrentScene);
+                    Debug.Log($"Load ({currentSceneName}) Scene");
+                    EditorSceneManager.LoadScene(currentSceneName, LoadSceneMode.Additive);
                     break;
                 case PlayModeStateChange.ExitingPlayMode:
                     break;

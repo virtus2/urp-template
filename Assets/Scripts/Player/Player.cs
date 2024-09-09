@@ -25,19 +25,8 @@ namespace Core
         private void Awake()
         {
             Instance = this;
-            GameManager.OnPlaySceneLoadCompleted += Initialize;
             inputHandler = GetComponent<PlayerInputHandler>();
             characterController = GetComponent<PlayerCharacterController>();
-        }
-
-        private void Initialize()
-        {
-            var vcam = FindAnyObjectByType<CinemachineVirtualCamera>();
-            SetVirtualCamera(vcam);
-            SetMainCamera(Camera.main);
-
-            var playerHUD = FindAnyObjectByType<PlayerHUD>();
-            SetPlayerHUD(playerHUD);
         }
 
         public void SetMainCamera(Camera cam)
