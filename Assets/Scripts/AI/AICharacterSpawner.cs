@@ -54,6 +54,7 @@ namespace Core
                 var controller = Instantiate(characterController);
                 controller.SetCharacter(spawnedCharacter);
                 spawnedCharacter.SetController(controller);
+                spawnedCharacter.transform.position = transform.position;
             };
         }
     }

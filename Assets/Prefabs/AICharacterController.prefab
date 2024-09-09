@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1801225166407883098}
   - component: {fileID: 3190197766139251518}
   m_Layer: 0
-  m_Name: AI
+  m_Name: AICharacterController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
