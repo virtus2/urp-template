@@ -13,6 +13,7 @@ namespace Core
         public Vector2 LookInput { get; private set; }
         public bool JumpInput { get; private set; }
         public bool RollInput { get; private set; }
+        public bool RunInput { get; private set; }
         public bool AttackInput { get; private set; }
         public bool InteractInput { get; private set; }
         public Vector3 MousePositionWorld;
@@ -66,6 +67,17 @@ namespace Core
             else if (context.canceled)
             {
                 RollInput = false;
+            }
+        }
+        public void OnRunAction(InputAction.CallbackContext context)
+        {
+            if (context.started || context.performed)
+            {
+                RunInput = true;
+            }
+            else if (context.canceled)
+            {
+                RunInput = false;
             }
         }
 

@@ -31,6 +31,7 @@ namespace Core
             playerInput.Normalize();
             SetMovementInput(playerInput);
 
+            RunPressed = inputHandler.RunInput;
             RollPressed = inputHandler.RollInput;
             AttackPressed = inputHandler.AttackInput;
             InteractPressed = inputHandler.InteractInput;

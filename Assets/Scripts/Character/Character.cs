@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
@@ -60,6 +61,7 @@ namespace Core
         private CharacterHealthComponent healthComponent;
         private CharacterStateMachine stateMachine;
         private Animator animator;
+        private int animatorBaseLayerIndex = 0;
 
         private float animationBlend = 0f;
         private int AnimationID_Speed = Animator.StringToHash("Speed");
@@ -73,6 +75,12 @@ namespace Core
         // TODO: AI 관련. 나중에 따로 클래스 만들수도
         public bool IsReachedDestination = false;
         public Character ChaseTarget;
+
+        // 캐릭터 발걸음 이벤트
+        public GameObject Model;
+        public AudioSource FootstepAudioSource;
+        public AudioClip FootstepAudioClip;
+        public ParticleSystem FootstepParticleSystem;
 
         /// <summary>
         /// 이 캐릭터를 조종할 컨트롤러를 설정한다.
@@ -256,7 +264,7 @@ namespace Core
                 float rotationSpeed = Mathf.Lerp(MovementSettings.MaxRotationSpeed, MovementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
 
                 targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                Model.transform.rotation = Quaternion.RotateTowards(Model.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
                 targetDirection = horizontalMovementVector.normalized;
             }
@@ -294,6 +302,13 @@ namespace Core
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
                 // TODO: 발소리 내기?
+                if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo))
+                {
+                    FootstepAudioSource.clip = FootstepAudioClip;
+                    FootstepAudioSource.Play();
+                    FootstepParticleSystem.Emit(1);
+                    Debug.Log(hitInfo.transform.gameObject.name);
+                }
             }
         }
 
