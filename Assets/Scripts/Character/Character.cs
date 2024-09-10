@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
@@ -266,8 +267,12 @@ namespace Core
         /// </summary>
         private void UpdateAnimations()
         {
+            float currentSpeed = (Velocity.magnitude + 0.0001f) / (MovementSettings.WalkSpeed + 0.0001f);
+            if (currentSpeed <= 0.001f)
+                currentSpeed = 0;
+
             animator.SetFloat(AnimationID_MotionSpeed, 1f); // TODO: 이속 빨라지거나 느려지면(ex: 디버프) 로코모션 재생속도 증감
-            animator.SetFloat(AnimationID_Speed, Velocity.magnitude);
+            animator.SetFloat(AnimationID_Speed, currentSpeed);
             // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
             animator.SetBool(AnimationID_IsGrounded, IsGrounded);
             animator.SetBool(AnimationID_IsRolling, IsRolling);

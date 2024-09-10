@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core
 {
-    [CreateAssetMenu(fileName = "Default RollingSettings", menuName = "Scriptable Objects/Character/New Rolling Settings")]
+    [CreateAssetMenu(fileName = "SO_RollingSettings_Default", menuName = "Scriptable Objects/Character/New Rolling Settings")]
     [System.Serializable]
     public class RollingSettings : ScriptableObject
     {

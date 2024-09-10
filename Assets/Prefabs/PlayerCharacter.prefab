@@ -230,8 +230,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterType: 1
-  MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
-  RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
+  MovementSettings: {fileID: 11400000, guid: 36a619db2ea29b348a4e39a53e922f07, type: 2}
+  RollingSettings: {fileID: 11400000, guid: ff19860283f67844ea378adfd958f889, type: 2}
+  Controller: {fileID: 0}
+  ControllerType: 0
   IsRolling: 0
   RollingCooldownTime: 0
   IsGrounded: 1

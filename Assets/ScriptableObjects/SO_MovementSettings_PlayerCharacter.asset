@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29a9f490affad36438255207cf057a7a, type: 3}
-  m_Name: Default MovementSettings
+  m_Name: SO_MovementSettings_PlayerCharacter
   m_EditorClassIdentifier: 
-  WalkSpeed: 3.5
+  WalkSpeed: 6
   RunSpeed: 5
   Acceleration: 15
   Decceleration: 15

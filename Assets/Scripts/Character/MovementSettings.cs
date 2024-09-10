@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Core
 {
-    [CreateAssetMenu(fileName = "Default MovementSettings", menuName = "Scriptable Objects/Character/New Movement Settings")]
+    [CreateAssetMenu(fileName = "SO_MovementSettings_Default", menuName = "Scriptable Objects/Character/New Movement Settings")]
     [System.Serializable]
     public class MovementSettings : ScriptableObject
     {
