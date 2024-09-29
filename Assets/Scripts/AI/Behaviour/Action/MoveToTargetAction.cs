@@ -8,12 +8,12 @@ using UnityEngine.AI;
 namespace Core.AI
 {
     [Serializable, GeneratePropertyBag]
-    [NodeDescription(name: "MoveToTarget", story: "[Self] moves to the [Target]", category: "Custom/Action/Movement", id: "ba483300b2b697df5e084fe9af472735")]
+    [NodeDescription(name: "MoveToTargetAction", story: "[Self] moves to the [Target] until distance <= [StopDistance]", category: "Custom/Action/Movement", id: "ba483300b2b697df5e084fe9af472735")]
     public partial class MoveToTargetAction : Action
     {
         [SerializeReference] public BlackboardVariable<GameObject> Self;
         [SerializeReference] public BlackboardVariable<GameObject> Target;
-
+        [SerializeReference] public BlackboardVariable<float> StopDistance;
         private Character character;
         private NavMeshAgent agent;
 
