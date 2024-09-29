@@ -56,6 +56,8 @@ namespace Core
 
         private Quaternion targetRotation = Quaternion.identity;
         private Vector3 targetDirection = Vector3.forward;
+        public bool LookAt = false;
+        public Vector3 LookDirection = Vector3.forward;
 
         private CharacterAttributeComponent attributeComponent;
         private CharacterHealthComponent healthComponent;
@@ -75,6 +77,7 @@ namespace Core
         // TODO: AI 관련. 나중에 따로 클래스 만들수도
         public bool IsReachedDestination = false;
         public Character ChaseTarget;
+        public NavMeshPath NavMeshPath;
 
         // 캐릭터 발걸음 이벤트
         public GameObject Model;
@@ -133,6 +136,7 @@ namespace Core
             {
                 Debug.LogWarning($"{name}의 CharacterHealthComponent 컴포넌트가 없습니다. 새로 추가해주세요.");
             }
+            NavMeshPath = new NavMeshPath();
 
             Initialize();
         }
@@ -258,15 +262,26 @@ namespace Core
         /// </summary>
         private void UpdateRotation()
         {
-            Vector3 horizontalMovementVector = new Vector3(Controller.MovementVector.x, 0, Controller.MovementVector.z);
-            if (horizontalMovementVector.sqrMagnitude > 0.0f)
+            if (LookAt)
             {
-                float rotationSpeed = Mathf.Lerp(MovementSettings.MaxRotationSpeed, MovementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
-
-                targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
+                LookDirection = Controller.LookVector;
+                float rotationSpeed = MovementSettings.MaxRotationSpeed;
+                targetRotation = Quaternion.LookRotation(LookDirection, Vector3.up);
                 Model.transform.rotation = Quaternion.RotateTowards(Model.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                targetDirection = LookDirection.normalized;
+            }
+            else
+            {
+                Vector3 horizontalMovementVector = new Vector3(Controller.MovementVector.x, 0, Controller.MovementVector.z);
+                if (horizontalMovementVector.sqrMagnitude > 0.0f)
+                {
+                    float rotationSpeed = Mathf.Lerp(MovementSettings.MaxRotationSpeed, MovementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
 
-                targetDirection = horizontalMovementVector.normalized;
+                    targetRotation = Quaternion.LookRotation(horizontalMovementVector, Vector3.up);
+                    Model.transform.rotation = Quaternion.RotateTowards(Model.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+                    targetDirection = horizontalMovementVector.normalized;
+                }
             }
         }
 

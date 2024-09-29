@@ -28,7 +28,11 @@ namespace Core
             if (mainCamera)
             {
                 Ray ray = mainCamera.ScreenPointToRay(MousePositionScreen);
-                Debug.DrawRay(ray.origin, ray.direction);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                {
+                    MousePositionWorld = hitInfo.point;
+                }
+                // MousePositionWorld = mainCamera.ScreenToWorldPoint(new Vector3(MousePositionScreen.x, MousePositionScreen.y, -mainCamera.transform.position.z));
             }
             else
             {

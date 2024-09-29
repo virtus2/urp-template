@@ -12,7 +12,6 @@ namespace Core
     public class PlayerCharacterController : BaseCharacterController
     {
         private PlayerInputHandler inputHandler;
-        private Character playerCharacter;
         private Camera playerCamera;
 
         private void Awake()
@@ -35,6 +34,13 @@ namespace Core
             RollPressed = inputHandler.RollInput;
             AttackPressed = inputHandler.AttackInput;
             InteractPressed = inputHandler.InteractInput;
+            if (character)
+            {
+                LookVector = inputHandler.MousePositionWorld - character.transform.position;
+                // HACK: Top view이기때문에 y축은 사용안함
+                LookVector.y = 0;
+            }
+            
 
             base.Update();
         }
