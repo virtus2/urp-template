@@ -13,22 +13,25 @@ MonoBehaviour:
   m_Name: Default Local Group
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
-  m_Data:
-    m_SerializedData: []
   m_GUID: 34167ac6b00e25a40a35d42c78e361fc
   m_SerializeEntries:
-  - m_GUID: c9cd803756247854981ffdfb609334ec
-    m_Address: Assets/Prefabs/PlayerCharacter.prefab
+  - m_GUID: 8fabaef063baa5e46a3411385b03b1c9
+    m_Address: AICharacterController
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a7ce41186d1be8444973e17f336db322
-    m_Address: Assets/Prefabs/AICharacter.prefab
+    m_Address: AICharacter - ChaseAI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8fabaef063baa5e46a3411385b03b1c9
-    m_Address: Assets/Prefabs/AI.prefab
+  - m_GUID: c9cd803756247854981ffdfb609334ec
+    m_Address: PlayerCharacter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb736e6b1c919c2449dc887bda04bb65
+    m_Address: AICharacter - Idle
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -36,5 +39,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 20e7b912cd17a73458d6884f5bd6e958, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 4df84c7a051018844922cd1bbf02faba, type: 2}
     - {fileID: 11400000, guid: aecd49d24e4e2164495f281b61d8346e, type: 2}
+    - {fileID: 11400000, guid: 4df84c7a051018844922cd1bbf02faba, type: 2}

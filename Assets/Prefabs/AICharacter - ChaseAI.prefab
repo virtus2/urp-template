@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8946725681143265035}
   - component: {fileID: 2436964658281747216}
   m_Layer: 3
-  m_Name: AICharacter
+  m_Name: AICharacter - ChaseAI
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_BlackboardVariableOverridesList:
   - rid: 2559598869302215226
   - rid: 2559598869302215292
+  - rid: 2559598871112319450
   references:
     version: 2
     RefIds:
@@ -191,6 +192,15 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 1752696769910348834}
+    - rid: 2559598871112319450
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15713882219126094852
+          m_Value1: 5595923653898632924
+        Name: StopDistance
+        m_Value: 2
 --- !u!1 &4669017431552725172
 GameObject:
   m_ObjectHideFlags: 0

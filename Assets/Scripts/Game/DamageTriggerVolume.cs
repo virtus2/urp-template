@@ -13,8 +13,8 @@ namespace Game
 
         private void OnTriggerEnter(Collider other)
         {
-            var damageableObject = other.GetComponent<IDamageable>();
-            if(damageableObject != null && damageableObject.CanTakeDamage())
+            var damageableObject = other.GetComponent<DamageableComponent>();
+            if(damageableObject != null && damageableObject.CanTakeDamage)
             {
                 damageableObject.TakeDamage(Damage);
             }

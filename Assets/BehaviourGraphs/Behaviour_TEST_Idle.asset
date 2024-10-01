@@ -1,0 +1,312 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3223440335782252359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
+  m_Name: Behaviour_TEST_Idle Blackboard Editor
+  m_EditorClassIdentifier: 
+  m_VersionTimestamp: 0
+  AssetID:
+    m_Value0: 10684422641561247689
+    m_Value1: 508541718182857643
+  m_Blackboard:
+    m_Variables:
+    - rid: 6729680793033769077
+    - rid: 6729680793033769078
+    - rid: 6729680793033769079
+    - rid: 6729680793033769080
+  m_SharedBlackboardVariableGuids: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 6729680793033769077
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 0}
+    - rid: 6729680793033769078
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 12756765044699615261
+          m_Value1: 7222809467384415560
+        Name: Target
+        m_Value: {fileID: 0}
+    - rid: 6729680793033769079
+      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 11211304155306553372
+          m_Value1: 1062178012027593625
+        Name: TargetTag
+        m_Value: 
+    - rid: 6729680793033769080
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15713882219126094852
+          m_Value1: 5595923653898632924
+        Name: StopDistance
+        m_Value: 0.5
+--- !u!114 &-891963756547038426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b27bb6d9a2c8d540a10dff10acc543e, type: 3}
+  m_Name: Behaviour_TEST_Idle Debug Info
+  m_EditorClassIdentifier: 
+  m_CodeBreakPointsList: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad8f2220607dac4db5082ff333fafb8, type: 3}
+  m_Name: Behaviour_TEST_Idle
+  m_EditorClassIdentifier: 
+  Blackboard: {fileID: 7833594520716833367}
+  m_Description: 
+  m_Nodes:
+  - rid: 2559598869302214888
+  m_VersionTimestamp: 638633930116016511
+  m_DebugInfo: {fileID: -891963756547038426}
+  AssetID:
+    m_Value0: 10684422641561247689
+    m_Value1: 508541718182857643
+  Story:
+    Story: 
+    StoryVariableNames: []
+    Variables: []
+  m_NodeModelsInfo:
+  - Name: On Start
+    Story: 
+    RuntimeTypeID:
+      m_Value0: 3335272451348827663
+      m_Value1: 11549843281177505721
+    Variables: []
+    NamedChildren: []
+  m_Blackboards: []
+  m_CommandBuffer:
+    m_Commands: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2559598869302214888
+      type: {class: StartNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 37.40087, y: -3.7400877}
+        ID:
+          m_Value0: 14933022691215441321
+          m_Value1: 16168607228429313854
+        Parents: []
+        PortModels:
+        - rid: 2559598869302214889
+        NodeType:
+          m_SerializableType: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 3335272451348827663
+          m_Value1: 11549843281177505721
+        m_FieldValues: []
+        Repeat: 1
+    - rid: 2559598869302214889
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 2559598869302214888
+        m_Connections: []
+--- !u!114 &7833594520716833367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
+  m_Name: Behaviour_TEST_Idle Blackboard Editor
+  m_EditorClassIdentifier: 
+  AssetID:
+    m_Value0: 10684422641561247689
+    m_Value1: 508541718182857643
+  m_Variables:
+  - rid: 2559598869302214890
+  - rid: 2559598869302214922
+  - rid: 2559598869302214924
+  - rid: 2559598869302215041
+  m_VersionTimestamp: 638633930116574128
+  m_CommandBuffer:
+    m_Commands: []
+  m_RuntimeBlackboardAsset: {fileID: -3223440335782252359}
+  references:
+    version: 2
+    RefIds:
+    - rid: 2559598869302214890
+      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        IsExposed: 1
+        IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 2559598869302214922
+      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 12756765044699615261
+          m_Value1: 7222809467384415560
+        Name: Target
+        IsExposed: 0
+        IsShared: 0
+        m_Value: {fileID: 0}
+    - rid: 2559598869302214924
+      type: {class: 'TypedVariableModel`1[[System.String, mscorlib]]', ns: Unity.Behavior.GraphFramework,
+        asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 11211304155306553372
+          m_Value1: 1062178012027593625
+        Name: TargetTag
+        IsExposed: 1
+        IsShared: 0
+        m_Value: 
+    - rid: 2559598869302215041
+      type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework,
+        asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 15713882219126094852
+          m_Value1: 5595923653898632924
+        Name: StopDistance
+        IsExposed: 1
+        IsShared: 0
+        m_Value: 0.5
+--- !u!114 &9200448313896191656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db920e62f70f420bb33c771449926fa4, type: 3}
+  m_Name: Behaviour_TEST_Idle
+  m_EditorClassIdentifier: 
+  Graphs:
+  - rid: 6729680793033769081
+  RootGraph:
+    rid: 6729680793033769081
+  m_DebugInfo: {fileID: -891963756547038426}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6729680793033769081
+      type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        AuthoringAssetID:
+          m_Value0: 10684422641561247689
+          m_Value1: 508541718182857643
+        m_DebugInfo: {fileID: 0}
+        Root:
+          rid: 6729680793033769082
+        BlackboardReference:
+          rid: 6729680793033769083
+        BlackboardGroupReferences: []
+        m_VersionTimestamp: 638633930116016511
+    - rid: 6729680793033769082
+      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 14933022691215441321
+          m_Value1: 16168607228429313854
+        Graph:
+          rid: 6729680793033769081
+        m_Parent:
+          rid: -2
+        m_Child:
+          rid: -2
+        Repeat: 1
+    - rid: 6729680793033769083
+      type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        m_Blackboard:
+          rid: 6729680793033769084
+        m_Source: {fileID: -3223440335782252359}
+    - rid: 6729680793033769084
+      type: {class: Blackboard, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        m_Variables:
+        - rid: 6729680793033769085
+        - rid: 6729680793033769086
+        - rid: 6729680793033769087
+        - rid: 6729680793033769088
+    - rid: 6729680793033769085
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 0}
+    - rid: 6729680793033769086
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 12756765044699615261
+          m_Value1: 7222809467384415560
+        Name: Target
+        m_Value: {fileID: 0}
+    - rid: 6729680793033769087
+      type: {class: 'BlackboardVariable`1[[System.String, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 11211304155306553372
+          m_Value1: 1062178012027593625
+        Name: TargetTag
+        m_Value: 
+    - rid: 6729680793033769088
+      type: {class: 'BlackboardVariable`1[[System.Single, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 15713882219126094852
+          m_Value1: 5595923653898632924
+        Name: StopDistance
+        m_Value: 0.5

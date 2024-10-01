@@ -17,7 +17,7 @@ namespace Core
         public ComponentReferenceCharacter(string guid) : base(guid) { }
     }
 
-    public class Character : MonoBehaviour, IDamageable
+    public class Character : MonoBehaviour
     {
         public enum ECharacterControllerType { None, Player, AI };
         public enum ECharacterType { None, Player, AI };
@@ -59,8 +59,6 @@ namespace Core
         public bool LookAt = false;
         public Vector3 LookDirection = Vector3.forward;
 
-        private CharacterAttributeComponent attributeComponent;
-        private CharacterHealthComponent healthComponent;
         private CharacterStateMachine stateMachine;
         private Animator animator;
         private int animatorBaseLayerIndex = 0;
@@ -125,17 +123,6 @@ namespace Core
                 Debug.LogWarning($"{name}의 Animator 컴포넌트가 없습니다. 새로 추가해주세요.");
             }
 
-            attributeComponent = GetComponent<CharacterAttributeComponent>();
-            if(!attributeComponent)
-            {
-                Debug.LogWarning($"{name}의 CharacterAttributeComponent 컴포넌트가 없습니다. 새로 추가해주세요.");
-            }
-
-            healthComponent = GetComponent<CharacterHealthComponent>();
-            if (!healthComponent)
-            {
-                Debug.LogWarning($"{name}의 CharacterHealthComponent 컴포넌트가 없습니다. 새로 추가해주세요.");
-            }
             NavMeshPath = new NavMeshPath();
 
             Initialize();
@@ -346,20 +333,6 @@ namespace Core
             // 캐릭터의 현재 상태가 구르기 상태로 넘어갈 수 있는지도 체크해야할 수도 있음.
             // ...
             return !IsOnCooldown && !IsRolling;
-        }
-
-        public bool CanTakeDamage()
-        {
-            return healthComponent.CurrentHealth > 0f && !IsInvincible;
-        }
-
-        public void TakeDamage(float damage)
-        {
-            healthComponent.AddCurrentHealth(-damage);
-            if(healthComponent.CurrentHealth <= 0f)
-            {
-                stateMachine.TransitionToState(CharacterState.Dead);
-            }
         }
 
         private void OnDrawGizmos()

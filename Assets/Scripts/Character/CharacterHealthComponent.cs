@@ -6,11 +6,19 @@ using UnityEngine;
 
 namespace Core
 {
-    public class CharacterHealthComponent : CharacterBaseComponent
+    [RequireComponent(typeof(Character))]
+    public class CharacterHealthComponent : MonoBehaviour
     {
         public float MaxHealth;
         public float CurrentHealth { get; private set; }
         public Action<float> OnHealthValueChanged;
+
+        private Character character;
+
+        private void Awake()
+        {
+            character = GetComponent<Character>();
+        }
 
         private void Start()
         {

@@ -26,6 +26,12 @@ namespace Core.AI
 
         protected override Status OnUpdate()
         {
+            if (Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position) <= StopDistance)
+            {
+                character.Controller.SetMovementInput(Vector2.zero);
+                return Status.Success;
+            }
+
             NavMeshHit hit;
             bool positionFound = NavMesh.SamplePosition(Target.Value.transform.position, out hit, 1.5f, NavMesh.AllAreas);
             if (positionFound)
@@ -41,7 +47,7 @@ namespace Core.AI
                     }
                 }
             }
-            return Status.Success;
+            return Status.Running;
         }
 
         protected override void OnEnd()

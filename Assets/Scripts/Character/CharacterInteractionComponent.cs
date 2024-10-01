@@ -1,53 +1,58 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Core
 {
     [RequireComponent(typeof(Character))]
-    public class CharacterInteractionComponent : CharacterBaseComponent
+    public class CharacterInteractionComponent : MonoBehaviour
     {
-        public IInteractable CurrentInteractableObject; 
+        public List<InteractableComponent> interactables;
         public bool CanInteractWithObjects = true;
-        public Action<IInteractable> OnInteractableObjectChanged;
+
+        private Character character;
+
+        private void Awake()
+        {
+            character = GetComponent<Character>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
-            var interactableObject = other.GetComponent<IInteractable>();
-            if (interactableObject != null)
+            var component = other.GetComponent<InteractableComponent>();
+            if (component != null)
             {
-                if (interactableObject.IsInteractable() && CanInteractWithObjects)
-                {
-                    CurrentInteractableObject = interactableObject;
-                    OnInteractableObjectChanged?.Invoke(interactableObject);
-                }
+                interactables.Add(component);
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            var interactableObject = other.GetComponent<IInteractable>();
-            if (interactableObject != null)
+            var component = other.GetComponent<InteractableComponent>();
+            if (component != null)
             {
-                if(interactableObject == CurrentInteractableObject)
-                {
-                    CurrentInteractableObject = null;
-                    OnInteractableObjectChanged?.Invoke(null);
-                }
+                interactables.Remove(component);
             }
         }
 
         private void Update()
         {
-            if (CurrentInteractableObject == null || character == null) 
-            { 
-                return;
-            }
-
-            if(CurrentInteractableObject.IsInteractable() && CanInteractWithObjects && character.Controller.InteractPressed)
+            if (interactables.Count > 0)
             {
-                CurrentInteractableObject.BeginInteract();
-                CurrentInteractableObject.Interact();
-                CurrentInteractableObject.EndInteract();
+                for(int i=interactables.Count-1; i>=0; i--)
+                {
+                    var obj = interactables[i];
+                    if (obj.IsInteractable && CanInteractWithObjects)
+                    {
+                        if (character.Controller.InteractPressed)
+                        {
+                            obj.BeginInteract();
+                            obj.Interact();
+                            obj.EndInteract();
+                            return;
+                        }
+                    }
+                }
             }
         }
     }

@@ -347,7 +347,6 @@ GameObject:
   - component: {fileID: 337033443}
   - component: {fileID: 337033442}
   - component: {fileID: 337033441}
-  - component: {fileID: 337033440}
   - component: {fileID: 337033439}
   m_Layer: 0
   m_Name: Door
@@ -377,18 +376,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.72, y: 1, z: 2.65}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &337033440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 337033438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69a09f74a2d3a0e4d9da43de6cab07ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &337033441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -641,8 +628,6 @@ MonoBehaviour:
   characterController: {fileID: 3190197766139251518, guid: 8fabaef063baa5e46a3411385b03b1c9,
     type: 3}
   SpawnCondition: 0
-  SpawnableTags: []
-  SpawnTrigger: {fileID: 0}
 --- !u!1 &913511302
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +765,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &984278379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,7 +781,7 @@ MonoBehaviour:
   SpawnOnlyOnce: 0
   Spawned: 0
   characterPrefab:
-    m_AssetGUID: a7ce41186d1be8444973e17f336db322
+    m_AssetGUID: fb736e6b1c919c2449dc887bda04bb65
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
@@ -804,8 +789,6 @@ MonoBehaviour:
   characterController: {fileID: 3190197766139251518, guid: 8fabaef063baa5e46a3411385b03b1c9,
     type: 3}
   SpawnCondition: 0
-  SpawnableTags: []
-  SpawnTrigger: {fileID: 0}
 --- !u!4 &984278380
 Transform:
   m_ObjectHideFlags: 0
@@ -861,8 +844,6 @@ MonoBehaviour:
   characterController: {fileID: 3190197766139251518, guid: 8fabaef063baa5e46a3411385b03b1c9,
     type: 3}
   SpawnCondition: 0
-  SpawnableTags: []
-  SpawnTrigger: {fileID: 0}
 --- !u!4 &1028643518
 Transform:
   m_ObjectHideFlags: 0
@@ -1032,8 +1013,6 @@ MonoBehaviour:
   characterController: {fileID: 3190197766139251518, guid: 8fabaef063baa5e46a3411385b03b1c9,
     type: 3}
   SpawnCondition: 0
-  SpawnableTags: []
-  SpawnTrigger: {fileID: 0}
 --- !u!4 &1615354998
 Transform:
   m_ObjectHideFlags: 0
@@ -1187,8 +1166,6 @@ MonoBehaviour:
   characterController: {fileID: 3190197766139251518, guid: 8fabaef063baa5e46a3411385b03b1c9,
     type: 3}
   SpawnCondition: 0
-  SpawnableTags: []
-  SpawnTrigger: {fileID: 0}
 --- !u!4 &1891474505
 Transform:
   m_ObjectHideFlags: 0
