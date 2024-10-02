@@ -6,6 +6,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.XR;
+using UnityEngine.Rendering;
 using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
 
@@ -53,6 +54,10 @@ namespace Core
         [NonSerialized] public float VerticalSpeed = 0f; // 현재 수직 속도 (y축)
         [NonSerialized] public bool AccelerateToTargetHorizontalSpeed = false; // 타겟 속도까지 가/감속 할 지 여부
         [NonSerialized] public float Acceleration = 0f;
+        public Vector3 AppliedForce = Vector3.zero;
+        public float ForceMultiplier = 10f;
+        public float ForceDuration = 1f;
+        private float ForceElapsedTime = 0f;
 
         private Quaternion targetRotation = Quaternion.identity;
         private Vector3 targetDirection = Vector3.forward;
@@ -214,12 +219,21 @@ namespace Core
         /// <param name="movement">강제로 움직일 방향</param>
         public void SetOverrideMovementVector(bool overrideMovement, Vector2 movement)
         {
+            // TODO: TargetHorizontalSpeed도 변경해야 움직임
+            // 이 함수에 매개변수에 매개변수 넘겨줘서 처리할지 아니면 호출할때 따로 값 변경해줘야할지 고민
             IsMovementVectorOverrided = overrideMovement;
             OverridedMovementVector = movement;
 
             // HACK: 인풋값도 초기화시켜준다.
             Controller.LastMovementInput = Vector2.zero;
             Controller.MovementInput = Vector2.zero;
+        }
+
+        public void AddForce(Vector3 force)
+        {
+            AppliedForce = force;
+            TargetHorizontalSpeed = force.magnitude * ForceMultiplier;
+            ForceElapsedTime = 0f;
         }
 
         /// <summary>
@@ -240,6 +254,15 @@ namespace Core
             {
                 movement = new Vector3(OverridedMovementVector.x, 0, OverridedMovementVector.y);
             }
+
+            if (AppliedForce.magnitude >= 0)
+            {
+                ForceElapsedTime += Time.deltaTime;
+                float t = ForceElapsedTime / ForceDuration;
+                AppliedForce = Vector3.Lerp(AppliedForce, Vector3.zero, t);
+            }
+
+            movement += AppliedForce * Time.deltaTime;
 
             Controller.MovementVector = movement * HorizontalSpeed + Vector3.up * VerticalSpeed;
         }
@@ -297,6 +320,18 @@ namespace Core
             animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (animationBlend < 0.01f) animationBlend = 0f;
             */
+        }
+
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            Character hitCharacter = hit.gameObject.GetComponent<Character>();
+            if (hitCharacter)
+            {
+                if (Velocity.magnitude >= 0)
+                {
+                    hitCharacter.AddForce(Controller.MovementVector);
+                }
+            }
         }
 
         private void OnFootstep(AnimationEvent animationEvent)

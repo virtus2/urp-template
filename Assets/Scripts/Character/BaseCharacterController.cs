@@ -13,6 +13,7 @@ namespace Core
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public Vector2 LastMovementInput;
         public Vector2 MovementInput; // 컨트롤러의 움직이는 방향 입력
+        public Vector2 MovementInputOverrided; 
         public Vector3 MovementVector; // 최종적으로 캐릭터가 움직이는 방향
         public Vector3 LookVector; 
         public float VerticalVelocity;
