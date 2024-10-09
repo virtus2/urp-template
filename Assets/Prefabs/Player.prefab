@@ -155,7 +155,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 4014e20d-575e-45f3-9ee7-ddad30b4e976
+    m_ActionId: b67174d7-4ec6-4c75-a273-2e74c428d555
     m_ActionName: 'Player/Run[/Keyboard/leftShift]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
@@ -201,9 +201,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5dd291aa4bf6ba4e8afb427a08533fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementVector: {x: 0, y: 0, z: 0}
-  MovementInput: {x: 0, y: 0}
   LastMovementInput: {x: 0, y: 0}
+  MovementInput: {x: 0, y: 0}
+  MovementInputOverrided: {x: 0, y: 0}
+  MovementVector: {x: 0, y: 0, z: 0}
+  LookVector: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   HasMovementInput: 0
   RollPressed: 0

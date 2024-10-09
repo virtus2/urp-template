@@ -10,7 +10,6 @@ namespace Core
     public class MovementSettings : ScriptableObject
     {
         [Header("이동 관련 변수들")]
-        [Header("주의사항: CharacterAnimationController에서도 Blend Tree등에 같은 값으로 맞춰줘야함")]
         [Header("미터/초")]
         public float WalkSpeed = 1.25f; // 걷기 이동 속도
         public float RunSpeed = 3.5f; // 달리기 이동 속도
@@ -26,13 +25,13 @@ namespace Core
         public float Gravity = 20.0f;
         public float MaxFallSpeed = 40.0f;
 
-        [Tooltip("Useful for rough ground")]
+        [Header("Useful for rough ground")]
         public float GroundedOffset = -0.14f;
 
-        [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
+        [Header("The radius of the grounded check. Should match the radius of the CharacterController")]
         public float GroundedRadius = 0.28f;
 
-        [Tooltip("What layers the character uses as ground")]
+        [Header("What layers the character uses as ground")]
         public LayerMask GroundLayers;
     }
 }

@@ -79,7 +79,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.28
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -110,6 +110,9 @@ MonoBehaviour:
   IsInvincible: 0
   IsDead: 0
   InputEnabled: 1
+  AppliedForce: {x: 0, y: 0, z: 0}
+  ForceMultiplier: 10
+  ForceDuration: 1
   LookAt: 0
   LookDirection: {x: 0, y: 0, z: 1}
   IsReachedDestination: 0
@@ -212,7 +215,6 @@ GameObject:
   - component: {fileID: 2645242299661353564}
   - component: {fileID: 6739060165563876279}
   - component: {fileID: 8222014293300195213}
-  - component: {fileID: 8663901693549616676}
   m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
@@ -288,27 +290,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8663901693549616676
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4669017431552725172}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4932704801089464424
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +301,6 @@ GameObject:
   - component: {fileID: 168965292027851395}
   - component: {fileID: 6180138534958641144}
   - component: {fileID: 3943359066048968915}
-  - component: {fileID: 8503840517852648114}
   m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
@@ -397,26 +377,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8503840517852648114
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4932704801089464424}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.28
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}

@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.Rendering;
 using UnityEngine.TextCore.Text;
@@ -65,18 +66,6 @@ namespace Core
         public Vector3 LookDirection = Vector3.forward;
 
         private CharacterStateMachine stateMachine;
-        private Animator animator;
-        private int animatorBaseLayerIndex = 0;
-
-        private float animationBlend = 0f;
-        private int AnimationID_Speed = Animator.StringToHash("Speed");
-        private int AnimationID_IsGrounded = Animator.StringToHash("IsGrounded");
-        private int AnimationID_IsRolling = Animator.StringToHash("IsRolling");
-        private int AnimationID_IsDead = Animator.StringToHash("IsDead");
-        private int AnimationID_MotionSpeed = Animator.StringToHash("MotionSpeed");
-        private int AnimationID_Attack = Animator.StringToHash("Attack"); // TODO: 애니메이터 컨트롤러에 매개변수 추가
-        private int AnimationID_FreeFall = Animator.StringToHash("FreeFall");
-
         // TODO: AI 관련. 나중에 따로 클래스 만들수도
         public bool IsReachedDestination = false;
         public Character ChaseTarget;
@@ -122,12 +111,6 @@ namespace Core
                 Debug.LogWarning($"{name}의 CharacterStateMachine 컴포넌트가 없습니다. 새로 추가해주세요.");
             }
 
-            animator = GetComponent<Animator>();
-            if (!animator)
-            {
-                Debug.LogWarning($"{name}의 Animator 컴포넌트가 없습니다. 새로 추가해주세요.");
-            }
-
             NavMeshPath = new NavMeshPath();
 
             Initialize();
@@ -147,7 +130,6 @@ namespace Core
             UpdateVerticalSpeed();
             UpdateMovementVector();
             UpdateRotation();
-            UpdateAnimations();
 
             // 게임 시스템
             UpdateRollCooldownTime();
@@ -260,6 +242,10 @@ namespace Core
                 ForceElapsedTime += Time.deltaTime;
                 float t = ForceElapsedTime / ForceDuration;
                 AppliedForce = Vector3.Lerp(AppliedForce, Vector3.zero, t);
+                if (t >= 1)
+                {
+                    ForceElapsedTime = 0f;
+                }
             }
 
             movement += AppliedForce * Time.deltaTime;
@@ -283,6 +269,10 @@ namespace Core
             else
             {
                 Vector3 horizontalMovementVector = new Vector3(Controller.MovementVector.x, 0, Controller.MovementVector.z);
+                if (IsMovementVectorOverrided)
+                {
+                    horizontalMovementVector = new Vector3(Controller.MovementInput.x, 0, Controller.MovementInput.y);
+                }
                 if (horizontalMovementVector.sqrMagnitude > 0.0f)
                 {
                     float rotationSpeed = Mathf.Lerp(MovementSettings.MaxRotationSpeed, MovementSettings.MinRotationSpeed, HorizontalSpeed / TargetHorizontalSpeed);
@@ -294,40 +284,13 @@ namespace Core
                 }
             }
         }
-
-        /// <summary>
-        /// 캐릭터의 애니메이터 파라미터값들을 갱신한다.
-        /// </summary>
-        private void UpdateAnimations()
-        {
-            float currentSpeed = (Velocity.magnitude + 0.0001f) / (MovementSettings.WalkSpeed + 0.0001f);
-            if (currentSpeed <= 0.001f)
-                currentSpeed = 0;
-
-            animator.SetFloat(AnimationID_MotionSpeed, 1f); // TODO: 이속 빨라지거나 느려지면(ex: 디버프) 로코모션 재생속도 증감
-            animator.SetFloat(AnimationID_Speed, currentSpeed);
-            // animator.SetBool(AnimationID_Attack, IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
-            animator.SetBool(AnimationID_IsGrounded, IsGrounded);
-            animator.SetBool(AnimationID_IsRolling, IsRolling);
-            animator.SetBool(AnimationID_IsDead, IsDead);
-            /*
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (_animationBlend < 0.01f) _animationBlend = 0f;
-
-            animator.SetBool(AnimationID_Grounded, IsGrounded);
-            animator.SetFloat(AnimationID_Speed, 1f);
-            animator.SetFloat(AnimationID_MotionSpeed, 1f);
-            animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-            if (animationBlend < 0.01f) animationBlend = 0f;
-            */
-        }
-
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             Character hitCharacter = hit.gameObject.GetComponent<Character>();
             if (hitCharacter)
             {
-                if (Velocity.magnitude >= 0)
+                Debug.Log($"{name} is hit {hitCharacter.name}");
+                if (Controller.MovementInput.magnitude > 0.0f)
                 {
                     hitCharacter.AddForce(Controller.MovementVector);
                 }

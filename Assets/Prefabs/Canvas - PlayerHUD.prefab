@@ -596,8 +596,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Widget: {fileID: 1369167430975493623}
-  Ease: 31
-  Time: 0.3
 --- !u!1 &8656279069703905152
 GameObject:
   m_ObjectHideFlags: 0
