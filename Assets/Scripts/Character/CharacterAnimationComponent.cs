@@ -46,6 +46,7 @@ namespace Core
 
         private Character character;
         private Animator animator;
+        private CharacterMovementComponent movementComponent;
         private RuntimeAnimatorController runtimeAnimatorController;
         
         private MultiAimConstraint multiAimConstraint;
@@ -54,6 +55,7 @@ namespace Core
         {
             character = GetComponent<Character>();
             animator = GetComponent<Animator>();
+            movementComponent = GetComponent<CharacterMovementComponent>();
 
             runtimeAnimatorController = animator.runtimeAnimatorController;
 
@@ -74,7 +76,7 @@ namespace Core
             UpdateLocomotionParameters();
 
             animator.SetBool(Animator_Parameter_Hash_Attack, character.IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
-            animator.SetBool(Animator_Parameter_Hash_IsGrounded, character.IsGrounded);
+            animator.SetBool(Animator_Parameter_Hash_IsGrounded, movementComponent.IsGrounded);
             animator.SetBool(Animator_Parameter_Hash_IsRolling, character.IsRolling);
             animator.SetBool(Animator_Parameter_Hash_IsDead, character.IsDead);
             /*
@@ -87,14 +89,14 @@ namespace Core
         {
             // 걷기 상태일때는 Animator_Threshold_Walk값에, 뜀 상태일때는 Animator_Threshold_Run값에 맞춰준다.
             float speedRatio = 0f;
-            if (character.HorizontalSpeed <= character.MovementSettings.WalkSpeed)
+            if (movementComponent.HorizontalSpeed <= movementComponent.MovementSettings.WalkSpeed)
             {
-                speedRatio = Animator_Threshold_Walk * (character.HorizontalSpeed / character.MovementSettings.WalkSpeed);
+                speedRatio = Animator_Threshold_Walk * (movementComponent.HorizontalSpeed / movementComponent.MovementSettings.WalkSpeed);
             }
             else
             {
                 speedRatio = Animator_Threshold_Walk + 
-                    ((character.HorizontalSpeed - character.MovementSettings.WalkSpeed) / (character.MovementSettings.RunSpeed - character.MovementSettings.WalkSpeed)) * 
+                    ((movementComponent.HorizontalSpeed - movementComponent.MovementSettings.WalkSpeed) / (movementComponent.MovementSettings.RunSpeed - movementComponent.MovementSettings.WalkSpeed)) * 
                     (Animator_Threshold_Run - Animator_Threshold_Walk);
             }
             animator.SetFloat(Animator_Parameter_Hash_Speed, speedRatio);

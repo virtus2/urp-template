@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5768883128483222985}
   - component: {fileID: 7287450583045578979}
   - component: {fileID: 9184021362339087283}
+  - component: {fileID: 3798384788731319143}
   m_Layer: 3
   m_Name: AICharacter - Idle
   m_TagString: Player
@@ -169,26 +170,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterType: 2
-  MovementSettings: {fileID: 11400000, guid: 9e5f34e1980cb2446ad929a62810ea29, type: 2}
   RollingSettings: {fileID: 11400000, guid: f1a53473311eaa040b0b28f4d51f0b86, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
   RollingCooldownTime: 0
-  IsGrounded: 1
   IsAttacking: 0
-  IsWalkedOffALedge: 0
   IsInvincible: 0
   IsDead: 0
   InputEnabled: 1
-  AppliedForce: {x: 0, y: 0, z: 0}
-  ForceMultiplier: 10
-  ForceDuration: 1
-  LookAt: 0
-  LookDirection: {x: 0, y: 0, z: 1}
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
-  Model: {fileID: 4932704801089464424}
   FootstepAudioSource: {fileID: 0}
   FootstepAudioClip: {fileID: 0}
   FootstepParticleSystem: {fileID: 0}
@@ -243,6 +235,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3798384788731319143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752696769910348834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2a420246f30054896a94a6f792930f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsGrounded: 0
+  IsWalkedOffALedge: 0
+  MovementSettings: {fileID: 11400000, guid: 36a619db2ea29b348a4e39a53e922f07, type: 2}
+  HorizontalSpeed: 0
+  TargetHorizontalSpeed: 0
+  VerticalSpeed: 0
+  AccelerateToTargetHorizontalSpeed: 1
+  LookAt: 0
+  LookDirection: {x: 0, y: 0, z: 1}
+  AppliedForce: {x: 0, y: 0, z: 0}
+  ForceMultiplier: 10
+  ForceDuration: 1
 --- !u!1 &4669017431552725172
 GameObject:
   m_ObjectHideFlags: 0

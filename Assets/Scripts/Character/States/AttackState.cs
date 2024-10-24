@@ -16,13 +16,14 @@ namespace Core
             timeElapsed = 0.0f;
 
             character.IsAttacking = true;
-            character.SetOverrideMovementVector(true, Vector2.zero);
+            // TODO: 공격할때 가만히 서있을지 아니면 살짝 이동시킬지
+            // character.SetOverrideMovementVector(true, Vector2.zero);
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
             character.IsAttacking = false;
-            character.SetOverrideMovementVector(false, Vector2.zero);
+            // character.SetOverrideMovementVector(false, Vector2.zero);
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)

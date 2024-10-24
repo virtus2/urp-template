@@ -14,8 +14,9 @@ namespace Core
         {
             timeElapsed = 0.0f;
             character.IsRolling = true;
-            character.AccelerateToTargetHorizontalSpeed = character.RollingSettings.AccelerationToTargetSpeed; // 구르기 상태에서는 가속/감속 없이 속력을 일시적으로 변경한다.
-            character.SetOverrideMovementVector(true, character.Controller.MovementInput); // 구르기 상태는 입력한 방향으로 강제로 움직인다.
+            // TODO: 구르기 다시 구현
+            // character.AccelerateToTargetHorizontalSpeed = character.RollingSettings.AccelerationToTargetSpeed; // 구르기 상태에서는 가속/감속 없이 속력을 일시적으로 변경한다.
+            // character.SetOverrideMovementVector(true, character.Controller.MovementInput); // 구르기 상태는 입력한 방향으로 강제로 움직인다.
             character.RollingCooldownTime = 0.0f;
         }
 
@@ -23,25 +24,27 @@ namespace Core
         {
             timeElapsed = 0.0f;
             character.IsRolling = false;
-            character.AccelerateToTargetHorizontalSpeed = true; // 가속/감속을 다시 원래대로 되돌린다.
-            character.SetOverrideMovementVector(false, Vector2.zero); // 인풋 방향대로 움직이도록 되돌린다.
+            // character.AccelerateToTargetHorizontalSpeed = true; // 가속/감속을 다시 원래대로 되돌린다.
+            // character.SetOverrideMovementVector(false, Vector2.zero); // 인풋 방향대로 움직이도록 되돌린다.
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
             timeElapsed += Time.deltaTime;
-            character.TargetHorizontalSpeed = character.RollingSettings.RollingSpeedCurve.Evaluate(timeElapsed);
+            character.MovementComponent.TargetHorizontalSpeed = character.RollingSettings.RollingSpeedCurve.Evaluate(timeElapsed);
 
             if (timeElapsed >= character.RollingSettings.RollingDuration)
             {
                 if (character.Controller.MovementInput == Vector2.zero)
                 {
-                    character.HorizontalSpeed = character.TargetHorizontalSpeed = character.MovementSettings.WalkSpeed;
+                    character.MovementComponent.HorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
+                    character.MovementComponent.TargetHorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
                     stateMachine.TransitionToState(CharacterState.Idle);
                 }
                 else
                 {
-                    character.HorizontalSpeed = character.TargetHorizontalSpeed = character.MovementSettings.WalkSpeed;
+                    character.MovementComponent.HorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
+                    character.MovementComponent.TargetHorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
                     stateMachine.TransitionToState(CharacterState.GroundMove);
                 }
             }

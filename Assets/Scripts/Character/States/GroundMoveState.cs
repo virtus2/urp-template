@@ -11,8 +11,8 @@ namespace Core
 
         public void OnStateEnter(Character character, CharacterState prevState)
         {
-            character.AccelerateToTargetHorizontalSpeed = true;
-            character.TargetHorizontalSpeed = character.Controller.RunPressed ? character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
+            character.MovementComponent.TargetHorizontalSpeed = character.Controller.RunPressed ? 
+                character.MovementComponent.MovementSettings.RunSpeed : character.MovementComponent.MovementSettings.WalkSpeed;
         }
 
         public void OnStateExit(Character character, CharacterState newState)
@@ -24,7 +24,7 @@ namespace Core
             // GroundMove 상태에서 이동 입력이 없으면 Idle 상태로 전환한다.
             if (character.Controller.MovementInput == Vector2.zero)
             {
-                character.TargetHorizontalSpeed = 0.0f;
+                character.MovementComponent.TargetHorizontalSpeed = 0.0f;
                 stateMachine.TransitionToState(CharacterState.Idle);
                 return;
             }
@@ -43,7 +43,8 @@ namespace Core
                 return;
             }
 
-            character.TargetHorizontalSpeed = character.Controller.RunPressed ? character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
+            character.MovementComponent.TargetHorizontalSpeed = character.Controller.RunPressed ?
+                character.MovementComponent.MovementSettings.RunSpeed : character.MovementComponent.MovementSettings.WalkSpeed;
         }
     }
 }
