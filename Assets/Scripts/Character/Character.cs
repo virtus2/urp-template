@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KinematicCharacterController;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -30,11 +31,10 @@ namespace Core
         public RollingSettings RollingSettings;
 
         public CharacterMovementComponent MovementComponent { get; private set; }
-        public Vector3 Velocity => Controller.Velocity;
-        public float CapsuleRadius => Controller.Radius;
         public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
 
         [Header("캐릭터 상태")]
+        // public ICharacterController Controller;
         public BaseCharacterController Controller;
         public ECharacterControllerType ControllerType;
         public bool IsRolling = false;
@@ -54,28 +54,6 @@ namespace Core
         public AudioSource FootstepAudioSource;
         public AudioClip FootstepAudioClip;
         public ParticleSystem FootstepParticleSystem;
-
-        /// <summary>
-        /// 이 캐릭터를 조종할 컨트롤러를 설정한다.
-        /// </summary>
-        /// <param name="controller"></param>
-        public void SetController(BaseCharacterController controller)
-        {
-            this.Controller = controller;
-            if (controller is AICharacterController)
-            {
-                ControllerType = ECharacterControllerType.AI;
-            }
-            else if (controller is PlayerCharacterController)
-            {
-                ControllerType = ECharacterControllerType.Player;
-            }
-            else
-            {
-                ControllerType = ECharacterControllerType.None;
-            }
-        }
-
         public void TransitionToState(CharacterState characterState)
         {
             stateMachine.TransitionToState(characterState);
@@ -83,12 +61,8 @@ namespace Core
 
         private void Awake()
         {
+            Controller = GetComponent<BaseCharacterController>();
             stateMachine = GetComponent<CharacterStateMachine>();
-            if (!stateMachine)
-            {
-                Debug.LogWarning($"{name}의 CharacterStateMachine 컴포넌트가 없습니다. 새로 추가해주세요.");
-            }
-
             MovementComponent = GetComponent<CharacterMovementComponent>();
 
             NavMeshPath = new NavMeshPath();

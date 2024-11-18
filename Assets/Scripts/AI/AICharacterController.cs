@@ -13,10 +13,5 @@ namespace Core
     {
         private BehaviorGraphAgent agent;
         public GameObject chaseTarget;
-
-        public override void SetCharacter(Character character)
-        {
-            base.SetCharacter(character); 
-        }
     }
 }

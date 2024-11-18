@@ -14,7 +14,7 @@ namespace Core
         {
             character.IsDead = true;
             character.InputEnabled = false;
-            character.Controller.SetDetectCollisions(false);
+            character.Controller.SetCollisions(false);
             // TODO: ·¡±×µ¹?
         }
 
@@ -25,7 +25,7 @@ namespace Core
             {
                 character.IsDead = false;
                 character.InputEnabled = true;
-                character.Controller.SetDetectCollisions(true);
+                character.Controller.SetCollisions(true);
             }
         }
 

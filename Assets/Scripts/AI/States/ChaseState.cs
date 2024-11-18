@@ -33,7 +33,7 @@ namespace Core.AI
             if (!character.ChaseTarget) return;
 
             // 대상에 도착했을 때
-            if ((destination - character.transform.position).sqrMagnitude <= character.CapsuleRadius)
+            if ((destination - character.transform.position).sqrMagnitude <= character.Controller.Radius)
             {
                 // TODO: 공격이나 다른 행동
                 character.Controller.SetMovementInput(Vector2.zero);

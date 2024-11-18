@@ -9,13 +9,12 @@ namespace Core
         public static Player Instance;
 
         public Character PlayerCharacter { get; private set; }
+        public PlayerInputHandler PlayerInput { get; private set; }
 
         public Action<Character> OnPlayerCharacterSpawned;
 
         public PlayerSettings PlayerSetting;
 
-        private PlayerInputHandler inputHandler;
-        private PlayerCharacterController characterController;
         private PlayerHUD playerHUD;
         private PlayerCharacterWidget characterWidget;
         private Camera mainCamera;
@@ -25,8 +24,7 @@ namespace Core
         private void Awake()
         {
             Instance = this;
-            inputHandler = GetComponent<PlayerInputHandler>();
-            characterController = GetComponent<PlayerCharacterController>();
+            PlayerInput = GetComponent<PlayerInputHandler>();
         }
 
         public void SetMainCamera(Camera cam)
@@ -54,9 +52,8 @@ namespace Core
             PlayerCharacter.TransitionToState(CharacterState.Idle);
 
             // 캐릭터 컨트롤러 설정
-            PlayerCharacter.SetController(characterController);
-            characterController.SetCamera(mainCamera);
-            characterController.SetCharacter(PlayerCharacter);
+            var playerCharacterController = PlayerCharacter.GetComponent<PlayerCharacterController>();
+            playerCharacterController.SetCamera(mainCamera);
 
             // 시네머신 카메라 팔로우 대상 지정
             cinemachineVirtualCamera.Follow = PlayerCharacter.transform;

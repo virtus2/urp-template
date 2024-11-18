@@ -11,38 +11,45 @@ namespace Core
     /// </summary>
     public class PlayerCharacterController : BaseCharacterController
     {
-        private PlayerInputHandler inputHandler;
         private Camera playerCamera;
-
-        private void Awake()
-        {
-            inputHandler = GetComponent<PlayerInputHandler>();
-        }
 
         public void SetCamera(Camera camera)
         {
             playerCamera = camera;
         }
 
-        protected override void Update()
+        private void Update()
         {
-            Vector2 playerInput = inputHandler.MoveInput;
+            HandleCharacterInput();
+        }
+
+        private void LateUpdate()
+        {
+            HandleCameraInput();   
+        }
+
+        private void HandleCharacterInput()
+        {
+            Vector2 playerInput = Player.Instance.PlayerInput.MoveInput;
             playerInput.Normalize();
             SetMovementInput(playerInput);
 
-            RunPressed = inputHandler.RunInput;
-            RollPressed = inputHandler.RollInput;
-            AttackPressed = inputHandler.AttackInput;
-            InteractPressed = inputHandler.InteractInput;
+            RunPressed = Player.Instance.PlayerInput.RunInput;
+            RollPressed = Player.Instance.PlayerInput.RollInput;
+            AttackPressed = Player.Instance.PlayerInput.AttackInput;
+            InteractPressed = Player.Instance.PlayerInput.InteractInput;
             if (character)
             {
-                LookVector = inputHandler.MousePositionWorld - character.transform.position;
+                LookVector = Player.Instance.PlayerInput.MousePositionWorld - character.transform.position;
                 // HACK: Top view이기때문에 y축은 사용안함
                 LookVector.y = 0;
             }
-            
-
-            base.Update();
         }
+
+        private void HandleCameraInput()
+        {
+
+        }
+
     }
 }

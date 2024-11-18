@@ -31,9 +31,6 @@ namespace Core
             asyncOperation.Completed += (handle) =>
             {
                 Character spawnedCharacter = handle.Result;
-                var controller = Instantiate(characterController);
-                controller.SetCharacter(spawnedCharacter);
-                spawnedCharacter.SetController(controller);
                 spawnedCharacter.transform.position = transform.position;
             };
         }

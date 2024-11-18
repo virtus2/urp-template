@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Core
 {
-    [RequireComponent(typeof(Character))]
     public class CharacterStateMachine : MonoBehaviour
     {
         public CharacterState CurrentState;

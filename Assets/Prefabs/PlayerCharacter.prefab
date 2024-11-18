@@ -143,7 +143,6 @@ GameObject:
   - component: {fileID: 9052034079466299235}
   - component: {fileID: 2198926618880577176}
   - component: {fileID: 1519123094692416831}
-  - component: {fileID: 3127483533984308044}
   - component: {fileID: 89967063046473660}
   - component: {fileID: 2397998499951101809}
   - component: {fileID: 3979758749422762738}
@@ -151,6 +150,9 @@ GameObject:
   - component: {fileID: 5844424482811405405}
   - component: {fileID: 6322914317650702322}
   - component: {fileID: 1638293209594597735}
+  - component: {fileID: 2044772619162179928}
+  - component: {fileID: 5131562268673573708}
+  - component: {fileID: 2949417175392457190}
   m_Layer: 3
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -420,31 +422,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!143 &3127483533984308044
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324157563107869553}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.28
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!114 &89967063046473660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,9 +551,106 @@ MonoBehaviour:
   AccelerateToTargetHorizontalSpeed: 1
   LookAt: 0
   LookDirection: {x: 0, y: 0, z: 1}
-  AppliedForce: {x: 0, y: 0, z: 0}
-  ForceMultiplier: 10
-  ForceDuration: 1
+  ImpulseToApply: {x: 0, y: 0, z: 0}
+  ForceToApply: {x: 0, y: 0, z: 0}
+  Mass: 1
+--- !u!136 &2044772619162179928
+CapsuleCollider:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324157563107869553}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5131562268673573708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324157563107869553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d1bc5515e3ab954e80599c538834774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Capsule: {fileID: 2044772619162179928}
+  CapsuleRadius: 0.5
+  CapsuleHeight: 2
+  CapsuleYOffset: 1
+  CapsulePhysicsMaterial: {fileID: 0}
+  GroundDetectionExtraDistance: 0
+  MaxStableSlopeAngle: 60
+  StableGroundLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  DiscreteCollisionEvents: 0
+  StepHandling: 1
+  MaxStepHeight: 0.5
+  AllowSteppingWithoutStableGrounding: 0
+  MinRequiredStepDepth: 0.1
+  LedgeAndDenivelationHandling: 1
+  MaxStableDistanceFromLedge: 0.5
+  MaxVelocityForLedgeSnap: 0
+  MaxStableDenivelationAngle: 180
+  InteractiveRigidbodyHandling: 1
+  RigidbodyInteractionType: 0
+  SimulatedCharacterMass: 1
+  PreserveAttachedRigidbodyMomentum: 1
+  HasPlanarConstraint: 0
+  PlanarConstraintAxis: {x: 0, y: 0, z: 1}
+  MaxMovementIterations: 5
+  MaxDecollisionIterations: 1
+  CheckMovementInitialOverlaps: 1
+  KillVelocityWhenExceedMaxMovementIterations: 1
+  KillRemainingMovementWhenExceedMaxMovementIterations: 1
+--- !u!114 &2949417175392457190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324157563107869553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5dd291aa4bf6ba4e8afb427a08533fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LastMovementInput: {x: 0, y: 0}
+  MovementInput: {x: 0, y: 0}
+  MovementInputOverrided: {x: 0, y: 0}
+  MovementVector: {x: 0, y: 0, z: 0}
+  LookVector: {x: 0, y: 0, z: 0}
+  VerticalVelocity: 0
+  HasMovementInput: 0
+  RollPressed: 0
+  AttackPressed: 0
+  RunPressed: 0
+  InteractPressed: 0
+  MaxStableMoveSpeed: 10
+  StableMovementSharpness: 15
+  AirAccelerationSpeed: 5
+  MaxAirMoveSpeed: 10
+  Drag: 0.1
+  JumpUpSpeed: 10
+  JumpScalableForwardSpeed: 0
+  Gravity: {x: 0, y: -30, z: 0}
+  _internalVelocityAdd: {x: 0, y: 0, z: 0}
 --- !u!1 &546690503238867634
 GameObject:
   m_ObjectHideFlags: 0
