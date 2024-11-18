@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Windows;
+using static UnityEditor.AddressableAssets.Build.BuildPipelineTasks.GenerateLocationListsTask;
 
 namespace Core
 {
@@ -30,9 +31,19 @@ namespace Core
 
         private void HandleCharacterInput()
         {
+            // Calculate camera direction and rotation on the character plane
+            Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(playerCamera.transform.rotation * Vector3.forward, motor.CharacterUp).normalized;
+            if (cameraPlanarDirection.sqrMagnitude == 0f)
+            {
+                cameraPlanarDirection = Vector3.ProjectOnPlane(playerCamera.transform.rotation * Vector3.up, motor.CharacterUp).normalized;
+            }
+            Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, motor.CharacterUp);
+
             Vector2 playerInput = Player.Instance.PlayerInput.MoveInput;
-            playerInput.Normalize();
-            SetMovementInput(playerInput);
+            Vector3 playerMovementInput = Vector3.ClampMagnitude(new Vector3(playerInput.x, 0f, playerInput.y), 1f);
+
+            SetInput(cameraPlanarRotation * playerMovementInput);
+            // SetMovementInput(playerInput);
 
             RunPressed = Player.Instance.PlayerInput.RunInput;
             RollPressed = Player.Instance.PlayerInput.RollInput;
@@ -48,7 +59,33 @@ namespace Core
 
         private void HandleCameraInput()
         {
+            // Create the look input vector for the camera
+            float mouseLookAxisUp = Player.Instance.PlayerInput.LookInput.y;
+            float mouseLookAxisRight = Player.Instance.PlayerInput.LookInput.x;
+            Vector3 lookInputVector = new Vector3(mouseLookAxisRight, mouseLookAxisUp, 0f);
 
+            // Prevent moving the camera while the cursor isn't locked
+            if (Cursor.lockState != CursorLockMode.Locked)
+            {
+                lookInputVector = Vector3.zero;
+            }
+
+            /*
+            // Input for zooming the camera (disabled in WebGL because it can cause problems)
+            float scrollInput = -Input.GetAxis(MouseScrollInput);
+#if UNITY_WEBGL
+        scrollInput = 0f;
+#endif
+
+            // Apply inputs to the camera
+            CharacterCamera.UpdateWithInput(Time.deltaTime, scrollInput, lookInputVector);
+
+            // Handle toggling zoom level
+            if (Input.GetMouseButtonDown(1))
+            {
+                CharacterCamera.TargetDistance = (CharacterCamera.TargetDistance == 0f) ? CharacterCamera.DefaultDistance : 0f;
+            }
+            */
         }
 
     }

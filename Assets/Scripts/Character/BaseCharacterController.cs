@@ -14,7 +14,6 @@ namespace Core
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public Vector2 LastMovementInput;
         [ReadOnly] public Vector2 MovementInput; // 컨트롤러의 움직이는 방향 입력
-        public Vector2 MovementInputOverrided; 
         public Vector3 MovementVector; // 최종적으로 캐릭터가 움직이는 방향
         public Vector3 LookVector; 
         public float VerticalVelocity;
@@ -25,6 +24,7 @@ namespace Core
         public bool InteractPressed;
 
         // TODO: 새로 추가된 필드, 추후에 정리 (2024-11-18)
+        public Vector3 MovementInputVector;
         public List<Collider> IgnoredColliders = new List<Collider>();
         public float MaxStableMoveSpeed = 10f;
         public float StableMovementSharpness = 15;
@@ -35,7 +35,6 @@ namespace Core
         public float JumpScalableForwardSpeed = 0f;
         public Vector3 Gravity = new Vector3(0, -30f, 0);
         public Vector3 _internalVelocityAdd = Vector3.zero;
-
 
         protected Character character;
         protected CharacterStateMachine stateMachine;
@@ -60,6 +59,16 @@ namespace Core
 
             MovementInput = input;
             HasMovementInput = inputChanged;
+        }
+
+        public void SetInput(in Vector3 input)
+        {
+            MovementInputVector = input;
+        }
+
+        public void SetLookInput(Vector2 input)
+        {
+
         }
 
         public void SetCollisions(bool enable)
@@ -98,8 +107,8 @@ namespace Core
                 currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
 
                 // Calculate target velocity
-                Vector3 inputRight = Vector3.Cross(MovementInput, motor.CharacterUp);
-                Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * MovementInput.magnitude;
+                Vector3 inputRight = Vector3.Cross(MovementInputVector, motor.CharacterUp);
+                Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * MovementInputVector.magnitude;
                 Vector3 targetMovementVelocity = reorientedInput * MaxStableMoveSpeed;
 
                 // Smooth movement Velocity
@@ -109,9 +118,9 @@ namespace Core
             else
             {
                 // Add move input
-                if (MovementInput.sqrMagnitude > 0f)
+                if (MovementInputVector.sqrMagnitude > 0f)
                 {
-                    Vector3 addedVelocity = MovementInput * AirAccelerationSpeed * deltaTime;
+                    Vector3 addedVelocity = MovementInputVector * AirAccelerationSpeed * deltaTime;
 
                     Vector3 currentVelocityOnInputsPlane = Vector3.ProjectOnPlane(currentVelocity, motor.CharacterUp);
 
@@ -191,7 +200,7 @@ namespace Core
         }
         public void AfterCharacterUpdate(float deltaTime)
         {
-            throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         public void PostGroundingUpdate(float deltaTime)
