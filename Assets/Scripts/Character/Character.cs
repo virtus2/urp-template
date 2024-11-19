@@ -29,8 +29,8 @@ namespace Core
 
         [Header("캐릭터 설정값 ScriptableObjects")]
         public RollingSettings RollingSettings;
+        public MovementSettings MovementSettings;
 
-        public CharacterMovementComponent MovementComponent { get; private set; }
         public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
 
         [Header("캐릭터 상태")]
@@ -54,6 +54,7 @@ namespace Core
         public AudioSource FootstepAudioSource;
         public AudioClip FootstepAudioClip;
         public ParticleSystem FootstepParticleSystem;
+
         public void TransitionToState(CharacterState characterState)
         {
             stateMachine.TransitionToState(characterState);
@@ -63,7 +64,6 @@ namespace Core
         {
             Controller = GetComponent<BaseCharacterController>();
             stateMachine = GetComponent<CharacterStateMachine>();
-            MovementComponent = GetComponent<CharacterMovementComponent>();
 
             NavMeshPath = new NavMeshPath();
 
@@ -91,7 +91,7 @@ namespace Core
                 Debug.Log($"{name} is hit {hitCharacter.name}");
                 if (Controller.MovementInput.magnitude > 0.0f)
                 {
-                    hitCharacter.MovementComponent.AddImpulse(Controller.MovementVector);
+                    // hitCharacter.MovementComponent.AddImpulse(Controller.MovementVector);
                     // hitCharacter.AddForce(Controller.MovementVector);
                 }
             }

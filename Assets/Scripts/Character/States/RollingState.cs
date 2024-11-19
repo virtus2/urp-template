@@ -31,20 +31,20 @@ namespace Core
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
             timeElapsed += Time.deltaTime;
-            character.MovementComponent.TargetHorizontalSpeed = character.RollingSettings.RollingSpeedCurve.Evaluate(timeElapsed);
+            character.Controller.MaxStableMoveSpeed = character.RollingSettings.RollingSpeedCurve.Evaluate(timeElapsed);
 
             if (timeElapsed >= character.RollingSettings.RollingDuration)
             {
                 if (character.Controller.MovementInput == Vector2.zero)
                 {
-                    character.MovementComponent.HorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
-                    character.MovementComponent.TargetHorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
+                    character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
+                    character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
                     stateMachine.TransitionToState(CharacterState.Idle);
                 }
                 else
                 {
-                    character.MovementComponent.HorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
-                    character.MovementComponent.TargetHorizontalSpeed = character.MovementComponent.MovementSettings.WalkSpeed;
+                    character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
+                    character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
                     stateMachine.TransitionToState(CharacterState.GroundMove);
                 }
             }

@@ -36,6 +36,9 @@ namespace Core
         public Vector3 Gravity = new Vector3(0, -30f, 0);
         public Vector3 _internalVelocityAdd = Vector3.zero;
 
+        public bool IsGrounded { get; private set; }
+        public float HorizontalSpeed => motor ? motor.BaseVelocity.magnitude : 0f;
+
         protected Character character;
         protected CharacterStateMachine stateMachine;
         protected KinematicCharacterMotor motor;
@@ -253,10 +256,12 @@ namespace Core
 
         protected void OnLanded()
         {
+            IsGrounded = true;
         }
 
         protected void OnLeaveStableGround()
         {
+            IsGrounded = false;
         }
     }
 }

@@ -436,6 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterType: 1
   RollingSettings: {fileID: 11400000, guid: ff19860283f67844ea378adfd958f889, type: 2}
+  MovementSettings: {fileID: 11400000, guid: 36a619db2ea29b348a4e39a53e922f07, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
   IsRolling: 0
@@ -518,7 +519,7 @@ MonoBehaviour:
   AnimatorController: {fileID: 9100000, guid: 946be0680a8c02a4e9412b058a20b0db, type: 2}
   Animator_State_Name_Locomotion: Locomotion
   Animator_State_Name_Walk: Walk
-  Animator_State_Name_Run: Run
+  Animator_State_Name_Sprint: Sprint
   Animator_Parameter_Name_Speed: Speed
   Animator_Parameter_Name_IsGrounded: IsGrounded
   Animator_Parameter_Name_IsRolling: IsRolling
@@ -527,7 +528,7 @@ MonoBehaviour:
   Animator_Parameter_Name_Attack: Attack
   Animator_Parameter_Name_FreeFall: FreeFall
   Animator_Threshold_Walk: 0.5
-  Animator_Threshold_Run: 1
+  Animator_Threshold_Sprint: 1
   Animator_Layer_Name_BaseLayer: Base Layer
   Animator_Layer_Name_UpperLayer: Upper Layer
 --- !u!114 &1638293209594597735
@@ -633,7 +634,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LastMovementInput: {x: 0, y: 0}
   MovementInput: {x: 0, y: 0}
-  MovementInputOverrided: {x: 0, y: 0}
   MovementVector: {x: 0, y: 0, z: 0}
   LookVector: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
@@ -642,6 +642,8 @@ MonoBehaviour:
   AttackPressed: 0
   RunPressed: 0
   InteractPressed: 0
+  MovementInputVector: {x: 0, y: 0, z: 0}
+  IgnoredColliders: []
   MaxStableMoveSpeed: 10
   StableMovementSharpness: 15
   AirAccelerationSpeed: 5
