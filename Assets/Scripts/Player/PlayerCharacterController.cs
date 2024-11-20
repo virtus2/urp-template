@@ -42,7 +42,13 @@ namespace Core
             Vector2 playerInput = Player.Instance.PlayerInput.MoveInput;
             Vector3 playerMovementInput = Vector3.ClampMagnitude(new Vector3(playerInput.x, 0f, playerInput.y), 1f);
 
-            SetInput(cameraPlanarRotation * playerMovementInput);
+            Vector3 movementInputVector = cameraPlanarRotation * playerMovementInput;
+            SetInput(movementInputVector);
+            if (OrientationMethod == OrientationMethod.TowardsMovement)
+            {
+                SetLookInput(movementInputVector);
+            }
+
             // SetMovementInput(playerInput);
 
             RunPressed = Player.Instance.PlayerInput.RunInput;

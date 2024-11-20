@@ -149,7 +149,6 @@ GameObject:
   - component: {fileID: 554584831391554859}
   - component: {fileID: 5844424482811405405}
   - component: {fileID: 6322914317650702322}
-  - component: {fileID: 1638293209594597735}
   - component: {fileID: 2044772619162179928}
   - component: {fileID: 5131562268673573708}
   - component: {fileID: 2949417175392457190}
@@ -462,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c1c2ce29b6e5b42b06eed6c7bfb9d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  CurrentState: 2
   PreviousState: 0
 --- !u!114 &3979758749422762738
 MonoBehaviour:
@@ -531,30 +530,6 @@ MonoBehaviour:
   Animator_Threshold_Sprint: 1
   Animator_Layer_Name_BaseLayer: Base Layer
   Animator_Layer_Name_UpperLayer: Upper Layer
---- !u!114 &1638293209594597735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324157563107869553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d2a420246f30054896a94a6f792930f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsGrounded: 1
-  IsWalkedOffALedge: 0
-  MovementSettings: {fileID: 11400000, guid: 36a619db2ea29b348a4e39a53e922f07, type: 2}
-  HorizontalSpeed: 0
-  TargetHorizontalSpeed: 0
-  VerticalSpeed: 0
-  AccelerateToTargetHorizontalSpeed: 1
-  LookAt: 0
-  LookDirection: {x: 0, y: 0, z: 1}
-  ImpulseToApply: {x: 0, y: 0, z: 0}
-  ForceToApply: {x: 0, y: 0, z: 0}
-  Mass: 1
 --- !u!136 &2044772619162179928
 CapsuleCollider:
   m_ObjectHideFlags: 8
@@ -643,6 +618,7 @@ MonoBehaviour:
   RunPressed: 0
   InteractPressed: 0
   MovementInputVector: {x: 0, y: 0, z: 0}
+  LookInputVector: {x: 0, y: 0, z: 0}
   IgnoredColliders: []
   MaxStableMoveSpeed: 10
   StableMovementSharpness: 15
@@ -653,6 +629,9 @@ MonoBehaviour:
   JumpScalableForwardSpeed: 0
   Gravity: {x: 0, y: -30, z: 0}
   _internalVelocityAdd: {x: 0, y: 0, z: 0}
+  OrientationMethod: 1
+  OrientationSharpness: 10
+  BonusOrientationSharpness: 10
 --- !u!1 &546690503238867634
 GameObject:
   m_ObjectHideFlags: 0
