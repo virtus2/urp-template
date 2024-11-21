@@ -67,5 +67,10 @@ namespace Core
         {
             States[state].OnStateExit(character, newState);
         }
+
+        public ICharacterState GetCurrentState()
+        {
+            return States[CurrentState];
+        }
     }
 }

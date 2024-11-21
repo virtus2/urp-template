@@ -1,3 +1,5 @@
+using KinematicCharacterController;
+
 namespace Core
 {
     public enum CharacterState
@@ -29,5 +31,6 @@ namespace Core
         void OnStateEnter(Character character, CharacterState prevState);
         void OnStateExit(Character character, CharacterState newState);
         void UpdateState(Character character, CharacterStateMachine stateMachine);
+        UnityEngine.Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor);
     }
 }

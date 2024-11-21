@@ -1,3 +1,4 @@
+using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,11 @@ namespace Core
                 stateMachine.TransitionToState(CharacterState.Idle);
                 return;
             }
+        }
+
+        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        {
+            return Vector3.zero;
         }
     }
 }

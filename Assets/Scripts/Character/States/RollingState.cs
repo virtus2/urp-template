@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using KinematicCharacterController;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace Core
 
             if (timeElapsed >= character.RollingSettings.RollingDuration)
             {
-                if (character.Controller.MovementInput == Vector2.zero)
+                if (character.Controller.MovementInputVector.sqrMagnitude > float.Epsilon)
                 {
                     character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
                     character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
@@ -48,6 +49,11 @@ namespace Core
                     stateMachine.TransitionToState(CharacterState.GroundMove);
                 }
             }
+        }
+
+        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        {
+            return Vector3.zero;
         }
     }
 }

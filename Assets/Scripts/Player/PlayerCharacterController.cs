@@ -43,7 +43,7 @@ namespace Core
             Vector3 playerMovementInput = Vector3.ClampMagnitude(new Vector3(playerInput.x, 0f, playerInput.y), 1f);
 
             Vector3 movementInputVector = cameraPlanarRotation * playerMovementInput;
-            SetInput(movementInputVector);
+            SetMovementInput(movementInputVector);
             if (OrientationMethod == OrientationMethod.TowardsMovement)
             {
                 SetLookInput(movementInputVector);

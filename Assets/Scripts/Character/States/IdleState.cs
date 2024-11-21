@@ -1,3 +1,4 @@
+using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace Core
     public class IdleState : ICharacterState
     {
         public CharacterState State => CharacterState.Idle;
-        
+
         public void OnStateEnter(Character character, CharacterState prevState)
         {
         }
@@ -19,7 +20,7 @@ namespace Core
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
             // 이동 입력이 있을 때
-            if(character.Controller.MovementInput != Vector2.zero)
+            if(character.Controller.MovementInputVector.sqrMagnitude > float.Epsilon)
             {
                 if(character.Controller.RollPressed && character.CanRoll())
                 {
@@ -35,6 +36,11 @@ namespace Core
                 stateMachine.TransitionToState(CharacterState.Attack);
                 return;
             }
+        }
+
+        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        {
+            return Vector3.zero;
         }
     }
 }

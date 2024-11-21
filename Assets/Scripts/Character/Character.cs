@@ -89,7 +89,7 @@ namespace Core
             if (hitCharacter)
             {
                 Debug.Log($"{name} is hit {hitCharacter.name}");
-                if (Controller.MovementInput.magnitude > 0.0f)
+                if (Controller.MovementInputVector.magnitude > 0.0f)
                 {
                     // hitCharacter.MovementComponent.AddImpulse(Controller.MovementVector);
                     // hitCharacter.AddForce(Controller.MovementVector);

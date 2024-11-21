@@ -1,3 +1,4 @@
+using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditorInternal;
@@ -31,6 +32,11 @@ namespace Core
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
+        }
+
+        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        {
+            return Vector3.zero;
         }
     }
 }

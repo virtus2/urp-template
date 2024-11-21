@@ -9,6 +9,7 @@ namespace Core
     [RequireComponent(typeof(Character))]
     public class CharacterMovementComponent : MonoBehaviour
     {
+        /*
         public bool IsGrounded = false;
         public bool IsWalkedOffALedge = false; // Grounded상태였다가 떨어지기 시작한 순간의 프레임에 true
 
@@ -212,5 +213,6 @@ namespace Core
                 Gizmos.DrawRay(transform.position, Controller.LastMovementInput);
             }
         }
+        */
     }
 }
