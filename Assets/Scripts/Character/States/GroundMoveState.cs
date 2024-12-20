@@ -48,11 +48,22 @@ namespace Core
                 character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
         }
 
-        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        public Quaternion GetCurrentRotation(Character character, KinematicCharacterMotor motor, float deltaTime)
         {
-            Vector3 currentVelocity = character.Controller.Velocity;
-            float deltaTime = Time.deltaTime;
+            Quaternion currentRotation = motor.TransientRotation;
+            if (character.Controller.LookInputVector.sqrMagnitude > 0f && character.Controller.OrientationSharpness > 0f)
+            {
+                // Smoothly interpolate from current to target look direction
+                Vector3 smoothedLookInputDirection = Vector3.Slerp(motor.CharacterForward, character.Controller.LookInputVector, 1 - Mathf.Exp(-character.Controller.OrientationSharpness * deltaTime)).normalized;
 
+                // Set the current rotation (which will be used by the KinematicCharacterMotor)
+                currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, motor.CharacterUp);
+            }
+            return currentRotation;
+        }
+
+        public void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
+        {
             // Ground movement
             if (motor.GroundingStatus.IsStableOnGround)
             {
@@ -117,8 +128,6 @@ namespace Core
                 // Drag
                 currentVelocity *= (1f / (1f + (character.Controller.Drag * deltaTime)));
             }
-
-            return currentVelocity;
         }
     }
 }

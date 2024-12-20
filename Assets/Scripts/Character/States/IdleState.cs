@@ -38,9 +38,22 @@ namespace Core
             }
         }
 
-        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        public Quaternion GetCurrentRotation(Character character, KinematicCharacterMotor motor, float deltaTime)
         {
-            return Vector3.zero;
+            return motor.TransientRotation;
+        }
+
+        public void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
+        {
+            if (motor.GroundingStatus.IsStableOnGround)
+            {
+                currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, 1f - Mathf.Exp(-character.Controller.StableMovementSharpness * deltaTime));
+            }
+            else
+            {
+                // Gravity
+                currentVelocity += character.Controller.Gravity * deltaTime;
+            }
         }
     }
 }

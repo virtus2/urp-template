@@ -51,9 +51,14 @@ namespace Core
             }
         }
 
-        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        public Quaternion GetCurrentRotation(Character character, KinematicCharacterMotor motor, float deltaTime)
         {
-            return Vector3.zero;
+            return Quaternion.identity;
+        }
+
+        public void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
+        {
+
         }
     }
 }

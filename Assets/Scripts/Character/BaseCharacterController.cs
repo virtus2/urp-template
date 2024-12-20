@@ -48,7 +48,9 @@ namespace Core
 
         // 내가 추가한 필드
         public bool IgnoreMovementInput = false;
-
+        public AnimationCurve AttackVelocityCurve;
+        public float AttackVelocityMultiplier = 1f;
+        public float AttackDuration = 0.2f;
         public bool IsGrounded { get; private set; }
         public float HorizontalSpeed => motor ? motor.BaseVelocity.magnitude : 0f;
 
@@ -94,15 +96,7 @@ namespace Core
 
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            if (LookInputVector.sqrMagnitude > 0f && OrientationSharpness > 0f)
-            {
-                // Smoothly interpolate from current to target look direction
-                Vector3 smoothedLookInputDirection = Vector3.Slerp(motor.CharacterForward, LookInputVector, 1 - Mathf.Exp(-OrientationSharpness * deltaTime)).normalized;
-
-                // Set the current rotation (which will be used by the KinematicCharacterMotor)
-                currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, motor.CharacterUp);
-            }
-
+            currentRotation = stateMachine.GetCurrentState().GetCurrentRotation(character, motor, deltaTime);
             Vector3 currentUp = (currentRotation * Vector3.up);
             /*
             if (BonusOrientationMethod == BonusOrientationMethod.TowardsGravity)
@@ -139,7 +133,8 @@ namespace Core
 
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            currentVelocity = stateMachine.GetCurrentState().GetCurrentVelocity(character, motor);
+            ICharacterState currentCharacterState = stateMachine.GetCurrentState();
+            currentCharacterState.UpdateVelocity(character, motor, ref currentVelocity, deltaTime);
 
             // Take into account additive velocity
             if (_internalVelocityAdd.sqrMagnitude > 0f)

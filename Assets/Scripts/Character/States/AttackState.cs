@@ -2,6 +2,7 @@ using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.Windows;
 
 namespace Core
@@ -9,7 +10,7 @@ namespace Core
     public class AttackState : ICharacterState
     {
         public CharacterState State => CharacterState.Attack;
-
+        public float AttackDuration = 0.2f;
         private float timeElapsed = 0.0f;
 
         public void OnStateEnter(Character character, CharacterState prevState)
@@ -17,29 +18,33 @@ namespace Core
             timeElapsed = 0.0f;
 
             character.IsAttacking = true;
-            // TODO: 공격할때 가만히 서있을지 아니면 살짝 이동시킬지
-            // character.SetOverrideMovementVector(true, Vector2.zero);
         }
 
         public void OnStateExit(Character character, CharacterState newState)
         {
             character.IsAttacking = false;
-            // character.SetOverrideMovementVector(false, Vector2.zero);
         }
 
         public void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
             timeElapsed += Time.deltaTime;
-            if(timeElapsed > 1.0f)
+            if(timeElapsed > AttackDuration)
             {
                 stateMachine.TransitionToState(CharacterState.Idle);
                 return;
             }
         }
 
-        public Vector3 GetCurrentVelocity(Character character, KinematicCharacterMotor motor)
+        public Quaternion GetCurrentRotation(Character character, KinematicCharacterMotor motor, float deltaTime)
         {
-            return Vector3.zero;
+            return motor.TransientRotation;
+        }
+
+        public void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 Velocity, float deltaTime)
+        {
+            Velocity += character.Controller.AttackVelocityCurve.Evaluate(timeElapsed) * 
+                character.Controller.AttackVelocityMultiplier *
+                motor.CharacterForward;
         }
     }
 }
