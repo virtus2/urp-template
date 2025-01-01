@@ -10,6 +10,7 @@ namespace Core
     {
         TowardsCamera,
         TowardsMovement,
+        TowardsCursor, // Only in Top View !!!
     }
 
     public abstract class BaseCharacterController : MonoBehaviour, ICharacterController
@@ -20,7 +21,6 @@ namespace Core
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public Vector2 LastMovementInput;
         
-        public Vector3 MovementVector; // 최종적으로 캐릭터가 움직이는 방향
         public Vector3 LookVector; 
         public float VerticalVelocity;
         public bool HasMovementInput;
@@ -41,7 +41,8 @@ namespace Core
         public float JumpUpSpeed = 10f;
         public float JumpScalableForwardSpeed = 0f;
         public Vector3 Gravity = new Vector3(0, -30f, 0);
-        public Vector3 _internalVelocityAdd = Vector3.zero;
+        public Vector3 internalVelocityAdd = Vector3.zero;
+        public Vector3 internalForceAdd = Vector3.zero;
         public OrientationMethod OrientationMethod = OrientationMethod.TowardsMovement;
         public float OrientationSharpness = 10f;
         public float BonusOrientationSharpness = 10f;
@@ -90,7 +91,7 @@ namespace Core
 
         public void AddVelocity(Vector3 velocity)
         {
-            _internalVelocityAdd += velocity;
+            internalVelocityAdd += velocity;
         }
 
         public void BeforeCharacterUpdate(float deltaTime)
@@ -141,10 +142,10 @@ namespace Core
             stateMachine.GetCurrentState().UpdateVelocity(character, motor, ref currentVelocity, deltaTime);
 
             // Take into account additive velocity
-            if (_internalVelocityAdd.sqrMagnitude > 0f)
+            if (internalVelocityAdd.sqrMagnitude > 0f)
             {
-                currentVelocity += _internalVelocityAdd;
-                _internalVelocityAdd = Vector3.zero;
+                currentVelocity += internalVelocityAdd;
+                internalVelocityAdd = Vector3.zero;
             }
         }
         public void AfterCharacterUpdate(float deltaTime)

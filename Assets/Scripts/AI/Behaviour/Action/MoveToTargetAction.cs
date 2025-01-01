@@ -44,6 +44,10 @@ namespace Core.AI
                         Vector3 toTarget = currentDestination - character.transform.position;
                         toTarget.Normalize();
                         character.Controller.SetMovementInput(toTarget);
+                        if (character.Controller.OrientationMethod == OrientationMethod.TowardsMovement)
+                        {
+                            character.Controller.SetLookInput(toTarget);
+                        }
                     }
                 }
             }

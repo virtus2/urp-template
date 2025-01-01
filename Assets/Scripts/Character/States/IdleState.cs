@@ -40,7 +40,16 @@ namespace Core
 
         public Quaternion GetCurrentRotation(Character character, KinematicCharacterMotor motor, float deltaTime)
         {
-            return motor.TransientRotation;
+            Quaternion currentRotation = motor.TransientRotation;
+            if (character.Controller.LookInputVector.sqrMagnitude > 0f && character.Controller.OrientationSharpness > 0f)
+            {
+                // Smoothly interpolate from current to target look direction
+                Vector3 smoothedLookInputDirection = Vector3.Slerp(motor.CharacterForward, character.Controller.LookInputVector, 1 - Mathf.Exp(-character.Controller.OrientationSharpness * deltaTime)).normalized;
+
+                // Set the current rotation (which will be used by the KinematicCharacterMotor)
+                currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, motor.CharacterUp);
+            }
+            return currentRotation;
         }
 
         public void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
