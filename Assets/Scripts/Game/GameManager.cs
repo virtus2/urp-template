@@ -24,7 +24,7 @@ namespace Core
 
             // TODO: 메인메뉴 로드
             // TODO: 메인메뉴에서 게임 시작 이후 PlayScene 로드
-            StartCoroutine(LoadSceneAsync(SceneName_Play, false, InitializePlayer));
+            StartCoroutine(LoadSceneAsync(SceneName_Play, true, InitializePlayer));
 #if UNITY_EDITOR
 #endif
         }

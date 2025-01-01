@@ -93,13 +93,13 @@ namespace Core.AI
                     }
                     Vector3 toTarget = currentDestination - character.transform.position;
                     toTarget.Normalize();
-                    character.Controller.SetMovementInput(new Vector2(toTarget.x, toTarget.z));
+                    character.Controller.SetMovementInput(toTarget);
 
 
                     break;
                 // Completed 단계에선 Idle 상태로 넘어가게한다.
                 case PathfindingState.Completed:
-                    character.Controller.SetMovementInput(Vector2.zero);
+                    character.Controller.SetMovementInput(Vector3.zero);
                     stateMachine.TransitionToState(AIState.Idle);
 
                     break;

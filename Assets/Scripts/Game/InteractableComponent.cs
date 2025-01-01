@@ -10,7 +10,6 @@ namespace Core
         Hold, // ²Ú ´©¸£±â
     }
 
-    [RequireComponent(typeof(Collider))]
     public abstract class InteractableComponent : MonoBehaviour
     {
         public EInteractType InteractionType;

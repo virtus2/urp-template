@@ -48,7 +48,7 @@ namespace Core
             // HACK: 플레이어 캐릭터가 여러개 일때는 고려하지 않음
             // 플레이어 캐릭터 생성 
             PlayerCharacter = Instantiate(PlayerSetting.PlayerCharacterPrefab);
-            PlayerCharacter.transform.position = position;
+            PlayerCharacter.Controller.SetPosition(position);
             PlayerCharacter.TransitionToState(CharacterState.Idle);
 
             // 캐릭터 컨트롤러 설정

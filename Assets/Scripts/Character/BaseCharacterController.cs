@@ -83,6 +83,11 @@ namespace Core
             motor.SetGroundSolvingActivation(enable);
         }
 
+        public void SetPosition(in Vector3 position)
+        {
+            motor.SetPosition(position);
+        }
+
         public void AddVelocity(Vector3 velocity)
         {
             _internalVelocityAdd += velocity;
@@ -133,8 +138,7 @@ namespace Core
 
         public void UpdateVelocity(ref Vector3 currentVelocity, float deltaTime)
         {
-            ICharacterState currentCharacterState = stateMachine.GetCurrentState();
-            currentCharacterState.UpdateVelocity(character, motor, ref currentVelocity, deltaTime);
+            stateMachine.GetCurrentState().UpdateVelocity(character, motor, ref currentVelocity, deltaTime);
 
             // Take into account additive velocity
             if (_internalVelocityAdd.sqrMagnitude > 0f)

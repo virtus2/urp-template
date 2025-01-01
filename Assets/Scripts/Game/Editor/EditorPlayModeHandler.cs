@@ -30,7 +30,7 @@ namespace Core.Editor
                     break;
                 case PlayModeStateChange.EnteredPlayMode:
                     Debug.Log("Entered Play Mode");
-                    var currentSceneName = EditorPrefs.GetString(EditorPrefsCurrentScene);
+                    string currentSceneName = EditorPrefs.GetString(EditorPrefsCurrentScene);
                     Debug.Log($"Load ({currentSceneName}) Scene");
                     EditorSceneManager.LoadScene(currentSceneName, LoadSceneMode.Additive);
                     break;

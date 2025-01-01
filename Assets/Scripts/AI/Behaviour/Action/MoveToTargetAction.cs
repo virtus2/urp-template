@@ -28,7 +28,7 @@ namespace Core.AI
         {
             if (Vector3.Distance(Self.Value.transform.position, Target.Value.transform.position) <= StopDistance)
             {
-                character.Controller.SetMovementInput(Vector2.zero);
+                character.Controller.SetMovementInput(Vector3.zero);
                 return Status.Success;
             }
 
@@ -43,7 +43,7 @@ namespace Core.AI
                         Vector3 currentDestination = character.NavMeshPath.corners[1];
                         Vector3 toTarget = currentDestination - character.transform.position;
                         toTarget.Normalize();
-                        character.Controller.SetMovementInput(new Vector2(toTarget.x, toTarget.z));
+                        character.Controller.SetMovementInput(toTarget);
                     }
                 }
             }
