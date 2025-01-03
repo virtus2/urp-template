@@ -10,6 +10,8 @@ namespace Core
 
         public Character PlayerCharacter { get; private set; }
         public PlayerInputHandler PlayerInput { get; private set; }
+        public CinemachineVirtualCamera PlayerCharacterFollowCamera { get; private set; }
+        public CinemachineBrain CinemachineBrain;
 
         public Action<Character> OnPlayerCharacterSpawned;
 
@@ -18,8 +20,6 @@ namespace Core
         private PlayerHUD playerHUD;
         private PlayerCharacterWidget characterWidget;
         private Camera mainCamera;
-        private CinemachineBrain cinemachineBrain;
-        private CinemachineVirtualCamera cinemachineVirtualCamera;
 
         private void Awake()
         {
@@ -30,12 +30,12 @@ namespace Core
         public void SetMainCamera(Camera cam)
         {
             mainCamera = cam;
-            cinemachineBrain = cam.GetComponent<CinemachineBrain>();
+            CinemachineBrain = cam.GetComponent<CinemachineBrain>();
         }
 
         public void SetVirtualCamera(CinemachineVirtualCamera cam)
         {
-            cinemachineVirtualCamera = cam;
+            PlayerCharacterFollowCamera = cam;
         }
 
         public void SetPlayerHUD(PlayerHUD hud)
@@ -56,7 +56,7 @@ namespace Core
             playerCharacterController.SetCamera(mainCamera);
 
             // 시네머신 카메라 팔로우 대상 지정
-            cinemachineVirtualCamera.Follow = PlayerCharacter.transform;
+            PlayerCharacterFollowCamera.Follow = PlayerCharacter.transform;
 
             OnPlayerCharacterSpawned?.Invoke(PlayerCharacter);
         }

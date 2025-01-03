@@ -21,38 +21,82 @@ namespace Core
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public Vector2 LastMovementInput;
         
-        public Vector3 LookVector; 
-        public float VerticalVelocity;
-        public bool HasMovementInput;
+        // Inputs
         public bool RollPressed;
         public bool AttackPressed;
         public bool RunPressed;
         public bool InteractPressed;
 
-        // TODO: 새로 추가된 필드, 추후에 정리 (2024-11-18)
+        [Header("Stable Movement")]
+        [Tooltip("Movement input from the Player or AI.")]
+        [ReadOnly]
         public Vector3 MovementInputVector;
-        public Vector3 LookInputVector;
-        public List<Collider> IgnoredColliders = new List<Collider>();
+
+        [Tooltip("Maximum movement speed on stable ground. It can be tweaked in MovementSettings.")]
+        [ReadOnly]
         public float MaxStableMoveSpeed = 10f;
+
+        [Tooltip("Linear interpolation speed for character's movement speed.")]
         public float StableMovementSharpness = 15;
-        public float AirAccelerationSpeed = 5f;
-        public float MaxAirMoveSpeed = 10f;
-        public float Drag = 0.1f;
-        public float JumpUpSpeed = 10f;
-        public float JumpScalableForwardSpeed = 0f;
-        public Vector3 Gravity = new Vector3(0, -30f, 0);
+
+
+        [Header("Air Movement")]
+        [Tooltip("Maximum movement speed in the air.")]
+        [ReadOnly]
+        public float MaxAirMoveSpeed = 10f; // TODO: 필요하면 MovementSettings에서 수정 가능하게 변경
+
+        [Tooltip("Acceleration of movement speed in the air.")]
+        [ReadOnly]
+        public float AirAccelerationSpeed = 5f; // TODO: 필요하면 MovementSettings에서 수정 가능하게 변경
+
+        [Tooltip("Drag coefficient of the object. The higher the value, the faster the object slows down.")]
+        public float Drag = 0.1f; // TODO: 필요하면 MovementSettings에서 수정 가능하게 변경
+
+        [Header("Misc")]
+        [Tooltip("Look input from the Player or AI.")]
+        [ReadOnly]
+        public Vector3 LookInputVector;
+
+        [Tooltip("Velocity")]
+        [ReadOnly]
         public Vector3 internalVelocityAdd = Vector3.zero;
+
+        [Tooltip("Force")]
+        [ReadOnly]
         public Vector3 internalForceAdd = Vector3.zero;
+
+        [Tooltip("Character's orientation method")]
         public OrientationMethod OrientationMethod = OrientationMethod.TowardsMovement;
+
+        [Tooltip("Orientation interpolation speed")]
         public float OrientationSharpness = 10f;
-        public float BonusOrientationSharpness = 10f;
+
+        [Tooltip("Bonus orientation interpolation speed")]
+        public float BonusOrientationSharpness = 10f; // TODO: 보너스가 뭐지? 안 쓸 것 같은데
+
+        [Tooltip("This character will ignore these colliders.")]
+        public List<Collider> IgnoredColliders = new List<Collider>();
+
+        [Tooltip("Gravity")]
+        public Vector3 Gravity = new Vector3(0, -30f, 0);
+
+        [Tooltip("Is the character on the ground?")]
+        public bool IsGrounded { get; private set; }
+
+        [Tooltip("The pushing force of the character.")]
+
+        public float PushForce = 3f;
+
+        // TODO: 점프 안쓸 것 같으면 지우기
+        public float JumpUpSpeed = 10f; 
+        public float JumpScalableForwardSpeed = 0f;
 
         // 내가 추가한 필드
+        [Header("FOR TEST")]
         public bool IgnoreMovementInput = false;
         public AnimationCurve AttackVelocityCurve;
         public float AttackVelocityMultiplier = 1f;
         public float AttackDuration = 0.2f;
-        public bool IsGrounded { get; private set; }
         public float HorizontalSpeed => motor ? motor.BaseVelocity.magnitude : 0f;
 
         protected Character character;
@@ -89,9 +133,14 @@ namespace Core
             motor.SetPosition(position);
         }
 
-        public void AddVelocity(Vector3 velocity)
+        public void AddVelocity(in Vector3 velocity)
         {
             internalVelocityAdd += velocity;
+        }
+        
+        public void AddForce(in Vector3 force)
+        {
+            internalForceAdd += force;
         }
 
         public void BeforeCharacterUpdate(float deltaTime)
@@ -147,6 +196,12 @@ namespace Core
                 currentVelocity += internalVelocityAdd;
                 internalVelocityAdd = Vector3.zero;
             }
+
+            if (internalForceAdd.sqrMagnitude > 0f)
+            {
+                currentVelocity += internalForceAdd * Time.deltaTime;
+                internalForceAdd = Vector3.Lerp(internalForceAdd, Vector3.zero, Drag * Time.deltaTime);
+            }
         }
         public void AfterCharacterUpdate(float deltaTime)
         {
@@ -188,7 +243,12 @@ namespace Core
 
         public void OnMovementHit(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, ref HitStabilityReport hitStabilityReport)
         {
-            // throw new System.NotImplementedException();
+            // TODO: 충돌 시 다른 캐릭터를 밀어내기
+            BaseCharacterController controller = hitCollider.GetComponent<BaseCharacterController>();
+            if (controller)
+            {
+                controller.AddForce(-hitNormal * PushForce);
+            }
         }
 
         public void ProcessHitStabilityReport(Collider hitCollider, Vector3 hitNormal, Vector3 hitPoint, Vector3 atCharacterPosition, Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport)
