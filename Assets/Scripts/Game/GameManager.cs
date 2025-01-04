@@ -29,7 +29,7 @@ namespace Core
 #endif
         }
 
-        private IEnumerator LoadSceneAsync(string sceneName, bool activateLoadedScene = false, Action onLoadComplete = null)
+        public IEnumerator LoadSceneAsync(string sceneName, bool activateLoadedScene = false, Action<Scene> onLoadComplete = null)
         {
             AsyncOperation asyncSceneLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             while (!asyncSceneLoad.isDone)
@@ -44,10 +44,10 @@ namespace Core
                 currentActiveScene = loadedScene;
             }
 
-            onLoadComplete?.Invoke();
+            onLoadComplete?.Invoke(loadedScene);
         }
 
-        private void InitializePlayer()
+        private void InitializePlayer(Scene _)
         {
             var vcam = FindAnyObjectByType<CinemachineVirtualCamera>();
             PlayerInstance.SetVirtualCamera(vcam);

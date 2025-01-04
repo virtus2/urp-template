@@ -16,7 +16,7 @@ MonoBehaviour:
   - m_From: PlayerCharacterFollowCamera
     m_To: Virtual Camera
     m_Blend:
-      m_Style: 0
+      m_Style: 2
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
@@ -27,8 +27,8 @@ MonoBehaviour:
   - m_From: Virtual Camera
     m_To: PlayerCharacterFollowCamera
     m_Blend:
-      m_Style: 0
-      m_Time: 2
+      m_Style: 2
+      m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
