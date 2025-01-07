@@ -1,5 +1,5 @@
-﻿using Cinemachine;
-using System;
+﻿using System;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Core
@@ -10,7 +10,7 @@ namespace Core
 
         public Character PlayerCharacter { get; private set; }
         public PlayerInputHandler PlayerInput { get; private set; }
-        public CinemachineVirtualCamera PlayerCharacterFollowCamera { get; private set; }
+        public CinemachineCamera PlayerCharacterFollowCamera { get; private set; }
         public CinemachineBrain CinemachineBrain;
 
         public Action<Character> OnPlayerCharacterSpawned;
@@ -33,9 +33,9 @@ namespace Core
             CinemachineBrain = cam.GetComponent<CinemachineBrain>();
         }
 
-        public void SetVirtualCamera(CinemachineVirtualCamera cam)
+        public void SetPlayerFollowCamera(CinemachineCamera camera)
         {
-            PlayerCharacterFollowCamera = cam;
+            PlayerCharacterFollowCamera = camera;
         }
 
         public void SetPlayerHUD(PlayerHUD hud)

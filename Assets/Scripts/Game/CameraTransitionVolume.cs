@@ -1,39 +1,63 @@
-using Cinemachine;
-using System.Collections;
 using UnityEngine;
+using Unity.Cinemachine;
+using System;
 
 namespace Core
 {
     public class CameraTransitionVolume : TriggerVolume
     {
         [SerializeField] 
-        private CinemachineVirtualCamera VirtualCamera;
-        private float defaultBlendTime;
-        private int defaultPriority;
+        private CinemachineCamera CameraToBlendIn;
+
+        [SerializeField]
+        private CinemachineBlendDefinition BlendInSetting;
+
+        [SerializeField]
+        private CinemachineBlendDefinition BlendOutSetting;
+
+        private CinemachineCameraEvents cameraEvents;
+
+        private void Awake()
+        {
+            // Add custom blend settings in runtime.
+            CameraUtility.AddCinemachineBlenderSetting(Player.Instance.CinemachineBrain, new CinemachineBlenderSettings.CustomBlend()
+            {
+                From = Player.Instance.PlayerCharacterFollowCamera.name,
+                To = CameraToBlendIn.name,
+                Blend = BlendInSetting
+            });
+
+            CameraUtility.AddCinemachineBlenderSetting(Player.Instance.CinemachineBrain, new CinemachineBlenderSettings.CustomBlend()
+            {
+                From = CameraToBlendIn.name,
+                To = Player.Instance.PlayerCharacterFollowCamera.name,
+                Blend = BlendOutSetting
+            });
+
+            // Deactivate the CinemachineCamera for performance.
+            // see https://docs.unity3d.com/Packages/com.unity.cinemachine@3.1/manual/concept-essential-elements.html#processing-power-consumption
+            CameraToBlendIn.gameObject.SetActive(false);
+        }
+
+        private void OnValidate()
+        {
+            // Rename the CinemachineCamera for convenience.
+            CameraToBlendIn = transform.parent.GetComponentInChildren<CinemachineCamera>();
+            CameraToBlendIn.name = string.Format(Constants.kCameraTransitionVolumeCameraName, transform.parent.name);
+        }
 
         protected override void OnTriggerEnter(Collider other)
         {
-            if (Player.Instance.PlayerCharacterFollowCamera == null)
-            {
-                Debug.LogError("PlayerCharacterFollowCamera is null!");
-                return;
-            }
-            
-            // TODO: 커스텀 블렌딩 타임 설정하는 법 고민
-            // 지금은 시네머신 브레인에 Custom blends 에 추가해서 blend time 설정하는 방식으로 했는데
-            // 시네머신 버추얼 카메라를 따로 프리팹으로 저장해줘야하는 불편함이 있음.
-
-            // Save default time and priority of PlayerCharacterFollow camera.
-            defaultBlendTime = Player.Instance.CinemachineBrain.m_DefaultBlend.m_Time;
-            defaultPriority = Player.Instance.PlayerCharacterFollowCamera.Priority;
-
-            // Set the time and priority of the virtual camera that will blend.
-            VirtualCamera.Priority = defaultPriority + 1;
+            // Set the priority of the CinemachineCamera that will blend.
+            CameraToBlendIn.gameObject.SetActive(true);
+            CameraToBlendIn.Priority = Constants.kCameraDefaultPriority + 1;
         }
 
         protected override void OnTriggerExit(Collider other)
         {
-            VirtualCamera.Priority = 0;
+            // Reset the priority of the CinemachineCamera.
+            CameraToBlendIn.Priority = 0;
+            CameraToBlendIn.gameObject.SetActive(false);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿using Cinemachine;
-using System;
+﻿using System;
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace Core
 {
@@ -49,11 +48,11 @@ namespace Core
 
         private void InitializePlayer(Scene _)
         {
-            var vcam = FindAnyObjectByType<CinemachineVirtualCamera>();
-            PlayerInstance.SetVirtualCamera(vcam);
+            CinemachineCamera playerFollowCamera = FindAnyObjectByType<CinemachineCamera>();
+            PlayerInstance.SetPlayerFollowCamera(playerFollowCamera);
             PlayerInstance.SetMainCamera(Camera.main);
 
-            var playerHUD = FindAnyObjectByType<PlayerHUD>();
+            PlayerHUD playerHUD = FindAnyObjectByType<PlayerHUD>();
             PlayerInstance.SetPlayerHUD(playerHUD);
         }
     }
