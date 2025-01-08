@@ -1,0 +1,37 @@
+Prefixes:
+SM_ Static Mesh
+SK_ Skeletal Mesh
+P_ Prefab
+PS_ Particle System
+M_ Material
+PM_ Physical Material
+T_ Texture
+A_ Audio Clip
+AM_ Audio Mixer
+S_ Scene
+SP_ Sprite
+F_ Font
+SH_ Shader
+
+Suffixes:
+_BC Albedo (Base Color)
+_BC_O Albedo + Opacity
+_MT Metallic
+_MT_G Metallic + Smoothness (Glossiness)
+_S Specular
+_S_G Specular + Smoothness (Glossiness)
+_R Roughness
+_N Normal
+_DP Displacement
+_AO Occlusion
+_H Height Map
+_FM Flow Map
+_L Light Map (fake)
+_M Mask
+
+Albedo texture:
+RGB = Albedo
+A = Opacity
+
+Occlusion texture:
+G = Occlusion

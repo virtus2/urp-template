@@ -111,6 +111,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentState: 2
   PreviousState: 0
+  StateTransitions:
+  - From: 01000000
+    To: 2
+    StateTransitionRef: {fileID: 11400000, guid: 42df5fe0af62f8d4ab81b8ced4737e09,
+      type: 2}
+    Description: 
+  - From: 02000000
+    To: 3
+    StateTransitionRef: {fileID: 11400000, guid: 320870a175c33ea4f8da80637418e8c7,
+      type: 2}
+    Description: 
+  - From: 03000000
+    To: 2
+    StateTransitionRef: {fileID: 11400000, guid: e804bc6b4b9246945af684ebda9ce781,
+      type: 2}
+    Description: 
+  CharacterStates:
+  - State: 1
+    CharacterStateRef: {fileID: 11400000, guid: d371412197bafee4fb2089c9c8fef393,
+      type: 2}
+  - State: 2
+    CharacterStateRef: {fileID: 11400000, guid: 6c0c2a122d86a2f418552d44131fec24,
+      type: 2}
+  - State: 3
+    CharacterStateRef: {fileID: 11400000, guid: a10ee09f5fefa2048a110b58fc4ca284,
+      type: 2}
 --- !u!114 &3979758749422762738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,29 +282,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LastMovementInput: {x: 0, y: 0}
-  MovementVector: {x: 0, y: 0, z: 0}
-  LookVector: {x: 0, y: 0, z: 0}
-  VerticalVelocity: 0
-  HasMovementInput: 0
   RollPressed: 0
   AttackPressed: 0
   RunPressed: 0
   InteractPressed: 0
   MovementInputVector: {x: 0, y: 0, z: 0}
-  LookInputVector: {x: 0, y: 0, z: 0}
-  IgnoredColliders: []
   MaxStableMoveSpeed: 10
   StableMovementSharpness: 15
-  AirAccelerationSpeed: 5
   MaxAirMoveSpeed: 10
+  AirAccelerationSpeed: 5
   Drag: 0.1
-  JumpUpSpeed: 10
-  JumpScalableForwardSpeed: 0
-  Gravity: {x: 0, y: -30, z: 0}
-  _internalVelocityAdd: {x: 0, y: 0, z: 0}
+  LookInputVector: {x: 0, y: 0, z: 0}
+  internalVelocityAdd: {x: 0, y: 0, z: 0}
+  internalForceAdd: {x: 0, y: 0, z: 0}
   OrientationMethod: 1
   OrientationSharpness: 10
   BonusOrientationSharpness: 10
+  IgnoredColliders: []
+  Gravity: {x: 0, y: -30, z: 0}
+  PushForce: 3
+  JumpUpSpeed: 10
+  JumpScalableForwardSpeed: 0
   IgnoreMovementInput: 0
   AttackVelocityCurve:
     serializedVersion: 2

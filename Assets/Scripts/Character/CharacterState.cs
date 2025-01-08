@@ -1,4 +1,5 @@
 using KinematicCharacterController;
+using System;
 
 namespace Core
 {
@@ -11,7 +12,7 @@ namespace Core
         Attack,
         Dead,
 
-
+        // Not in use yet.
         Crouched,
         AirMove,
         WallRun,

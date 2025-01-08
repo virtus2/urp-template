@@ -151,7 +151,7 @@ namespace Core
 
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            currentRotation = stateMachine.GetCurrentState().GetCurrentRotation(character, motor, deltaTime);
+            stateMachine.GetCurrentState().UpdateRotation(character, motor, ref currentRotation, deltaTime);
             Vector3 currentUp = (currentRotation * Vector3.up);
             /*
             if (BonusOrientationMethod == BonusOrientationMethod.TowardsGravity)
