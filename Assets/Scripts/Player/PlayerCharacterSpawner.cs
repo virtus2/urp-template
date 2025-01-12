@@ -1,26 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Core
 {
     public class PlayerCharacterSpawner : Spawner
     {
-        private Player player;
-
-        private IEnumerator Start()
+        public enum ESpawnType
         {
-            while (!GameManager.Instance)
+            Manual,
+            OnLoaded,
+        }
+
+        public ESpawnType SpawnType = ESpawnType.Manual;
+
+        private void Awake()
+        {
+            if(SpawnType == ESpawnType.OnLoaded)
             {
-                yield return null;
+                Spawn();
             }
-            player = GameManager.Instance.PlayerInstance;
-            Spawn();
         }
 
         public override void Spawn()
         {
-            player.SpawnPlayerCharacter(transform.position);
+            Player.Instance.SpawnPlayerCharacter(transform.position);
         }
     }
 }

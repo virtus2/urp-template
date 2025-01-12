@@ -60,5 +60,14 @@ namespace Core
 
             OnPlayerCharacterSpawned?.Invoke(PlayerCharacter);
         }
+
+        public void TeleportPlayerCharacter(Vector3 position)
+        {
+            if(PlayerCharacter == null)
+            {
+                Debug.LogError("PlayerCharacter is null. Unable to teleport");
+            }
+            PlayerCharacter.Controller.SetPosition(position);
+        }
     }
 }

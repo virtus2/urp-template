@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -14,39 +14,17 @@ namespace Core
         }
         public AfterTransitionAction AfterTransition = AfterTransitionAction.Nothing;
 
+        // TODO: ScriptableObjectë¡œ ê´€ë¦¬? GUID based Referenceë¡œ ê´€ë¦¬?
         public string SceneName;
+        public string DestinationName;
 
         protected override void OnTriggerEnter(Collider other)
         {
+            // Works only when the player character enters the trigger volume
             PlayerCharacterController controller = other.GetComponent<PlayerCharacterController>();
             if (controller)
             {
-                StartCoroutine(GameManager.Instance.LoadSceneAsync(SceneName, false, OnSceneTransition));
-            }
-        }
-
-        private void OnSceneTransition(UnityEngine.SceneManagement.Scene loadedScene)
-        {
-            // TODO: memory optimization
-            List<GameObject> rootGameObjects = new List<GameObject>(loadedScene.rootCount);
-
-            // Please make sure the list capacity is bigger than Scene.rootCount, then Unity will not allocate memory internally.
-            loadedScene.GetRootGameObjects(rootGameObjects);
-            Vector3 entrancePosition = rootGameObjects.Find(x => x.name.Equals("Entrance")).transform.position;
-            // ÀÌ Å¬·¡½º¿¡¼­ Æ®·£Áö¼Ç ÈÄ ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ¸¦ °Çµå¸®´Â°Ô ÀÌ»óÇÔ. ³ªÁß¿¡ Àû´çÇÑ Å¬·¡½º·Î ÀÌµ¿.
-            if (AfterTransition == AfterTransitionAction.MoveTo)
-            {
-                MovePlayerCharacter(entrancePosition);
-            }
-        }
-
-        private void SpawnPlayerCharacter() { }
-        private void MovePlayerCharacter(in Vector3 position) 
-        {
-            PlayerCharacterController controller = Player.Instance.PlayerCharacter.GetComponent<PlayerCharacterController>();
-            if (controller)
-            {
-                controller.SetPosition(position);
+                GameManager.Instance.SceneTransition(SceneName, DestinationName);
             }
         }
     }
