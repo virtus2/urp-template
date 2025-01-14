@@ -94,9 +94,6 @@ namespace Core
         // 내가 추가한 필드
         [Header("FOR TEST")]
         public bool IgnoreMovementInput = false;
-        public AnimationCurve AttackVelocityCurve;
-        public float AttackVelocityMultiplier = 1f;
-        public float AttackDuration = 0.2f;
         public float HorizontalSpeed => motor ? motor.BaseVelocity.magnitude : 0f;
 
         protected Character character;

@@ -112,30 +112,38 @@ MonoBehaviour:
   CurrentState: 2
   PreviousState: 0
   StateTransitions:
-  - From: 01000000
-    To: 2
+  - From: 00000000
+    To: 1
     StateTransitionRef: {fileID: 11400000, guid: 42df5fe0af62f8d4ab81b8ced4737e09,
       type: 2}
     Description: 
-  - From: 02000000
-    To: 3
+  - From: 01000000
+    To: 2
     StateTransitionRef: {fileID: 11400000, guid: 320870a175c33ea4f8da80637418e8c7,
       type: 2}
     Description: 
-  - From: 03000000
-    To: 2
+  - From: 02000000
+    To: 1
     StateTransitionRef: {fileID: 11400000, guid: e804bc6b4b9246945af684ebda9ce781,
       type: 2}
     Description: 
+  - From: 0200000001000000
+    To: 3
+    StateTransitionRef: {fileID: 11400000, guid: 35725caff52240e408c40c08f0c027ab,
+      type: 2}
+    Description: 
   CharacterStates:
-  - State: 1
+  - State: 0
     CharacterStateRef: {fileID: 11400000, guid: d371412197bafee4fb2089c9c8fef393,
       type: 2}
-  - State: 2
+  - State: 1
     CharacterStateRef: {fileID: 11400000, guid: 6c0c2a122d86a2f418552d44131fec24,
       type: 2}
-  - State: 3
+  - State: 2
     CharacterStateRef: {fileID: 11400000, guid: a10ee09f5fefa2048a110b58fc4ca284,
+      type: 2}
+  - State: 3
+    CharacterStateRef: {fileID: 11400000, guid: 4675b27d2db464544adc60591689b02c,
       type: 2}
 --- !u!114 &3979758749422762738
 MonoBehaviour:

@@ -1,4 +1,4 @@
-using KinematicCharacterController;
+﻿using KinematicCharacterController;
 using UnityEngine;
 
 namespace Core
@@ -6,13 +6,21 @@ namespace Core
     [CreateAssetMenu(fileName = "SO_CharacterState_GroundMove", menuName = "Scriptable Objects/Character/State/Ground Move")]
     public class CharacterStateSO_GroundMove : CharacterStateSO
     {
-        public override void OnStateEnter(Character character, CharacterState prevState)
+        public override CharacterState CreateInstance()
+        {
+            return new CharacterState_GroundMove();
+        }
+    }
+
+    public class CharacterState_GroundMove : CharacterState
+    {
+        public override void OnStateEnter(Character character, ECharacterState prevState)
         {
             character.Controller.MaxStableMoveSpeed = character.Controller.RunPressed ?
                 character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
         }
 
-        public override void OnStateExit(Character character, CharacterState newState)
+        public override void OnStateExit(Character character, ECharacterState newState)
         {
 
         }

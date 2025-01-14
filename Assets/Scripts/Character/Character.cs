@@ -31,7 +31,7 @@ namespace Core
         public RollingSettings RollingSettings;
         public MovementSettings MovementSettings;
 
-        public bool IsMoving => stateMachine.CurrentState == CharacterState.GroundMove;
+        public bool IsMoving => stateMachine.CurrentState == ECharacterState.GroundMove;
 
         [Header("캐릭터 상태")]
         // public ICharacterController Controller;
@@ -54,11 +54,6 @@ namespace Core
         public AudioSource FootstepAudioSource;
         public AudioClip FootstepAudioClip;
         public ParticleSystem FootstepParticleSystem;
-
-        public void TransitionToState(CharacterState characterState)
-        {
-            stateMachine.TransitionToState(characterState);
-        }
 
         private void Awake()
         {

@@ -7,8 +7,8 @@ namespace Core
     [System.Serializable]
     public class StateTransitionDefinition
     {
-        public List<CharacterState> From;
-        public CharacterState To;
+        public List<ECharacterState> From;
+        public ECharacterState To;
 
         [SerializeReference]
         public StateTransitionSO StateTransitionRef;
@@ -21,7 +21,7 @@ namespace Core
     [System.Serializable]
     public class CharacterStateDefinition
     {
-        public CharacterState State;
+        public ECharacterState State;
 
         [SerializeReference]
         public CharacterStateSO CharacterStateRef;
@@ -30,10 +30,10 @@ namespace Core
     public class CharacterStateMachine : MonoBehaviour
     {
         [NaughtyAttributes.ReadOnly]
-        public CharacterState CurrentState;
+        public ECharacterState CurrentState;
 
         [NaughtyAttributes.ReadOnly]
-        public CharacterState PreviousState;
+        public ECharacterState PreviousState;
 
         [Header("References for character states and transitions.")]
         [SerializeField]
@@ -42,8 +42,8 @@ namespace Core
         [SerializeField]
         private List<CharacterStateDefinition> CharacterStates;
 
-        private Dictionary<CharacterState, CharacterStateDefinition> runtimeCharacterStates = new Dictionary<CharacterState, CharacterStateDefinition>();
-        private Dictionary<CharacterState, List<StateTransitionDefinition>> runtimeStateTransitions = new Dictionary<CharacterState, List<StateTransitionDefinition>>();
+        private Dictionary<ECharacterState, CharacterState> runtimeCharacterStates = new Dictionary<ECharacterState, CharacterState>();
+        private Dictionary<ECharacterState, List<StateTransitionDefinition>> runtimeStateTransitions = new Dictionary<ECharacterState, List<StateTransitionDefinition>>();
         private Character character;
 
         private void Awake()
@@ -51,23 +51,18 @@ namespace Core
             InitializeRuntimeCache();
 
             character = GetComponent<Character>();
-            if (CurrentState == CharacterState.Uninitialized)
-            {
-                TransitionToState(CharacterState.Idle);
-            }
         }
 
         private void InitializeRuntimeCache()
         {
             foreach (CharacterStateDefinition stateDefinition in CharacterStates)
             {
-                runtimeCharacterStates[stateDefinition.State] = stateDefinition;
+                runtimeCharacterStates[stateDefinition.State] = stateDefinition.CharacterStateRef.CreateInstance();
             }
-
 
             foreach (StateTransitionDefinition transitionDefinition in StateTransitions)
             {
-                foreach (CharacterState fromState in transitionDefinition.From)
+                foreach (ECharacterState fromState in transitionDefinition.From)
                 {
                     if (runtimeStateTransitions.ContainsKey(fromState))
                     {
@@ -81,16 +76,26 @@ namespace Core
             }
         }
 
+#if UNITY_EDITOR
+        [NaughtyAttributes.Button]
+        private void Recache()
+        {
+            runtimeCharacterStates.Clear();
+            runtimeStateTransitions.Clear();
+            InitializeRuntimeCache();
+        }
+#endif 
+
         private void Update()
         {
             if (!character) return;
             CheckTransition();
-            runtimeCharacterStates[CurrentState].CharacterStateRef.UpdateState(character, this);
+            runtimeCharacterStates[CurrentState].UpdateState(character, this);
         }
 
         private void CheckTransition()
         {
-            if(runtimeCharacterStates.ContainsKey(CurrentState))
+            if(runtimeStateTransitions.ContainsKey(CurrentState))
             {
                 foreach (StateTransitionDefinition transitionDefinition in runtimeStateTransitions[CurrentState])
                 {
@@ -102,7 +107,7 @@ namespace Core
             }
         }
 
-        public void TransitionToState(CharacterState newState)
+        public void TransitionToState(ECharacterState newState)
         {
             PreviousState = CurrentState;
             CurrentState = newState;
@@ -111,19 +116,19 @@ namespace Core
             OnStateEnter(PreviousState, CurrentState);
         }
 
-        public void OnStateEnter(CharacterState prevState, CharacterState state)
+        public void OnStateEnter(ECharacterState prevState, ECharacterState state)
         {
-            runtimeCharacterStates[state].CharacterStateRef.OnStateEnter(character, prevState);
+            runtimeCharacterStates[state].OnStateEnter(character, prevState);
         }
 
-        public void OnStateExit(CharacterState state, CharacterState newState)
+        public void OnStateExit(ECharacterState state, ECharacterState newState)
         {
-            runtimeCharacterStates[state].CharacterStateRef.OnStateExit(character, newState);
+            runtimeCharacterStates[state].OnStateExit(character, newState);
         }
 
-        public CharacterStateSO GetCurrentState()
+        public CharacterState GetCurrentState()
         {
-            return runtimeCharacterStates[CurrentState].CharacterStateRef;
+            return runtimeCharacterStates[CurrentState];
         }
     }
 }

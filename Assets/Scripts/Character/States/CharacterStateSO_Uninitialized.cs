@@ -1,4 +1,4 @@
-using KinematicCharacterController;
+﻿using KinematicCharacterController;
 using UnityEngine;
 
 namespace Core
@@ -6,11 +6,19 @@ namespace Core
     [CreateAssetMenu(fileName = "SO_CharacterState_Uninitialized", menuName = "Scriptable Objects/Character/State/Uninitialized")]
     public class CharacterStateSO_Uninitialized : CharacterStateSO
     {
-        public override void OnStateEnter(Character character, CharacterState prevState)
+        public override CharacterState CreateInstance()
+        {
+            return new CharacterState_Uninitialized();
+        }
+    }
+
+    public class CharacterState_Uninitialized : CharacterState
+    {
+        public override void OnStateEnter(Character character, ECharacterState prevState)
         {
         }
 
-        public override void OnStateExit(Character character, CharacterState newState)
+        public override void OnStateExit(Character character, ECharacterState newState)
         {
         }
 
