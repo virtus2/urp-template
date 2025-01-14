@@ -14,9 +14,9 @@ namespace Core
         }
         public AfterTransitionAction AfterTransition = AfterTransitionAction.Nothing;
 
-        // TODO: ScriptableObject로 관리? GUID based Reference로 관리?
+        [NaughtyAttributes.Scene]
         public string SceneName;
-        public string DestinationName;
+        public GuidReference Destination;
 
         protected override void OnTriggerEnter(Collider other)
         {
@@ -24,7 +24,7 @@ namespace Core
             PlayerCharacterController controller = other.GetComponent<PlayerCharacterController>();
             if (controller)
             {
-                GameManager.Instance.SceneTransition(SceneName, DestinationName);
+                GameManager.Instance.SceneTransition(SceneName, Destination);
             }
         }
     }
