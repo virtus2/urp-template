@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Core
 {
@@ -16,6 +17,8 @@ namespace Core
         public string SceneName_Test = "TestScene";
 
         public Player PlayerInstance;
+        public Image SceneTransitionImage; 
+        public float SceneTransitionDuration = 0.5f;
 
         private Scene currentActiveScene;
         public Dictionary<string, Scene> loadedSceneByName = new Dictionary<string, Scene>();
@@ -81,23 +84,49 @@ namespace Core
             PlayerInstance.SetPlayerHUD(playerHUD);
         }
 
-        public void SceneTransition(string sceneName, string destinationName)
+        public void SceneTransition(string sceneName, GuidReference destination)
         {
-            StartCoroutine(LoadSceneAsync(sceneName, false, (Scene loadedScene) =>
-            {
-                // TODO: 메모리 최적화
-                // TODO: Root Object를 찾으면 안되고 child에서도 찾을 수 있어야함. 태그 사용 고려
-                List<GameObject> rootGameObjects = new List<GameObject>(loadedScene.rootCount);
-                loadedScene.GetRootGameObjects(rootGameObjects);
-
-                // TODO: 텔포 이후 걸어가는 연출이나 스크린 연출 (동숲같은거)
-                // TODO: 게임매니저 클래스 외에 다른 클래스로 분리 (SceneTransitionManager라던가 PortalManager?)
-                Vector3 entrancePosition = rootGameObjects.Find(x => x.name.Equals(destinationName)).transform.position;
-                PlayerInstance.TeleportPlayerCharacter(entrancePosition);
-            }));
+            StartCoroutine(InternalSceneTransition(sceneName, destination));
         }
 
+        private IEnumerator TransitionFadeInEffect()
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < SceneTransitionDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                SceneTransitionImage.color = Color.Lerp(Color.clear, Color.black, elapsedTime / SceneTransitionDuration);
+                yield return null;
+            }
+        }
 
+        private IEnumerator TransitionFadeOutEffect()
+        {
+            float elapsedTime = 0f;
+            while (elapsedTime < SceneTransitionDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                SceneTransitionImage.color = Color.Lerp(Color.black, Color.clear, elapsedTime / SceneTransitionDuration);
+                yield return null;
+            }
+        }
+
+        private IEnumerator InternalSceneTransition(string sceneName, GuidReference destination)
+        {
+            yield return TransitionFadeInEffect();
+            yield return LoadSceneAsync(sceneName, false, (Scene loadedScene) =>
+            {
+                // TODO: 텔포 이후 걸어가는 연출이나 스크린 연출 (동숲같은거)
+                // TODO: 게임매니저 클래스 외에 다른 클래스로 분리 (SceneTransitionManager라던가 PortalManager?)
+                // TODO: 지역 이름 출력
+                if (destination.gameObject != null)
+                {
+                    Vector3 destinationPosition = destination.gameObject.transform.position;
+                    PlayerInstance.TeleportPlayerCharacter(destinationPosition);
+                }
+            });
+            yield return TransitionFadeOutEffect();
+        }
         private void OnGUI()
         {
             if (GUILayout.Button("Load Test Scene"))

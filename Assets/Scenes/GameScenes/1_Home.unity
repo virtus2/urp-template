@@ -486,7 +486,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AfterTransition: 1
   SceneName: TestScene
-  DestinationName: Exit
+  Destination:
+    serializedGuid: 91b219813dd0db40b7d9c81630f65b0c
+    cachedName: SpawnPoint
+    cachedScene: {fileID: 102900000, guid: d618df7bf4cb0fc4893a78dbe5735684, type: 3}
 --- !u!65 &669294171
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -517,6 +520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 678273374}
+  - component: {fileID: 678273375}
   m_Layer: 0
   m_Name: Entrance
   m_TagString: Untagged
@@ -533,12 +537,25 @@ Transform:
   m_GameObject: {fileID: 678273373}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 500, z: 0}
+  m_LocalPosition: {x: -0.14180827, y: 500.5, z: -0.30545378}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &678273375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678273373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: f40e1ba8d92c454db51cc200962b3c06
 --- !u!1 &693164077
 GameObject:
   m_ObjectHideFlags: 0
