@@ -3,33 +3,28 @@ using UnityEngine;
 
 namespace Core
 {
-    [System.Serializable]
-    public class CharacterStateData_Attack
-    {
-        public float AttackDuration = 1f;
-        public AnimationCurve AttackVelocityCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-        public float AttackVelocityMultiplier = 1f;
-        public float AttackVelocity = 1f;
-    }
-
-    [CreateAssetMenu(fileName = "SO_CharacterState_Attack", menuName = "Scriptable Objects/Character/State/Attack")]
-    public class CharacterStateSO_Attack : CharacterStateSO
+    // TODO: CharacterStateSO_Attack으로만 사용하고 콤보는 데이터로 처리
+    // 근데 어택상태마다 다른동작해야되면 그냥 클래스 따로 만드는게 나을수도있음.
+    // ex: int attackComboCount = 0;
+    [CreateAssetMenu(fileName = "SO_CharacterState_Attack2", menuName = "Scriptable Objects/Character/State/Attack2")]
+    public class CharacterStateSO_Attack2 : CharacterStateSO
     {
         [SerializeField]
         private CharacterStateData_Attack data;
         public override CharacterState CreateInstance()
         {
-            CharacterState_Attack state = new CharacterState_Attack(data);
+            // TODO: 실제 로직 클래스 네이밍 실수 방지법 필요
+            CharacterState_Attack2 state = new CharacterState_Attack2(data);
             return state;
         }
     }
 
-    public class CharacterState_Attack : CharacterState
+    public class CharacterState_Attack2 : CharacterState
     {
         private float elapsedTime = 0.0f;
         private CharacterStateData_Attack data;
 
-        public CharacterState_Attack(CharacterStateData_Attack data)
+        public CharacterState_Attack2(CharacterStateData_Attack data)
         {
             this.data = data;
         }
@@ -39,7 +34,7 @@ namespace Core
             elapsedTime = 0.0f;
 
             character.IsAttacking = true;
-            character.AttackComboCount = 1;
+            character.AttackComboCount = 2;
         }
 
         public override void OnStateExit(Character character, ECharacterState newState)

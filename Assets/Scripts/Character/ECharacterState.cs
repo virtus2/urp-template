@@ -7,10 +7,14 @@ namespace Core
     {
         Uninitialized = 0,
 
+        // Default
         Idle = 1,
         GroundMove = 2,
         Attack = 3,
         Dead = 4,
+
+        // Special
+        Attack2 = 1000,
 
         // Not in use yet.
         Crouched,

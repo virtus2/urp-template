@@ -102,6 +102,7 @@ namespace Core
                     if (transitionDefinition.StateTransitionRef.CheckTransition(character, this))
                     {
                         TransitionToState(transitionDefinition.To);
+                        return;
                     }
                 }
             }

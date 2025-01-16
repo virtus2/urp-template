@@ -1,5 +1,4 @@
-﻿using NaughtyAttributes.Test;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
@@ -132,6 +131,12 @@ namespace Core
             if (GUILayout.Button("Load Test Scene"))
             {
                 StartCoroutine(LoadSceneAsync(SceneName_Test));
+            }
+            if (GUILayout.Button("Respawn Player Character"))
+            {
+                PlayerCharacterSpawner spawner = FindAnyObjectByType<PlayerCharacterSpawner>();
+                Vector3 spawnPosition = spawner != null ? spawner.transform.position : Vector3.zero;
+                PlayerInstance.RespawnPlayerCharacter(spawnPosition);
             }
         }
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51be23bbdd9305f4da71c84b9197c5e7, type: 3}
   m_Name: SO_CharacterState_Attack
   m_EditorClassIdentifier: 
-  AttackDuration: 0.2
+  AttackDuration: 0.5
   AttackVelocityCurve:
     serializedVersion: 2
     m_Curve:

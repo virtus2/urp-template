@@ -25,26 +25,42 @@ namespace Core
         public enum ECharacterControllerType { None, Player, AI };
         public enum ECharacterType { None, Player, AI };
 
+        public bool IsMoving => stateMachine.CurrentState == ECharacterState.GroundMove;
+
         public ECharacterType CharacterType;
 
-        [Header("캐릭터 설정값 ScriptableObjects")]
+        [Header("Character Settings")]
         public RollingSettings RollingSettings;
         public MovementSettings MovementSettings;
 
-        public bool IsMoving => stateMachine.CurrentState == ECharacterState.GroundMove;
-
-        [Header("캐릭터 상태")]
-        // public ICharacterController Controller;
+        [Header("Character Controlls")]
         public BaseCharacterController Controller;
         public ECharacterControllerType ControllerType;
-        public bool IsRolling = false;
-        public float RollingCooldownTime;
-        public bool IsAttacking = false;
-        public bool IsInvincible = false;
-        public bool IsDead = false;
         public bool InputEnabled = true;
 
-        private CharacterStateMachine stateMachine;
+        [Header("Character States")]
+        public bool IsInvincible = false;
+        public bool IsDead = false;
+
+        [Header("Rolling")]
+        public bool IsRolling = false;
+        public float RollingCooldownTime;
+
+        [Header("Attack")]
+        [Tooltip("Is character attacking?")]
+        public bool IsAttacking = false;
+
+        [Tooltip("Attack stage of the character.")]
+        public EAttackStage AttackStage = EAttackStage.None;
+
+        // TODO: Tooltips , 네이밍 별로인거같은데 바꾸기
+        // 공격 콤보 단계. 
+        public int AttackComboCount = 0;
+
+        public Action<Character, CharacterStateMachine> OnAttackFinishedCallback;
+
+        
+
         // TODO: AI 관련. 나중에 따로 클래스 만들수도
         public bool IsReachedDestination = false;
         public Character ChaseTarget;
@@ -55,11 +71,15 @@ namespace Core
         public AudioClip FootstepAudioClip;
         public ParticleSystem FootstepParticleSystem;
 
+        private CharacterStateMachine stateMachine;
+        private SkinnedMeshRenderer skinnedMeshRenderer;
+
+
         private void Awake()
         {
             Controller = GetComponent<BaseCharacterController>();
             stateMachine = GetComponent<CharacterStateMachine>();
-
+            skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
             NavMeshPath = new NavMeshPath();
 
             Initialize();
@@ -105,6 +125,40 @@ namespace Core
                     Debug.Log(hitInfo.transform.gameObject.name);
                 }
             }
+        }
+
+        private void OnAttackStartup(AnimationEvent animationEvent)
+        {
+            Debug.Log("OnAttackStartup");
+            AttackStage = EAttackStage.Startup;
+            skinnedMeshRenderer.material.color = Color.green;
+        }
+
+        private void OnAttackActive(AnimationEvent animationEvent)
+        {
+            Debug.Log("OnAttackActive");
+            AttackStage = EAttackStage.Active;
+            skinnedMeshRenderer.material.color = Color.red;
+        }
+
+        private void OnAttackRecovery(AnimationEvent animationEvent)
+        {
+            Debug.Log("OnAttackRecovery");
+            AttackStage = EAttackStage.Recovery;
+            skinnedMeshRenderer.material.color = Color.blue;
+        }
+
+        private void OnAttackFinished(AnimationEvent animationEvent)
+        {
+            Debug.Log("OnAttackFinished");
+            skinnedMeshRenderer.material.color = Color.white;
+            // TODO: 여기서 직접 IsAttacking = false해주는게 좋을지
+            AttackStage = EAttackStage.None;
+            IsAttacking = false;
+            AttackComboCount = 0;
+            // 아니면 State에서 콜백 등록해서 호출해주는게 나을지
+            // 모르겠다~
+            OnAttackFinishedCallback?.Invoke(this, stateMachine);
         }
 
         private void UpdateRollCooldownTime()

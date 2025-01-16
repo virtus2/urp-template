@@ -60,6 +60,15 @@ namespace Core
             OnPlayerCharacterSpawned?.Invoke(PlayerCharacter);
         }
 
+        public void RespawnPlayerCharacter(Vector3 position)
+        {
+            if (PlayerCharacter != null)
+            {
+                Destroy(PlayerCharacter.gameObject);
+            }
+            SpawnPlayerCharacter(position);
+        }
+
         public void TeleportPlayerCharacter(Vector3 position)
         {
             if(PlayerCharacter == null)

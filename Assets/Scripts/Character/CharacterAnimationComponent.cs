@@ -22,7 +22,8 @@ namespace Core
         [SerializeField] private string Animator_Parameter_Name_IsRolling = "IsRolling";
         [SerializeField] private string Animator_Parameter_Name_IsDead = "IsDead";
         [SerializeField] private string Animator_Parameter_Name_MotionSpeed = "MotionSpeed";
-        [SerializeField] private string Animator_Parameter_Name_Attack = "Attack";
+        [SerializeField] private string Animator_Parameter_Name_IsAttacking = "IsAttacking";
+        [SerializeField] private string Animator_Parameter_Name_AttackComboCount = "AttackComboCount";
         [SerializeField] private string Animator_Parameter_Name_FreeFall = "FreeFall";
 
         [Header("애니메이터 블렌드 트리 Thresholds")]
@@ -38,7 +39,8 @@ namespace Core
         private int Animator_Parameter_Hash_IsRolling;
         private int Animator_Parameter_Hash_IsDead;
         private int Animator_Parameter_Hash_MotionSpeed;
-        private int Animator_Parameter_Hash_Attack;
+        private int Animator_Parameter_Hash_IsAttacking;
+        private int Animator_Parameter_Hash_AttackComboCount;
         private int Animator_Parameter_Hash_FreeFall;
 
         private int Animator_Layer_Index_BaseLayer;
@@ -62,7 +64,8 @@ namespace Core
             Animator_Parameter_Hash_IsRolling = Animator.StringToHash(Animator_Parameter_Name_IsRolling);
             Animator_Parameter_Hash_IsDead = Animator.StringToHash(Animator_Parameter_Name_IsDead);
             Animator_Parameter_Hash_MotionSpeed = Animator.StringToHash(Animator_Parameter_Name_MotionSpeed);
-            Animator_Parameter_Hash_Attack = Animator.StringToHash(Animator_Parameter_Name_Attack);
+            Animator_Parameter_Hash_IsAttacking = Animator.StringToHash(Animator_Parameter_Name_IsAttacking);
+            Animator_Parameter_Hash_AttackComboCount = Animator.StringToHash(Animator_Parameter_Name_AttackComboCount);
             Animator_Parameter_Hash_FreeFall = Animator.StringToHash(Animator_Parameter_Name_FreeFall);
 
             Animator_Layer_Index_BaseLayer = animator.GetLayerIndex(Animator_Layer_Name_BaseLayer);
@@ -73,7 +76,8 @@ namespace Core
         {
             UpdateLocomotionParameters();
 
-            animator.SetBool(Animator_Parameter_Hash_Attack, character.IsAttacking); // TODO: 애니메이터 컨트롤러에 매개변수 추가
+            animator.SetBool(Animator_Parameter_Hash_IsAttacking, character.IsAttacking);
+            animator.SetInteger(Animator_Parameter_Hash_AttackComboCount, character.AttackComboCount);
             animator.SetBool(Animator_Parameter_Hash_IsGrounded, character.Controller.IsGrounded);
             animator.SetBool(Animator_Parameter_Hash_IsRolling, character.IsRolling);
             animator.SetBool(Animator_Parameter_Hash_IsDead, character.IsDead);
