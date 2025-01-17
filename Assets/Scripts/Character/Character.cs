@@ -42,6 +42,9 @@ namespace Core
         public bool IsInvincible = false;
         public bool IsDead = false;
 
+        [Range(0f, 1f)]
+        public float MotionSpeed = 1.0f;
+
         [Header("Rolling")]
         public bool IsRolling = false;
         public float RollingCooldownTime;

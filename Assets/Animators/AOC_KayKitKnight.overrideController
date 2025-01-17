@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AOC_KayKitKnight
+  m_Controller: {fileID: 9100000, guid: 946be0680a8c02a4e9412b058a20b0db, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 4bf0d07f5ef670c479bfe69855e57bd6, type: 2}
+    m_OverrideClip: {fileID: -3100369314251171874, guid: f00466f7917e9764d909a07a9b44ff3e,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 068050232a4f5114aae4691fe566f015, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 5aa86f65ecce10f4596327a42e72813f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 48befb5773527f646ab92a3abf90255c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7d4a13562f1255e44b07a2fcd0b6a516, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 76fe512d970de4d4db99aa3fa77983b1, type: 2}
+    m_OverrideClip: {fileID: 2217827441429648498, guid: f00466f7917e9764d909a07a9b44ff3e,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: ae8e882673df68f41be342a67a05fda7, type: 2}
+    m_OverrideClip: {fileID: 7624655660056751624, guid: f00466f7917e9764d909a07a9b44ff3e,
+      type: 3}

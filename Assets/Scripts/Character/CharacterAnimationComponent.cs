@@ -11,12 +11,12 @@ namespace Core
     {
         [SerializeField] private AnimatorController AnimatorController;
 
-        [Header("애니메이터 States")]
+        [Header("Animator State Machine States")]
         [SerializeField] private string Animator_State_Name_Locomotion = "Locomotion";
         [SerializeField] private string Animator_State_Name_Walk = "Walk";
         [SerializeField] private string Animator_State_Name_Sprint = "Sprint";
 
-        [Header("애니메이터 Parameters")]
+        [Header("Animator Parameters")]
         [SerializeField] private string Animator_Parameter_Name_Speed = "Speed";
         [SerializeField] private string Animator_Parameter_Name_IsGrounded = "IsGrounded";
         [SerializeField] private string Animator_Parameter_Name_IsRolling = "IsRolling";
@@ -26,9 +26,10 @@ namespace Core
         [SerializeField] private string Animator_Parameter_Name_AttackComboCount = "AttackComboCount";
         [SerializeField] private string Animator_Parameter_Name_FreeFall = "FreeFall";
 
-        [Header("애니메이터 블렌드 트리 Thresholds")]
-        [SerializeField] private float Animator_Threshold_Walk = 0.5f;
-        [SerializeField] private float Animator_Threshold_Sprint = 1f;
+        [Header("Animator Locomotion BlendTree Threshold")]
+        [Header("Do not change this until you understand this!")]
+        [SerializeField] private float Animator_Threshold_Walk = 0.25f;
+        [SerializeField] private float Animator_Threshold_Sprint = 0.75f;
 
         [Header("애니메이터 Layers")]
         [SerializeField] private string Animator_Layer_Name_BaseLayer = "Base Layer";
