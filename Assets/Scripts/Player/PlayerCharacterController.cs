@@ -12,6 +12,7 @@ namespace Core
     /// </summary>
     public class PlayerCharacterController : BaseCharacterController
     {
+        private PlayerCharacterFollowCamera playerCharacterFollowCamera;
         private Camera playerCamera;
 
         public void SetCamera(Camera camera)
@@ -80,16 +81,18 @@ namespace Core
                 lookInputVector = Vector3.zero;
             }
 
+            float scrollInput = 0;
             /*
             // Input for zooming the camera (disabled in WebGL because it can cause problems)
             float scrollInput = -Input.GetAxis(MouseScrollInput);
 #if UNITY_WEBGL
         scrollInput = 0f;
 #endif
-
+            */      
             // Apply inputs to the camera
-            CharacterCamera.UpdateWithInput(Time.deltaTime, scrollInput, lookInputVector);
+            Player.Instance.PlayerCharacterFollowCamera.UpdateWithInput(Time.deltaTime, scrollInput, lookInputVector);
 
+            /*
             // Handle toggling zoom level
             if (Input.GetMouseButtonDown(1))
             {

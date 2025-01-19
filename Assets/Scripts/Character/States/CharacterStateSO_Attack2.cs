@@ -62,8 +62,7 @@ namespace Core
         {
             currentVelocity = motor.CharacterForward *
                 data.AttackVelocity *
-                data.AttackVelocityMultiplier * 
-                data.AttackVelocityCurve.Evaluate(elapsedTime);
+                data.AttackVelocityMultiplier;
         }
 
         public override void UpdateRotation(Character character, KinematicCharacterMotor motor, ref Quaternion currentRotation, float deltaTime)

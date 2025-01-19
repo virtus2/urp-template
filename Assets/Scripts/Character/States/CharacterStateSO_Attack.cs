@@ -6,8 +6,6 @@ namespace Core
     [System.Serializable]
     public class CharacterStateData_Attack
     {
-        public float AttackDuration = 1f;
-        public AnimationCurve AttackVelocityCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
         public float AttackVelocityMultiplier = 1f;
         public float AttackVelocity = 1f;
     }
@@ -65,10 +63,11 @@ namespace Core
 
         public override void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
         {
+            /*
             currentVelocity = motor.CharacterForward *
                 data.AttackVelocity *
-                data.AttackVelocityMultiplier * 
-                data.AttackVelocityCurve.Evaluate(elapsedTime);
+                data.AttackVelocityMultiplier;
+            */
         }
 
         public override void UpdateRotation(Character character, KinematicCharacterMotor motor, ref Quaternion currentRotation, float deltaTime)

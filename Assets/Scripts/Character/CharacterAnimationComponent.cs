@@ -25,16 +25,6 @@ namespace Core
         [SerializeField] private string Animator_Parameter_Name_IsAttacking = "IsAttacking";
         [SerializeField] private string Animator_Parameter_Name_AttackComboCount = "AttackComboCount";
         [SerializeField] private string Animator_Parameter_Name_FreeFall = "FreeFall";
-
-        [Header("Animator Locomotion BlendTree Threshold")]
-        [Header("Do not change this until you understand this!")]
-        [SerializeField] private float Animator_Threshold_Walk = 0.25f;
-        [SerializeField] private float Animator_Threshold_Sprint = 0.75f;
-
-        [Header("애니메이터 Layers")]
-        [SerializeField] private string Animator_Layer_Name_BaseLayer = "Base Layer";
-        [SerializeField] private string Animator_Layer_Name_UpperLayer = "Upper Layer";
-
         private int Animator_Parameter_Hash_Speed;
         private int Animator_Parameter_Hash_IsGrounded;
         private int Animator_Parameter_Hash_IsRolling;
@@ -44,8 +34,22 @@ namespace Core
         private int Animator_Parameter_Hash_AttackComboCount;
         private int Animator_Parameter_Hash_FreeFall;
 
+        [Header("Animator Locomotion BlendTree Threshold")]
+        [Header("Do not change this until you understand this!")]
+        [SerializeField] private float Animator_Threshold_Walk = 0.25f;
+        [SerializeField] private float Animator_Threshold_Sprint = 0.75f;
+
+        [Header("Animator Layers")]
+        [SerializeField] private string Animator_Layer_Name_BaseLayer = "Base Layer";
+        [SerializeField] private string Animator_Layer_Name_UpperLayer = "Upper Layer";
         private int Animator_Layer_Index_BaseLayer;
         private int Animator_Layer_Index_UpperLayer;
+
+        [Header("Animation Curves")]
+        [SerializeField] private string Animation_Curve_Name_Velocity_Attack_Forward = "VelocityAttackForward";
+        private int Animation_Curve_Hash_Velocity_Attack_Forward;
+
+
 
         private Character character;
         private Animator animator;
@@ -68,9 +72,11 @@ namespace Core
             Animator_Parameter_Hash_IsAttacking = Animator.StringToHash(Animator_Parameter_Name_IsAttacking);
             Animator_Parameter_Hash_AttackComboCount = Animator.StringToHash(Animator_Parameter_Name_AttackComboCount);
             Animator_Parameter_Hash_FreeFall = Animator.StringToHash(Animator_Parameter_Name_FreeFall);
-
+            
             Animator_Layer_Index_BaseLayer = animator.GetLayerIndex(Animator_Layer_Name_BaseLayer);
             Animator_Layer_Index_UpperLayer = animator.GetLayerIndex(Animator_Layer_Name_UpperLayer);
+
+            Animation_Curve_Hash_Velocity_Attack_Forward = Animator.StringToHash(Animation_Curve_Name_Velocity_Attack_Forward);
         }
 
         private void Update()
@@ -82,6 +88,10 @@ namespace Core
             animator.SetBool(Animator_Parameter_Hash_IsGrounded, character.Controller.IsGrounded);
             animator.SetBool(Animator_Parameter_Hash_IsRolling, character.IsRolling);
             animator.SetBool(Animator_Parameter_Hash_IsDead, character.IsDead);
+            
+            float Velocity = animator.GetFloat(Animation_Curve_Hash_Velocity_Attack_Forward);
+            Debug.Log($"{Velocity}");
+            character.Controller.AddVelocity(character.transform.forward * Velocity);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;

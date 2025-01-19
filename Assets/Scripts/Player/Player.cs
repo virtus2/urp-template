@@ -10,7 +10,7 @@ namespace Core
 
         public Character PlayerCharacter { get; private set; }
         public PlayerInputHandler PlayerInput { get; private set; }
-        public CinemachineCamera PlayerCharacterFollowCamera { get; private set; }
+        public PlayerCharacterFollowCamera PlayerCharacterFollowCamera { get; private set; }
         public CinemachineBrain CinemachineBrain;
 
         public Action<Character> OnPlayerCharacterSpawned;
@@ -33,7 +33,7 @@ namespace Core
             CinemachineBrain = cam.GetComponent<CinemachineBrain>();
         }
 
-        public void SetPlayerFollowCamera(CinemachineCamera camera)
+        public void SetPlayerCharacterFollowCamera(PlayerCharacterFollowCamera camera)
         {
             PlayerCharacterFollowCamera = camera;
         }
@@ -55,7 +55,7 @@ namespace Core
             playerCharacterController.SetCamera(mainCamera);
 
             // 시네머신 카메라 팔로우 대상 지정
-            PlayerCharacterFollowCamera.Follow = PlayerCharacter.transform;
+            PlayerCharacterFollowCamera.SetFollowTarget(PlayerCharacter.transform);
 
             OnPlayerCharacterSpawned?.Invoke(PlayerCharacter);
         }

@@ -75,8 +75,8 @@ namespace Core
 
         private void InitializePlayer(Scene _)
         {
-            CinemachineCamera playerFollowCamera = FindAnyObjectByType<CinemachineCamera>();
-            PlayerInstance.SetPlayerFollowCamera(playerFollowCamera);
+            PlayerCharacterFollowCamera camera = FindAnyObjectByType<PlayerCharacterFollowCamera>();
+            PlayerInstance.SetPlayerCharacterFollowCamera(camera);
             PlayerInstance.SetMainCamera(Camera.main);
 
             PlayerHUD playerHUD = FindAnyObjectByType<PlayerHUD>();
