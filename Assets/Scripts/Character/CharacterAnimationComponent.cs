@@ -25,6 +25,8 @@ namespace Core
         [SerializeField] private string Animator_Parameter_Name_IsAttacking = "IsAttacking";
         [SerializeField] private string Animator_Parameter_Name_AttackComboCount = "AttackComboCount";
         [SerializeField] private string Animator_Parameter_Name_FreeFall = "FreeFall";
+        [SerializeField] private string Animator_Parameter_Name_Forward = "Forward";
+        [SerializeField] private string Animator_Parameter_Name_Right = "Right";
         private int Animator_Parameter_Hash_Speed;
         private int Animator_Parameter_Hash_IsGrounded;
         private int Animator_Parameter_Hash_IsRolling;
@@ -33,6 +35,8 @@ namespace Core
         private int Animator_Parameter_Hash_IsAttacking;
         private int Animator_Parameter_Hash_AttackComboCount;
         private int Animator_Parameter_Hash_FreeFall;
+        private int Animator_Parameter_Hash_Forward;
+        private int Animator_Parameter_Hash_Right;
 
         [Header("Animator Locomotion BlendTree Threshold")]
         [Header("Do not change this until you understand this!")]
@@ -72,7 +76,9 @@ namespace Core
             Animator_Parameter_Hash_IsAttacking = Animator.StringToHash(Animator_Parameter_Name_IsAttacking);
             Animator_Parameter_Hash_AttackComboCount = Animator.StringToHash(Animator_Parameter_Name_AttackComboCount);
             Animator_Parameter_Hash_FreeFall = Animator.StringToHash(Animator_Parameter_Name_FreeFall);
-            
+            Animator_Parameter_Hash_Forward = Animator.StringToHash(Animator_Parameter_Name_Forward);
+            Animator_Parameter_Hash_Right = Animator.StringToHash(Animator_Parameter_Name_Right);
+
             Animator_Layer_Index_BaseLayer = animator.GetLayerIndex(Animator_Layer_Name_BaseLayer);
             Animator_Layer_Index_UpperLayer = animator.GetLayerIndex(Animator_Layer_Name_UpperLayer);
 
@@ -90,7 +96,6 @@ namespace Core
             animator.SetBool(Animator_Parameter_Hash_IsDead, character.IsDead);
             
             float Velocity = animator.GetFloat(Animation_Curve_Hash_Velocity_Attack_Forward);
-            Debug.Log($"{Velocity}");
             character.Controller.AddVelocity(character.transform.forward * Velocity);
             /*
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
@@ -115,7 +120,19 @@ namespace Core
             animator.SetFloat(Animator_Parameter_Hash_Speed, speedRatio);
 
             // TODO: 이속 빨라지거나 느려지면(ex: 디버프) 로코모션 재생속도 증감
-            animator.SetFloat(Animator_Parameter_Hash_MotionSpeed, 1f); 
+            animator.SetFloat(Animator_Parameter_Hash_MotionSpeed, 1f);
+
+            // Calculate the dot product of the character's viewing direction and movement direction
+            // to set the Forward and Right values. (for strafing animations)
+            // TODO: Calculate when strafing is needed (ex: camera lock on target)
+            Vector3 normalizedVelocity = character.Controller.Velocity.normalized;
+            float forward = Vector3.Dot(character.Controller.Forward, normalizedVelocity);
+            float right = Vector3.Dot(character.Controller.Right, normalizedVelocity);
+            animator.SetFloat(Animator_Parameter_Hash_Forward, forward);
+            animator.SetFloat(Animator_Parameter_Hash_Right, right);
+
+
+
         }
     }
 }

@@ -17,10 +17,12 @@ namespace Core
     {
         public Vector3 Velocity => motor ? motor.Velocity : Vector3.zero;
         public float Radius => motor ? motor.Capsule.radius : 0f;
+        public Vector3 Forward => motor ? motor.CharacterForward : Vector3.forward;
+        public Vector3 Right => motor ? motor.CharacterRight : Vector3.right;
 
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         public Vector2 LastMovementInput;
-        
+
         // Inputs
         public bool RollPressed;
         public bool AttackPressed;
@@ -36,8 +38,9 @@ namespace Core
         [ReadOnly]
         public float MaxStableMoveSpeed = 10f;
 
-        [Tooltip("Linear interpolation speed for character's movement speed.")]
-        public float StableMovementSharpness = 15;
+        // [Tooltip("Linear interpolation speed for character's movement speed. It can be tweaked in MovementSettings.")]
+        // [ReadOnly]
+        // public float StableMovementSharpness = 15;
 
 
         [Header("Air Movement")]

@@ -27,16 +27,50 @@ namespace Core
 
         public override void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            character.Controller.MaxStableMoveSpeed = character.Controller.RunPressed ?
-                character.MovementSettings.RunSpeed : character.MovementSettings.WalkSpeed;
+            if(character.Controller.RunPressed)
+            {
+                if(Mathf.Approximately(character.Controller.MaxStableMoveSpeed,character.MovementSettings.RunSpeed))
+                {
+                    character.Controller.MaxStableMoveSpeed = character.MovementSettings.RunSpeed;
+                }
+                else
+                {
+                    character.Controller.MaxStableMoveSpeed = Mathf.MoveTowards(character.Controller.MaxStableMoveSpeed,
+                        character.MovementSettings.RunSpeed, character.MovementSettings.Acceleration * Time.deltaTime);
+                }
+            }
+            else
+            {
+                if(Mathf.Approximately(character.Controller.MaxStableMoveSpeed, character.MovementSettings.WalkSpeed))
+                {
+                    character.Controller.MaxStableMoveSpeed = character.MovementSettings.WalkSpeed;
+                }
+                else
+                {
+                    character.Controller.MaxStableMoveSpeed = Mathf.MoveTowards(character.Controller.MaxStableMoveSpeed,
+                        character.MovementSettings.WalkSpeed, character.MovementSettings.Decceleration * Time.deltaTime);
+                }
+            }
         }
 
         public override void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
         {// Ground movement
             if (motor.GroundingStatus.IsStableOnGround)
             {
-                float currentVelocityMagnitude = currentVelocity.magnitude;
+                // Method 1: Interpolate target speed first, then multiply the velocity with it
+                float targetSpeed = character.Controller.MaxStableMoveSpeed;
 
+                Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
+                Vector3 inputRight = Vector3.Cross(character.Controller.MovementInputVector, motor.CharacterUp);
+                Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * character.Controller.MovementInputVector.magnitude;
+                
+                float currentSpeed = Mathf.MoveTowards(currentVelocity.magnitude, targetSpeed, 
+                    character.MovementSettings.StableMovementSharpness * deltaTime);
+                
+                currentVelocity = reorientedInput * currentSpeed;
+
+                // Method 2: Calculate and Interpolate velocity vector
+                /*
                 Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
 
                 // Reorient velocity on slope
@@ -48,7 +82,8 @@ namespace Core
                 Vector3 targetMovementVelocity = reorientedInput * character.Controller.MaxStableMoveSpeed;
 
                 // Smooth movement Velocity
-                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-character.Controller.StableMovementSharpness * deltaTime));
+                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-character.MovementSettings.StableMovementSharpness * deltaTime));
+                */
             }
             // Air movement
             else
