@@ -15,6 +15,7 @@ namespace Core
 
     public abstract class BaseCharacterController : MonoBehaviour, ICharacterController
     {
+        public KinematicCharacterMotor Motor => motor ? motor : null;
         public Vector3 Velocity => motor ? motor.Velocity : Vector3.zero;
         public float Radius => motor ? motor.Capsule.radius : 0f;
         public Vector3 Forward => motor ? motor.CharacterForward : Vector3.forward;
@@ -103,6 +104,10 @@ namespace Core
         protected CharacterStateMachine stateMachine;
         protected KinematicCharacterMotor motor;
 
+        // A pre-allocated array of colliders used for physics-related logic such as collision detection or triggers.
+        protected Collider[] probedColliders = new Collider[8];
+
+
         private void Awake()
         {
             character = GetComponent<Character>();
@@ -143,6 +148,13 @@ namespace Core
             internalForceAdd += force;
         }
 
+        public int CharacterOverlap(LayerMask layerMask, QueryTriggerInteraction triggerInteraction, out Collider[] overlappedColliders)
+        {
+            overlappedColliders = probedColliders;
+            return motor.CharacterOverlap(motor.TransientPosition, motor.TransientRotation, probedColliders, layerMask, triggerInteraction);
+        }
+
+        /// <param name="deltaTime"></param>
         public void BeforeCharacterUpdate(float deltaTime)
         {
             // throw new System.NotImplementedException();
@@ -203,6 +215,7 @@ namespace Core
                 internalForceAdd = Vector3.Lerp(internalForceAdd, Vector3.zero, Drag * Time.deltaTime);
             }
         }
+
         public void AfterCharacterUpdate(float deltaTime)
         {
             // throw new System.NotImplementedException();

@@ -16,6 +16,8 @@ namespace Core
         // Special
         Attack2 = 1000,
 
+        ClimbingLadder = 2000,
+
         // Not in use yet.
         Crouched,
         AirMove,

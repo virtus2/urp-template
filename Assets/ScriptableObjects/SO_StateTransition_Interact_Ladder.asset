@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56dcd53b003ca9544b8397c52ce0e2b5, type: 3}
-  m_Name: SO_PlayerSettings_Default
+  m_Script: {fileID: 11500000, guid: 2ad87cbfd7e604c46be219f12050f370, type: 3}
+  m_Name: SO_StateTransition_Interact_Ladder
   m_EditorClassIdentifier: 
-  PlayerCharacterPrefab: {fileID: 89967063046473660, guid: c9cd803756247854981ffdfb609334ec,
-    type: 3}
+  InteractionLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  Tag: Ladder

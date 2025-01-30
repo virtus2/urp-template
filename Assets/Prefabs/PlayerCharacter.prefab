@@ -86,12 +86,15 @@ MonoBehaviour:
   MovementSettings: {fileID: 11400000, guid: 36a619db2ea29b348a4e39a53e922f07, type: 2}
   Controller: {fileID: 0}
   ControllerType: 0
+  InputEnabled: 1
+  IsInvincible: 0
+  IsDead: 0
+  MotionSpeed: 1
   IsRolling: 0
   RollingCooldownTime: 0
   IsAttacking: 0
-  IsInvincible: 0
-  IsDead: 0
-  InputEnabled: 1
+  AttackStage: 0
+  AttackComboCount: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
   FootstepAudioSource: {fileID: 1852868455218370245}
@@ -132,6 +135,11 @@ MonoBehaviour:
     StateTransitionRef: {fileID: 11400000, guid: 35725caff52240e408c40c08f0c027ab,
       type: 2}
     Description: 
+  - From: 0200000001000000
+    To: 2000
+    StateTransitionRef: {fileID: 11400000, guid: f4227e543d387e04fb63913f45669e02,
+      type: 2}
+    Description: 
   CharacterStates:
   - State: 0
     CharacterStateRef: {fileID: 11400000, guid: d371412197bafee4fb2089c9c8fef393,
@@ -144,6 +152,9 @@ MonoBehaviour:
       type: 2}
   - State: 3
     CharacterStateRef: {fileID: 11400000, guid: 4675b27d2db464544adc60591689b02c,
+      type: 2}
+  - State: 2000
+    CharacterStateRef: {fileID: 11400000, guid: 5af529eba6e8d33468425bc30f897345,
       type: 2}
 --- !u!114 &3979758749422762738
 MonoBehaviour:
@@ -206,12 +217,16 @@ MonoBehaviour:
   Animator_Parameter_Name_IsRolling: IsRolling
   Animator_Parameter_Name_IsDead: IsDead
   Animator_Parameter_Name_MotionSpeed: MotionSpeed
-  Animator_Parameter_Name_Attack: Attack
+  Animator_Parameter_Name_IsAttacking: IsAttacking
+  Animator_Parameter_Name_AttackComboCount: AttackComboCount
   Animator_Parameter_Name_FreeFall: FreeFall
+  Animator_Parameter_Name_Forward: Forward
+  Animator_Parameter_Name_Right: Right
   Animator_Threshold_Walk: 0.5
   Animator_Threshold_Sprint: 1
   Animator_Layer_Name_BaseLayer: Base Layer
   Animator_Layer_Name_UpperLayer: Upper Layer
+  Animation_Curve_Name_Velocity_Attack_Forward: VelocityAttackForward
 --- !u!136 &2044772619162179928
 CapsuleCollider:
   m_ObjectHideFlags: 8
@@ -296,7 +311,6 @@ MonoBehaviour:
   InteractPressed: 0
   MovementInputVector: {x: 0, y: 0, z: 0}
   MaxStableMoveSpeed: 10
-  StableMovementSharpness: 15
   MaxAirMoveSpeed: 10
   AirAccelerationSpeed: 5
   Drag: 0.1
@@ -312,59 +326,6 @@ MonoBehaviour:
   JumpUpSpeed: 10
   JumpScalableForwardSpeed: 0
   IgnoreMovementInput: 0
-  AttackVelocityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.28049105
-      value: 0.47076124
-      inSlope: 0.032031085
-      outSlope: 0.032031085
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.38854474
-      value: 0.21399009
-      inSlope: -5.278077
-      outSlope: -5.278077
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16455393
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6293747
-      value: -10
-      inSlope: 0.079652496
-      outSlope: 0.079652496
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  AttackVelocityMultiplier: 30
-  AttackDuration: 0.2
 --- !u!54 &3975270907293262991
 Rigidbody:
   m_ObjectHideFlags: 0

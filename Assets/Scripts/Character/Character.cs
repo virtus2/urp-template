@@ -41,6 +41,8 @@ namespace Core
         [Header("Character States")]
         public bool IsInvincible = false;
         public bool IsDead = false;
+        public bool IsLadderClimbing = false;
+        public Ladder CurrentLadder = null;
 
         [Range(0f, 1f)]
         public float MotionSpeed = 1.0f;
