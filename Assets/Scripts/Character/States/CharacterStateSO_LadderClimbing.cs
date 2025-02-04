@@ -16,6 +16,13 @@ namespace Core
     public class CharacterState_LadderClimbing : CharacterState
     {
         private ELadderClimbingStage climbingStage;
+        private Vector3 anchoringPosition;
+        private Quaternion anchoringRotation;
+
+
+        private float elapsedTime = 0f;
+        private float anchoringDuration = 0.5f;
+        private float climbingSpeed = 1f;
 
         public override void OnStateEnter(Character character, ECharacterState prevState)
         {
@@ -24,13 +31,16 @@ namespace Core
             climbingStage = ELadderClimbingStage.Anchoring;
 
             // Store the target position and rotation to snap to
-            _ladderTargetPosition = _activeLadder.ClosestPointOnLadderSegment(Motor.TransientPosition, out _onLadderSegmentState);
-            _ladderTargetRotation = _activeLadder.transform.rotation;
-            break;
+            anchoringPosition = character.CurrentClimbingLadder.ClosestPointOnLadderSegment(
+                character.Controller.Motor.TransientPosition, out float onSegmentState);
+            anchoringRotation = character.CurrentClimbingLadder.transform.rotation;
         }
 
         public override void OnStateExit(Character character, ECharacterState newState)
         {
+            character.Controller.Motor.SetMovementCollisionsSolvingActivation(true);
+            character.Controller.Motor.SetGroundSolvingActivation(true);
+            climbingStage = ELadderClimbingStage.None;
         }
 
         public override void UpdateRotation(Character character, KinematicCharacterMotor motor, ref Quaternion currentRotation, float deltaTime)
@@ -39,11 +49,35 @@ namespace Core
 
         public override void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            
+            if (climbingStage == ELadderClimbingStage.Anchoring)
+            {
+                if (elapsedTime >= anchoringDuration)
+                {
+                    climbingStage = ELadderClimbingStage.Climbing;
+                }
+            }
+            elapsedTime += Time.deltaTime;
         }
 
         public override void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
         {
+            currentVelocity = Vector3.zero;
+
+            switch (climbingStage)
+            {
+                case ELadderClimbingStage.Climbing:
+                    float forwardInput = character.Controller.MovementInputVector.z;
+                    currentVelocity = forwardInput * character.CurrentClimbingLadder.transform.up.normalized * climbingSpeed;
+                    break;
+                case ELadderClimbingStage.Anchoring:
+                case ELadderClimbingStage.DeAnchoring:
+                    currentVelocity = character.Controller.Motor.GetVelocityForMovePosition(
+                        character.Controller.Motor.TransientPosition,
+                        Vector3.Lerp(character.Controller.Motor.TransientPosition, anchoringPosition, elapsedTime / anchoringDuration),
+                        deltaTime
+                    );
+                    break;
+            }
         }
     }
 }

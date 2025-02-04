@@ -42,7 +42,6 @@ namespace Core
         public bool IsInvincible = false;
         public bool IsDead = false;
         public bool IsLadderClimbing = false;
-        public Ladder CurrentLadder = null;
 
         [Range(0f, 1f)]
         public float MotionSpeed = 1.0f;
@@ -54,6 +53,9 @@ namespace Core
         [Header("Attack")]
         [Tooltip("Is character attacking?")]
         public bool IsAttacking = false;
+
+        [Header("Ladder Climbing")]
+        public Ladder CurrentClimbingLadder;
 
         [Tooltip("Attack stage of the character.")]
         public EAttackStage AttackStage = EAttackStage.None;

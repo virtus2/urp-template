@@ -23,7 +23,7 @@ namespace Core
                         Ladder ladder = overlappedColliders[0].GetComponent<Ladder>();
                         if (ladder != null) 
                         {
-                            character.CurrentLadder = ladder;
+                            character.CurrentClimbingLadder = ladder;
                         }
                         return true;
                     }

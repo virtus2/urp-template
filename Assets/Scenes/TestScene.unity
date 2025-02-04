@@ -2700,7 +2700,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2133550013}
   - component: {fileID: 2133550012}
-  - component: {fileID: 2133550011}
+  - component: {fileID: 2133550014}
   m_Layer: 6
   m_Name: Ladder
   m_TagString: Ladder
@@ -2708,22 +2708,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2133550011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133550010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c9bfe760a258784bac7a3dfe4c2018d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LadderSegmentBottom: {x: 0, y: 0.3, z: -0.5}
-  LadderSegmentLength: 3.5
-  BottomReleasePoint: {fileID: 1389954537}
-  TopReleasePoint: {fileID: 1422059174}
 --- !u!65 &2133550012
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2754,7 +2738,7 @@ Transform:
   m_GameObject: {fileID: 2133550010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.95, y: 0.77, z: 13.534}
+  m_LocalPosition: {x: 7.95, y: 0.77, z: 0.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2763,6 +2747,22 @@ Transform:
   - {fileID: 1776543658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2133550014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133550010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5dc9283d3f2ef4cadfa5420cfdb6ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LadderSegmentBottom: {x: 0, y: 0.3, z: -0.5}
+  LadderSegmentLength: 3.5
+  BottomReleasePoint: {fileID: 1389954537}
+  TopReleasePoint: {fileID: 1422059174}
 --- !u!1 &5216530159458137047
 GameObject:
   m_ObjectHideFlags: 0
