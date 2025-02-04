@@ -18,6 +18,7 @@ namespace Core
         public float StableMovementSharpness = 15.0f; // 이동 속도 변화에 대한 부드러움
         public float JumpSpeed = 10.0f; //  점프 속도
         public float JumpAbortSpeed = 10.0f;
+        public float LadderClimbingSpeed = 2.0f; // 사다리 타기 속도
 
         public float MaxRotationSpeed = 1200.0f;
         public float MinRotationSpeed = 600.0f;

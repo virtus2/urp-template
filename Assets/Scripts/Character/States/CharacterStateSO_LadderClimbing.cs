@@ -15,20 +15,19 @@ namespace Core
 
     public class CharacterState_LadderClimbing : CharacterState
     {
-        private ELadderClimbingStage climbingStage;
         private Vector3 anchoringPosition;
         private Quaternion anchoringRotation;
 
-
         private float elapsedTime = 0f;
         private float anchoringDuration = 0.5f;
-        private float climbingSpeed = 1f;
 
         public override void OnStateEnter(Character character, ECharacterState prevState)
         {
             character.Controller.Motor.SetMovementCollisionsSolvingActivation(false);
             character.Controller.Motor.SetGroundSolvingActivation(false);
-            climbingStage = ELadderClimbingStage.Anchoring;
+            character.LadderClimbingStage = ELadderClimbingStage.Anchoring;
+            // character.CurrentClimbingLadder is set by StateTransitionSO_Interact
+            elapsedTime = 0f;
 
             // Store the target position and rotation to snap to
             anchoringPosition = character.CurrentClimbingLadder.ClosestPointOnLadderSegment(
@@ -40,21 +39,65 @@ namespace Core
         {
             character.Controller.Motor.SetMovementCollisionsSolvingActivation(true);
             character.Controller.Motor.SetGroundSolvingActivation(true);
-            climbingStage = ELadderClimbingStage.None;
+            character.LadderClimbingStage = ELadderClimbingStage.None;
+            character.CurrentClimbingLadder = null;
+            elapsedTime = 0f;
         }
 
         public override void UpdateRotation(Character character, KinematicCharacterMotor motor, ref Quaternion currentRotation, float deltaTime)
         {
+            switch (character.LadderClimbingStage)
+            {
+                case ELadderClimbingStage.Anchoring:
+                case ELadderClimbingStage.DeAnchoring:
+                    currentRotation = Quaternion.Slerp(motor.TransientRotation, anchoringRotation, elapsedTime / anchoringDuration);
+
+                    break;
+                case ELadderClimbingStage.Climbing:
+                    currentRotation = character.CurrentClimbingLadder.transform.rotation;
+
+                    break;
+
+            }
         }
 
         public override void UpdateState(Character character, CharacterStateMachine stateMachine)
         {
-            if (climbingStage == ELadderClimbingStage.Anchoring)
+            if (character.LadderClimbingStage == ELadderClimbingStage.Anchoring)
             {
                 if (elapsedTime >= anchoringDuration)
                 {
-                    climbingStage = ELadderClimbingStage.Climbing;
+                    character.LadderClimbingStage = ELadderClimbingStage.Climbing;
                 }
+            }
+            if (character.LadderClimbingStage == ELadderClimbingStage.Climbing)
+            {
+                // Detect getting off ladder during climbing
+                character.CurrentClimbingLadder.ClosestPointOnLadderSegment(character.Controller.Motor.TransientPosition, out float ladderSegement);
+                if (Mathf.Abs(ladderSegement) > 0.05f)
+                {
+                    character.LadderClimbingStage = ELadderClimbingStage.DeAnchoring;
+
+                    // TODO: 사다리 탄 후 도착지 설정
+                    /*
+                    // If we're higher than the ladder top point
+                    if (ladderSegement > 0)
+                    {
+                        anchoringPosition = character.CurrentClimbingLadder.TopReleasePoint.position;
+                        anchoringRotation = character.CurrentClimbingLadder.TopReleasePoint.rotation;
+                    }
+                    // If we're lower than the ladder bottom point
+                    else if (ladderSegement < 0)
+                    {
+                        anchoringPosition = character.CurrentClimbingLadder.BottomReleasePoint.position;
+                        anchoringRotation = character.CurrentClimbingLadder.BottomReleasePoint.rotation;
+                    }
+                    */
+                }
+            }
+            if(character.LadderClimbingStage == ELadderClimbingStage.DeAnchoring)
+            {
+                stateMachine.TransitionToState(ECharacterState.Idle);
             }
             elapsedTime += Time.deltaTime;
         }
@@ -63,19 +106,23 @@ namespace Core
         {
             currentVelocity = Vector3.zero;
 
-            switch (climbingStage)
+            switch (character.LadderClimbingStage)
             {
                 case ELadderClimbingStage.Climbing:
                     float forwardInput = character.Controller.MovementInputVector.z;
-                    currentVelocity = forwardInput * character.CurrentClimbingLadder.transform.up.normalized * climbingSpeed;
+                    currentVelocity = forwardInput * character.CurrentClimbingLadder.transform.up.normalized * character.MovementSettings.LadderClimbingSpeed;
+
                     break;
+
+                // TODO: 사다리 탄 후 도착지 설정
                 case ELadderClimbingStage.Anchoring:
                 case ELadderClimbingStage.DeAnchoring:
-                    currentVelocity = character.Controller.Motor.GetVelocityForMovePosition(
-                        character.Controller.Motor.TransientPosition,
-                        Vector3.Lerp(character.Controller.Motor.TransientPosition, anchoringPosition, elapsedTime / anchoringDuration),
+                    currentVelocity = motor.GetVelocityForMovePosition(
+                        motor.TransientPosition,
+                        Vector3.Lerp(motor.TransientPosition, anchoringPosition, elapsedTime / anchoringDuration),
                         deltaTime
                     );
+
                     break;
             }
         }

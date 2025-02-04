@@ -4,6 +4,8 @@ namespace Core
 {
 	public class Ladder : MonoBehaviour
 	{
+        // TODO: 접혀져있는 사다리를 숏컷용으로 펼치는 기능 추가
+
         // Ladder segment
         public Vector3 LadderSegmentBottom;
         public float LadderSegmentLength;
@@ -64,6 +66,8 @@ namespace Core
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(BottomAnchorPoint, TopAnchorPoint);
+            Gizmos.DrawCube(BottomReleasePoint.position, Vector3.one);
+            Gizmos.DrawCube(TopReleasePoint.position, Vector3.one);
         }
     }
 }

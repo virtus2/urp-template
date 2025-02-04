@@ -41,10 +41,10 @@ namespace Core
         [Header("Character States")]
         public bool IsInvincible = false;
         public bool IsDead = false;
-        public bool IsLadderClimbing = false;
 
         [Range(0f, 1f)]
         public float MotionSpeed = 1.0f;
+        public float TimeScale = 1.0f; // TODO: 아~주 나중에 캐릭터들마다 개별적으로 타임 스케일 설정 기능이 생겨야 한다면 구현.
 
         [Header("Rolling")]
         public bool IsRolling = false;
@@ -56,6 +56,8 @@ namespace Core
 
         [Header("Ladder Climbing")]
         public Ladder CurrentClimbingLadder;
+        public bool IsLadderClimbing = false;
+        public ELadderClimbingStage LadderClimbingStage;
 
         [Tooltip("Attack stage of the character.")]
         public EAttackStage AttackStage = EAttackStage.None;
