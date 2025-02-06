@@ -61,7 +61,7 @@ namespace Core
         {
             if (motor.GroundingStatus.IsStableOnGround)
             {
-                currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, 1f - Mathf.Exp(-character.MovementSettings.StableMovementSharpness * deltaTime));
+                // currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, 1f - Mathf.Exp(-character.MovementSettings.StableMovementSharpness * deltaTime));
             }
             else
             {

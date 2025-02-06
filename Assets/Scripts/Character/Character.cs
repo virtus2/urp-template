@@ -56,7 +56,12 @@ namespace Core
 
         [Header("Ladder Climbing")]
         public Ladder CurrentClimbingLadder;
+        public float LadderClimbingDirection = 0;
         public bool IsLadderClimbing = false;
+        public bool IsLadderClimbingOnTop = false;
+        public bool IsLadderClimbingOnBottom = false;
+        public bool IsLadderClimbingOffTop = false;
+        public bool IsLadderClimbingOffBottom = false;
         public ELadderClimbingStage LadderClimbingStage;
 
         [Tooltip("Attack stage of the character.")]

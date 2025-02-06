@@ -56,6 +56,7 @@ namespace Core
                 toCursor.y = 0;
                 toCursor.Normalize();
                 SetLookInput(toCursor);
+                UseDirectionalMovement = true;
             }
             else if (OrientationMethod == OrientationMethod.TowardsCamera)
             {

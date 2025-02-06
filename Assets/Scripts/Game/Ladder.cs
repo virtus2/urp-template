@@ -66,8 +66,8 @@ namespace Core
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawLine(BottomAnchorPoint, TopAnchorPoint);
-            Gizmos.DrawCube(BottomReleasePoint.position, Vector3.one);
-            Gizmos.DrawCube(TopReleasePoint.position, Vector3.one);
+            Gizmos.DrawCube(BottomReleasePoint.position, new Vector3(1, 0.1f, 1));
+            Gizmos.DrawCube(TopReleasePoint.position, new Vector3(1, 0.1f, 1));
         }
     }
 }

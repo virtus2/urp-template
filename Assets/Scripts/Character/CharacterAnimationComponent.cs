@@ -27,6 +27,12 @@ namespace Core
         [SerializeField] private string Animator_Parameter_Name_FreeFall = "FreeFall";
         [SerializeField] private string Animator_Parameter_Name_Forward = "Forward";
         [SerializeField] private string Animator_Parameter_Name_Right = "Right";
+        [SerializeField] private string Animator_Parameter_Name_IsLadderClimbing = "IsLadderClimbing";
+        [SerializeField] private string Animator_Parameter_Name_IsLadderClimbingOnTop = "IsLadderClimbingOnTop";
+        [SerializeField] private string Animator_Parameter_Name_IsLadderClimbingOnBottom = "IsLadderClimbingOnBottom";
+        [SerializeField] private string Animator_Parameter_Name_IsLadderClimbingOffTop = "IsLadderClimbingOffTop";
+        [SerializeField] private string Animator_Parameter_Name_IsLadderClimbingOffBottom = "IsLadderClimbingOffBottom";
+        [SerializeField] private string Animator_Parameter_Name_LadderClimbingDirection= "LadderClimbingDirection";
         private int Animator_Parameter_Hash_Speed;
         private int Animator_Parameter_Hash_IsGrounded;
         private int Animator_Parameter_Hash_IsRolling;
@@ -37,6 +43,12 @@ namespace Core
         private int Animator_Parameter_Hash_FreeFall;
         private int Animator_Parameter_Hash_Forward;
         private int Animator_Parameter_Hash_Right;
+        private int Animator_Parameter_Hash_IsLadderClimbing;
+        private int Animator_Parameter_Hash_IsLadderClimbingOnTop;
+        private int Animator_Parameter_Hash_IsLadderClimbingOnBottom;
+        private int Animator_Parameter_Hash_IsLadderClimbingOffTop;
+        private int Animator_Parameter_Hash_IsLadderClimbingOffBottom;
+        private int Animator_Parameter_Hash_LadderClimbingDirection;
 
         [Header("Animator Locomotion BlendTree Threshold")]
         [Header("Do not change this until you understand this!")]
@@ -58,7 +70,7 @@ namespace Core
         private Character character;
         private Animator animator;
         private RuntimeAnimatorController runtimeAnimatorController;
-        
+
         private MultiAimConstraint multiAimConstraint;
 
         private void Awake()
@@ -78,6 +90,12 @@ namespace Core
             Animator_Parameter_Hash_FreeFall = Animator.StringToHash(Animator_Parameter_Name_FreeFall);
             Animator_Parameter_Hash_Forward = Animator.StringToHash(Animator_Parameter_Name_Forward);
             Animator_Parameter_Hash_Right = Animator.StringToHash(Animator_Parameter_Name_Right);
+            Animator_Parameter_Hash_IsLadderClimbing = Animator.StringToHash(Animator_Parameter_Name_IsLadderClimbing);
+            Animator_Parameter_Hash_IsLadderClimbingOnTop = Animator.StringToHash(Animator_Parameter_Name_IsLadderClimbingOnTop);
+            Animator_Parameter_Hash_IsLadderClimbingOnBottom = Animator.StringToHash(Animator_Parameter_Name_IsLadderClimbingOnBottom);
+            Animator_Parameter_Hash_IsLadderClimbingOffTop= Animator.StringToHash(Animator_Parameter_Name_IsLadderClimbingOffTop);
+            Animator_Parameter_Hash_IsLadderClimbingOffBottom = Animator.StringToHash(Animator_Parameter_Name_IsLadderClimbingOffBottom);
+            Animator_Parameter_Hash_LadderClimbingDirection = Animator.StringToHash(Animator_Parameter_Name_LadderClimbingDirection);
 
             Animator_Layer_Index_BaseLayer = animator.GetLayerIndex(Animator_Layer_Name_BaseLayer);
             Animator_Layer_Index_UpperLayer = animator.GetLayerIndex(Animator_Layer_Name_UpperLayer);
@@ -94,7 +112,13 @@ namespace Core
             animator.SetBool(Animator_Parameter_Hash_IsGrounded, character.Controller.IsGrounded);
             animator.SetBool(Animator_Parameter_Hash_IsRolling, character.IsRolling);
             animator.SetBool(Animator_Parameter_Hash_IsDead, character.IsDead);
-            
+            animator.SetBool(Animator_Parameter_Hash_IsLadderClimbing, character.IsLadderClimbing);
+            animator.SetBool(Animator_Parameter_Hash_IsLadderClimbingOnTop, character.IsLadderClimbingOnTop);
+            animator.SetBool(Animator_Parameter_Hash_IsLadderClimbingOnBottom, character.IsLadderClimbingOnBottom);
+            animator.SetBool(Animator_Parameter_Hash_IsLadderClimbingOffTop, character.IsLadderClimbingOffTop);
+            animator.SetBool(Animator_Parameter_Hash_IsLadderClimbingOffBottom, character.IsLadderClimbingOffBottom);
+            animator.SetFloat(Animator_Parameter_Hash_LadderClimbingDirection, character.LadderClimbingDirection);
+
             float Velocity = animator.GetFloat(Animation_Curve_Hash_Velocity_Attack_Forward);
             character.Controller.AddVelocity(character.transform.forward * Velocity);
             /*
@@ -113,8 +137,8 @@ namespace Core
             }
             else
             {
-                speedRatio = Animator_Threshold_Walk + 
-                    ((character.Controller.HorizontalSpeed - character.MovementSettings.WalkSpeed) / (character.MovementSettings.RunSpeed - character.MovementSettings.WalkSpeed)) * 
+                speedRatio = Animator_Threshold_Walk +
+                    ((character.Controller.HorizontalSpeed - character.MovementSettings.WalkSpeed) / (character.MovementSettings.RunSpeed - character.MovementSettings.WalkSpeed)) *
                     (Animator_Threshold_Sprint - Animator_Threshold_Walk);
             }
             animator.SetFloat(Animator_Parameter_Hash_Speed, speedRatio);
@@ -125,13 +149,27 @@ namespace Core
             // Calculate the dot product of the character's viewing direction and movement direction
             // to set the Forward and Right values. (for strafing animations)
             // TODO: Calculate when strafing is needed (ex: camera lock on target)
-            Vector3 normalizedVelocity = character.Controller.Velocity.normalized;
-            float forward = Vector3.Dot(character.Controller.Forward, normalizedVelocity);
-            float right = Vector3.Dot(character.Controller.Right, normalizedVelocity);
-            animator.SetFloat(Animator_Parameter_Hash_Forward, forward);
-            animator.SetFloat(Animator_Parameter_Hash_Right, right);
+            if (character.Controller.UseDirectionalMovement)
+            {
+                Vector3 normalizedVelocity = character.Controller.Velocity.normalized;
+                float forward = Vector3.Dot(character.Controller.Forward, normalizedVelocity);
+                float right = Vector3.Dot(character.Controller.Right, normalizedVelocity);
+                animator.SetFloat(Animator_Parameter_Hash_Forward, forward);
+                animator.SetFloat(Animator_Parameter_Hash_Right, right);
+            }
+        }
 
+        private void OnAnimatorMove()
+        {
+            if (character.Controller.UseRootMotion)
+            {
+                character.Controller.RootMotionPositionDelta += animator.deltaPosition;
+                character.Controller.RootMotionRotationDelta = animator.deltaRotation * character.Controller.RootMotionRotationDelta;
+            }
+        }
 
+        private void OnAnimatorIK(int layerIndex)
+        {
 
         }
     }

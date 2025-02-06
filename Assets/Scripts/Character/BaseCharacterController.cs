@@ -20,15 +20,14 @@ namespace Core
         public float Radius => motor ? motor.Capsule.radius : 0f;
         public Vector3 Forward => motor ? motor.CharacterForward : Vector3.forward;
         public Vector3 Right => motor ? motor.CharacterRight : Vector3.right;
+        public float HorizontalSpeed => motor ? motor.BaseVelocity.magnitude : 0f;
 
-        // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        public Vector2 LastMovementInput;
-
-        // Inputs
+        [Header("Input Statements")]
         public bool RollPressed;
         public bool AttackPressed;
         public bool RunPressed;
         public bool InteractPressed;
+        public bool IgnoreMovementInput = false;
 
         [Header("Stable Movement")]
         [Tooltip("Movement input from the Player or AI.")]
@@ -38,6 +37,11 @@ namespace Core
         [Tooltip("Maximum movement speed on stable ground. It can be tweaked in MovementSettings.")]
         [ReadOnly]
         public float MaxStableMoveSpeed = 10f;
+
+        [Tooltip("Use directional movement. For example, the lock-on system.")]
+        [ReadOnly]
+        // TODO: Look at 대상과 락온 추가할때 정리
+        public bool UseDirectionalMovement = false;
 
         // [Tooltip("Linear interpolation speed for character's movement speed. It can be tweaked in MovementSettings.")]
         // [ReadOnly]
@@ -55,6 +59,13 @@ namespace Core
 
         [Tooltip("Drag coefficient of the object. The higher the value, the faster the object slows down.")]
         public float Drag = 0.1f; // TODO: 필요하면 MovementSettings에서 수정 가능하게 변경
+
+        [Header("Root Motion")]
+        [Tooltip("Is root motion enabled?")]
+        // TODO: Root motion 처리 
+        public bool UseRootMotion = false;
+        public Vector3 RootMotionPositionDelta;
+        public Quaternion RootMotionRotationDelta;
 
         [Header("Misc")]
         [Tooltip("Look input from the Player or AI.")]
@@ -88,17 +99,8 @@ namespace Core
         public bool IsGrounded { get; private set; }
 
         [Tooltip("The pushing force of the character.")]
-
         public float PushForce = 3f;
 
-        // TODO: 점프 안쓸 것 같으면 지우기
-        public float JumpUpSpeed = 10f; 
-        public float JumpScalableForwardSpeed = 0f;
-
-        // 내가 추가한 필드
-        [Header("FOR TEST")]
-        public bool IgnoreMovementInput = false;
-        public float HorizontalSpeed => motor ? motor.BaseVelocity.magnitude : 0f;
 
         protected Character character;
         protected CharacterStateMachine stateMachine;
@@ -159,7 +161,6 @@ namespace Core
         {
             // throw new System.NotImplementedException();
         }
-
 
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {

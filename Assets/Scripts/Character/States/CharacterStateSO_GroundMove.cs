@@ -54,10 +54,13 @@ namespace Core
         }
 
         public override void UpdateVelocity(Character character, KinematicCharacterMotor motor, ref Vector3 currentVelocity, float deltaTime)
-        {// Ground movement
+        {
+            // Ground movement
             if (motor.GroundingStatus.IsStableOnGround)
             {
                 // Method 1: Interpolate target speed first, then multiply the velocity with it
+                // Input이 없으면 바로 속도가 0이되는 문제가 있음.
+                /*
                 float targetSpeed = character.Controller.MaxStableMoveSpeed;
 
                 Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
@@ -65,16 +68,16 @@ namespace Core
                 Vector3 reorientedInput = Vector3.Cross(effectiveGroundNormal, inputRight).normalized * character.Controller.MovementInputVector.magnitude;
                 
                 float currentSpeed = Mathf.MoveTowards(currentVelocity.magnitude, targetSpeed, 
-                    character.MovementSettings.StableMovementSharpness * deltaTime);
+                    character.MovementSettings.Acceleration * deltaTime);
                 
                 currentVelocity = reorientedInput * currentSpeed;
+                */
 
                 // Method 2: Calculate and Interpolate velocity vector
-                /*
                 Vector3 effectiveGroundNormal = motor.GroundingStatus.GroundNormal;
 
                 // Reorient velocity on slope
-                currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocityMagnitude;
+                currentVelocity = motor.GetDirectionTangentToSurface(currentVelocity, effectiveGroundNormal) * currentVelocity.magnitude;
 
                 // Calculate target velocity
                 Vector3 inputRight = Vector3.Cross(character.Controller.MovementInputVector, motor.CharacterUp);
@@ -82,8 +85,7 @@ namespace Core
                 Vector3 targetMovementVelocity = reorientedInput * character.Controller.MaxStableMoveSpeed;
 
                 // Smooth movement Velocity
-                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-character.MovementSettings.StableMovementSharpness * deltaTime));
-                */
+                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1f - Mathf.Exp(-character.MovementSettings.Acceleration * deltaTime));
             }
             // Air movement
             else
