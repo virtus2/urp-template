@@ -52,8 +52,8 @@ namespace Core
 
         [Header("Animator Locomotion BlendTree Threshold")]
         [Header("Do not change this until you understand this!")]
-        [SerializeField] private float Animator_Threshold_Walk = 0.25f;
-        [SerializeField] private float Animator_Threshold_Sprint = 0.75f;
+        [SerializeField] private float Animator_Threshold_Walk = 0.5f;
+        [SerializeField] private float Animator_Threshold_Sprint = 1f;
 
         [Header("Animator Layers")]
         [SerializeField] private string Animator_Layer_Name_BaseLayer = "Base Layer";

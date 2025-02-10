@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
-  m_Name: Behaviour_TEST_ChaseTarget Blackboard Editor
+  m_Name: Behaviour_TEST_ChaseTarget Blackboard
   m_EditorClassIdentifier: 
-  m_VersionTimestamp: 0
+  VersionTimestamp: 0
   AssetID:
     m_Value0: 11819464847690975742
     m_Value1: 7380557659795458889
@@ -100,6 +100,7 @@ MonoBehaviour:
   - rid: 2559598869302215477
   m_VersionTimestamp: 638719827240046187
   m_DebugInfo: {fileID: -891963756547038426}
+  m_RuntimeGraph: {fileID: 0}
   AssetID:
     m_Value0: 11819464847690975742
     m_Value1: 7380557659795458889
@@ -183,6 +184,7 @@ MonoBehaviour:
     Variables: []
     NamedChildren: []
   m_Blackboards: []
+  m_MainBlackboardAuthoringAsset: {fileID: 7833594520716833367}
   m_CommandBuffer:
     m_Commands: []
   references:
@@ -306,7 +308,7 @@ MonoBehaviour:
           m_Value1: 7222809467384415560
         Name: Target
         IsExposed: 0
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302214925
       type: {class: 'TypedVariableModel`1[[System.String, mscorlib]]', ns: Unity.Behavior.GraphFramework,
@@ -317,7 +319,7 @@ MonoBehaviour:
           m_Value1: 1062178012027593625
         Name: TargetTag
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: 
     - rid: 2559598869302215088
       type: {class: BranchingConditionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
@@ -545,7 +547,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302215160
       type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
@@ -556,7 +558,7 @@ MonoBehaviour:
           m_Value1: 7222809467384415560
         Name: Target
         IsExposed: 0
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302215293
       type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
@@ -696,7 +698,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302215319
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
@@ -716,7 +718,7 @@ MonoBehaviour:
           m_Value1: 7222809467384415560
         Name: Target
         IsExposed: 0
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302215477
       type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
@@ -766,7 +768,7 @@ MonoBehaviour:
           m_Value1: 5595923653898632924
         Name: StopDistance
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: 0.5
     - rid: 2559598871112319153
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
@@ -797,11 +799,11 @@ MonoBehaviour:
           m_Value1: 5595923653898632924
         Name: StopDistance
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: 0.5
 --- !u!114 &7833594520716833367
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -809,7 +811,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
-  m_Name: Behaviour_TEST_ChaseTarget Blackboard Editor
+  m_Name: Behaviour_TEST_ChaseTarget Blackboard
   m_EditorClassIdentifier: 
   AssetID:
     m_Value0: 11819464847690975742
@@ -835,7 +837,7 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302214922
       type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
@@ -846,7 +848,7 @@ MonoBehaviour:
           m_Value1: 7222809467384415560
         Name: Target
         IsExposed: 0
-        IsShared: 0
+        m_IsShared: 0
         m_Value: {fileID: 0}
     - rid: 2559598869302214924
       type: {class: 'TypedVariableModel`1[[System.String, mscorlib]]', ns: Unity.Behavior.GraphFramework,
@@ -857,7 +859,7 @@ MonoBehaviour:
           m_Value1: 1062178012027593625
         Name: TargetTag
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: 
     - rid: 2559598869302215041
       type: {class: 'TypedVariableModel`1[[System.Single, mscorlib]]', ns: Unity.Behavior.GraphFramework,
@@ -868,7 +870,7 @@ MonoBehaviour:
           m_Value1: 5595923653898632924
         Name: StopDistance
         IsExposed: 1
-        IsShared: 0
+        m_IsShared: 0
         m_Value: 0.5
 --- !u!114 &9200448313896191656
 MonoBehaviour:
@@ -916,7 +918,7 @@ MonoBehaviour:
         AuthoringAssetID:
           m_Value0: 11819464847690975742
           m_Value1: 7380557659795458889
-        m_DebugInfo: {fileID: 0}
+        m_DebugInfo: {fileID: -891963756547038426}
         Root:
           rid: 6749851501738066089
         BlackboardReference:

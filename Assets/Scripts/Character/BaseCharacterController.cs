@@ -11,6 +11,7 @@ namespace Core
         TowardsCamera,
         TowardsMovement,
         TowardsCursor, // Only in Top View !!!
+        TowardsTarget,
     }
 
     public abstract class BaseCharacterController : MonoBehaviour, ICharacterController

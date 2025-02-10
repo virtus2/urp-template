@@ -1413,7 +1413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &880102996
 Transform:
   m_ObjectHideFlags: 0
@@ -1444,7 +1444,7 @@ MonoBehaviour:
   SpawnOnlyOnce: 0
   Spawned: 0
   characterPrefab:
-    m_AssetGUID: a7ce41186d1be8444973e17f336db322
+    m_AssetGUID: dd102cbec64711448bc901ab5b48cbbf
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 

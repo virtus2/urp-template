@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd102cbec64711448bc901ab5b48cbbf
+    m_Address: Assets/Prefabs/AICharacter - Knight.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fb736e6b1c919c2449dc887bda04bb65
     m_Address: AICharacter - Idle
     m_ReadOnly: 0

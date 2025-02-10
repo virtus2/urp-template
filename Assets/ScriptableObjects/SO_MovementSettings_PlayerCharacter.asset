@@ -18,6 +18,7 @@ MonoBehaviour:
   Decceleration: 15
   JumpSpeed: 10
   JumpAbortSpeed: 10
+  LadderClimbingSpeed: 1
   MaxRotationSpeed: 1200
   MinRotationSpeed: 600
   GroundedGravity: 5

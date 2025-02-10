@@ -15,7 +15,7 @@ namespace Core
 
         public ESpawnType SpawnType = ESpawnType.Manual;
 
-        private void Awake()
+        private void Start()
         {
             if(SpawnType == ESpawnType.OnLoaded)
             {

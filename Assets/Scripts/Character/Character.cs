@@ -42,7 +42,7 @@ namespace Core
         public bool IsInvincible = false;
         public bool IsDead = false;
 
-        [Range(0f, 1f)]
+        [Range(0f, 2f)]
         public float MotionSpeed = 1.0f;
         public float TimeScale = 1.0f; // TODO: 아~주 나중에 캐릭터들마다 개별적으로 타임 스케일 설정 기능이 생겨야 한다면 구현.
 
@@ -194,6 +194,18 @@ namespace Core
             // 캐릭터의 현재 상태가 구르기 상태로 넘어갈 수 있는지도 체크해야할 수도 있음.
             // ...
             return !IsOnCooldown && !IsRolling;
+        }
+
+
+        private void OnDrawGizmos()
+        {
+            // Velocity
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(Controller.Motor.TransientPosition, Controller.Motor.TransientPosition + Controller.Motor.Velocity);
+
+            // Rotation
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(Controller.Motor.TransientPosition, Controller.Motor.TransientPosition + Controller.Motor.CharacterForward);
         }
     }
 }
