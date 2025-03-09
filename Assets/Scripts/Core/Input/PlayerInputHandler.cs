@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Core.Player.Input
+namespace Core
 {
     /// <summary>
     /// 플레이어의 입력을 처리하는 컴포넌트

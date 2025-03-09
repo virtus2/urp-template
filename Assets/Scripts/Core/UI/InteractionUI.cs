@@ -1,12 +1,9 @@
 using Core.Character.Component;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Core.Player.UI
+namespace Core.UI
 {
-    public class InteractionWidget : MonoBehaviour
+    public class InteractionUI : MonoBehaviour
     {
         [SerializeField] private CanvasGroup Widget;
 
@@ -14,9 +11,9 @@ namespace Core.Player.UI
 
         private void Update()
         {
-            if (PlayerInstance.Instance.PlayerCharacter)
+            if (Player.PlayerInstance.Instance.PlayerCharacter)
             {
-                interactionComponent = PlayerInstance.Instance.PlayerCharacter.GetComponent<CharacterInteractionComponent>();
+                interactionComponent = Player.PlayerInstance.Instance.PlayerCharacter.GetComponent<CharacterInteractionComponent>();
             }
 
             if (interactionComponent)

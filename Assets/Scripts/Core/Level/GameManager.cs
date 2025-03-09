@@ -1,5 +1,5 @@
 ﻿using Core.Player;
-using Core.Player.UI;
+using Core.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;

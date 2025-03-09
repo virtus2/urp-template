@@ -2,7 +2,7 @@ using Core.Character;
 using Core.Character.Component;
 using UnityEngine;
 
-namespace Core.Player.UI
+namespace Core.UI
 {
     /// <summary>
     /// 플레이어의 스크린에 표시되는 Screen space overlay UI
@@ -14,7 +14,7 @@ namespace Core.Player.UI
 
         private void Awake()
         {
-            PlayerInstance.Instance.OnPlayerCharacterSpawned += SetCharacter;
+            Player.PlayerInstance.Instance.OnPlayerCharacterSpawned += SetCharacter;
         }
 
         private void SetCharacter(BaseCharacter character)

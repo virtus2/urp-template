@@ -1,5 +1,4 @@
-﻿using Core.Player.Input;
-using Core.Player.UI;
+﻿using Core.UI;
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -20,7 +19,7 @@ namespace Core.Player
         public PlayerSettings PlayerSetting;
 
         private PlayerHUD playerHUD;
-        private PlayerCharacterWidget characterWidget;
+        private PlayerCharacterWorldUI characterWidget;
         private Camera mainCamera;
 
         private void Awake()
