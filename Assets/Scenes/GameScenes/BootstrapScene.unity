@@ -411,6 +411,7 @@ MonoBehaviour:
   SceneName_Test: TestScene
   PlayerInstance: {fileID: 9190919759391238125}
   SceneTransitionImage: {fileID: 1850929628}
+  SceneTransitionDuration: 0.5
 --- !u!114 &7322128057125960765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea38283f9afdf51449a87eb887d731b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 7619074635667496798}
   MousePositionWorld: {x: 0, y: 0, z: 0}
   MousePositionScreen: {x: 0, y: 0}
 --- !u!114 &7619074635667496798

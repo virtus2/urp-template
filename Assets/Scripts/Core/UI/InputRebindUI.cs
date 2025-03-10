@@ -16,98 +16,22 @@ namespace Core.UI
     /// </summary>
     public class InputRebindUI : MonoBehaviour
     {
-        /// <summary>
-        /// Reference to the action that is to be rebound.
-        /// </summary>
-        public InputActionReference actionReference
-        {
-            get => m_Action;
-            set
-            {
-                m_Action = value;
-                UpdateActionLabel();
-                UpdateBindingDisplay();
-            }
-        }
+        public Text ActionLabel;
+        public Text BindingText;
+        public Text RebindPrompt;
+        public GameObject RebindOverlay;
+        public Button TriggerRebindButton;
+        public Button ResetToDefaultButton;
 
-        /// <summary>
-        /// ID (in string form) of the binding that is to be rebound on the action.
-        /// </summary>
-        /// <seealso cref="InputBinding.id"/>
-        public string bindingId
-        {
-            get => m_BindingId;
-            set
-            {
-                m_BindingId = value;
-                UpdateBindingDisplay();
-            }
-        }
+        [Tooltip("Reference to action that is to be rebound from the UI.")]
+        [SerializeField]
+        private InputActionReference InputActionRef;
 
-        public InputBinding.DisplayStringOptions displayStringOptions
-        {
-            get => m_DisplayStringOptions;
-            set
-            {
-                m_DisplayStringOptions = value;
-                UpdateBindingDisplay();
-            }
-        }
+        [SerializeField]
+        private InputBinding.DisplayStringOptions DisplayStringOptions;
 
-        /// <summary>
-        /// Text component that receives the name of the action. Optional.
-        /// </summary>
-        public Text actionLabel
-        {
-            get => m_ActionLabel;
-            set
-            {
-                m_ActionLabel = value;
-                UpdateActionLabel();
-            }
-        }
-
-        /// <summary>
-        /// Text component that receives the display string of the binding. Can be <c>null</c> in which
-        /// case the component entirely relies on <see cref="updateBindingUIEvent"/>.
-        /// </summary>
-        public Text bindingText
-        {
-            get => m_BindingText;
-            set
-            {
-                m_BindingText = value;
-                UpdateBindingDisplay();
-            }
-        }
-
-        /// <summary>
-        /// Optional text component that receives a text prompt when waiting for a control to be actuated.
-        /// </summary>
-        /// <seealso cref="startRebindEvent"/>
-        /// <seealso cref="rebindOverlay"/>
-        public Text rebindPrompt
-        {
-            get => m_RebindText;
-            set => m_RebindText = value;
-        }
-
-        /// <summary>
-        /// Optional UI that is activated when an interactive rebind is started and deactivated when the rebind
-        /// is finished. This is normally used to display an overlay over the current UI while the system is
-        /// waiting for a control to be actuated.
-        /// </summary>
-        /// <remarks>
-        /// If neither <see cref="rebindPrompt"/> nor <c>rebindOverlay</c> is set, the component will temporarily
-        /// replaced the <see cref="bindingText"/> (if not <c>null</c>) with <c>"Waiting..."</c>.
-        /// </remarks>
-        /// <seealso cref="startRebindEvent"/>
-        /// <seealso cref="rebindPrompt"/>
-        public GameObject rebindOverlay
-        {
-            get => m_RebindOverlay;
-            set => m_RebindOverlay = value;
-        }
+        [SerializeField]
+        private string BindingId;
 
         /// <summary>
         /// Event that is triggered every time the UI updates to reflect the current binding.
@@ -153,54 +77,42 @@ namespace Core.UI
         /// When an interactive rebind is in progress, this is the rebind operation controller.
         /// Otherwise, it is <c>null</c>.
         /// </summary>
-        public InputActionRebindingExtensions.RebindingOperation ongoingRebind => m_RebindOperation;
+        public InputActionRebindingExtensions.RebindingOperation OngoingRebind => m_RebindOperation;
 
-        /// <summary>
-        /// Return the action and binding index for the binding that is targeted by the component
-        /// according to
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="bindingIndex"></param>
-        /// <returns></returns>
-        public bool ResolveActionAndBinding(out InputAction action, out int bindingIndex)
+        private void Awake()
         {
-            bindingIndex = -1;
-
-            action = m_Action?.action;
-            if (action == null)
-                return false;
-
-            if (string.IsNullOrEmpty(m_BindingId))
-                return false;
-
-            // Look up binding index.
-            var bindingId = new Guid(m_BindingId);
-            bindingIndex = action.bindings.IndexOf(x => x.id == bindingId);
-            if (bindingIndex == -1)
-            {
-                Debug.LogError($"Cannot find binding with ID '{bindingId}' on '{action}'", this);
-                return false;
-            }
-
-            return true;
+            TriggerRebindButton.onClick.AddListener(StartInteractiveRebind);
+            ResetToDefaultButton.onClick.AddListener(ResetToDefault);
         }
+
+        // We want the label for the action name to update in edit mode, too, so
+        // we kick that off from here.
+#if UNITY_EDITOR
+        protected void OnValidate()
+        {
+            UpdateActionLabel();
+            UpdateBindingDisplay();
+        }
+#endif
 
         /// <summary>
         /// Trigger a refresh of the currently displayed binding.
         /// </summary>
         public void UpdateBindingDisplay()
         {
-            var displayString = string.Empty;
-            var deviceLayoutName = default(string);
-            var controlPath = default(string);
+            string displayString = string.Empty;
+            string deviceLayoutName = string.Empty;
+            string controlPath = string.Empty;
 
             // Get display string from action.
-            var action = m_Action?.action;
-            if (action != null)
+            if (InputActionRef.action != null)
             {
-                var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
+                int bindingIndex = InputActionRef.action.bindings.IndexOf(x => x.id.ToString() == BindingId);
                 if (bindingIndex != -1)
-                    displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
+                {
+                    displayString = InputActionRef.action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath,
+                        DisplayStringOptions);
+                }
             }
 
             // Set on label (if any).
@@ -355,14 +267,14 @@ namespace Core.UI
             if (change != InputActionChange.BoundControlsChanged)
                 return;
 
-            var action = obj as InputAction;
-            var actionMap = action?.actionMap ?? obj as InputActionMap;
-            var actionAsset = actionMap?.asset ?? obj as InputActionAsset;
+            InputAction action = obj as InputAction;
+            InputActionMap actionMap = action?.actionMap ?? obj as InputActionMap;
+            InputActionAsset actionAsset = actionMap?.asset ?? obj as InputActionAsset;
 
             for (var i = 0; i < s_RebindActionUIs.Count; ++i)
             {
                 var component = s_RebindActionUIs[i];
-                var referencedAction = component.actionReference?.action;
+                var referencedAction = component.InputActionRef?.action;
                 if (referencedAction == null)
                     continue;
 
@@ -372,16 +284,35 @@ namespace Core.UI
                     component.UpdateBindingDisplay();
             }
         }
+        /// <summary>
+        /// Return the action and binding index for the binding that is targeted by the component
+        /// according to
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="bindingIndex"></param>
+        /// <returns></returns>
+        public bool ResolveActionAndBinding(out InputAction action, out int bindingIndex)
+        {
+            bindingIndex = -1;
 
-        [Tooltip("Reference to action that is to be rebound from the UI.")]
-        [SerializeField]
-        private InputActionReference m_Action;
+            action = InputActionRef?.action;
+            if (action == null)
+                return false;
 
-        [SerializeField]
-        private string m_BindingId;
+            if (string.IsNullOrEmpty(BindingId))
+                return false;
 
-        [SerializeField]
-        private InputBinding.DisplayStringOptions m_DisplayStringOptions;
+            // Look up binding index.
+            Guid bindingGuid = new Guid(BindingId);
+            bindingIndex = action.bindings.IndexOf(x => x.id == bindingGuid);
+            if (bindingIndex == -1)
+            {
+                Debug.LogError($"Cannot find binding with ID '{BindingId}' on '{action}'", this);
+                return false;
+            }
+
+            return true;
+        }
 
         [Tooltip("Text label that will receive the name of the action. Optional. Set to None to have the "
             + "rebind UI not show a label for the action.")]
@@ -419,22 +350,12 @@ namespace Core.UI
 
         private static List<InputRebindUI> s_RebindActionUIs;
 
-        // We want the label for the action name to update in edit mode, too, so
-        // we kick that off from here.
-        #if UNITY_EDITOR
-        protected void OnValidate()
-        {
-            UpdateActionLabel();
-            UpdateBindingDisplay();
-        }
-
-        #endif
 
         private void UpdateActionLabel()
         {
             if (m_ActionLabel != null)
             {
-                var action = m_Action?.action;
+                InputAction action = InputActionRef?.action;
                 m_ActionLabel.text = action != null ? action.name : string.Empty;
             }
         }

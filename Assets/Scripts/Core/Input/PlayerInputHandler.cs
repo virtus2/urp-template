@@ -9,6 +9,8 @@ namespace Core
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerInputHandler : MonoBehaviour
     {
+        public PlayerInput PlayerInput;
+
         public Vector2 MoveInput { get; private set; }
         public Vector2 LookInput { get; private set; }
         public bool JumpInput { get; private set; }
@@ -16,10 +18,16 @@ namespace Core
         public bool RunInput { get; private set; }
         public bool AttackInput { get; private set; }
         public bool InteractInput { get; private set; }
+
         public Vector3 MousePositionWorld;
         public Vector2 MousePositionScreen;
 
         private Camera mainCamera;
+
+        private void Awake()
+        {
+            PlayerInput = GetComponent<PlayerInput>();
+        }
 
         private void Update()
         {
