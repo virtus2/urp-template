@@ -4,43 +4,60 @@ using UnityEngine.UI;
 
 public class ScreenResolutionDropdown : MonoBehaviour
 {
+    [Header("Resolution")]
     [SerializeField]
     private TMPro.TMP_Dropdown ResolutionDropdown;
 
     [SerializeField]
-    private Sprite DropdownImage;
+    private Sprite ResolutionDropdownImage;
+
+    [Header("Fullscreen Mode")]
+    [SerializeField]
+    private TMPro.TMP_Dropdown FullScreenModeDropdown;
 
     [SerializeField]
-    private TMPro.TMP_Dropdown FullscreenDropdown;
+    private Sprite FullScreenModeDropdownImage;
 
+    [Header("V Sync")]
     [SerializeField]
     private Toggle VSyncToggle;
 
+    [Header("Target Frame Rate")]
     [SerializeField]
     private Slider FrameRateLimitSlider;
 
-    private List<TMPro.TMP_Dropdown.OptionData> optionData = new List<TMPro.TMP_Dropdown.OptionData>();
-    private List<Resolution> optionDataResolutions = new List<Resolution>();
+    private List<TMPro.TMP_Dropdown.OptionData> resolutionOptionsData = new List<TMPro.TMP_Dropdown.OptionData>();
+    private List<Resolution> resolutionOptions = new List<Resolution>();
+
+    private List<TMPro.TMP_Dropdown.OptionData> fullScreenModeOptionsData = new List<TMPro.TMP_Dropdown.OptionData>();
+    private List<FullScreenMode> fullScreenModeOptions = new List<FullScreenMode>()
+    {
+        FullScreenMode.ExclusiveFullScreen,
+        FullScreenMode.FullScreenWindow,
+        FullScreenMode.Windowed,
+    };
 
     private void Awake()
     {
         ResolutionDropdown.onValueChanged.AddListener(OnValueChanged_ResolutionDropdown);
-        FullscreenDropdown.onValueChanged.AddListener(OnValueChanged_FullscreenDropdown);
+        FullScreenModeDropdown.onValueChanged.AddListener(OnValueChanged_FullScreenDropdown);
 
         UpdateResolutionDropdown();
-        UpdateFullscreenDropdown();
+        UpdateFullScreenDropdown();
         UpdateVSyncToggle();
         UpdateFrameRateLimitSlider();
         SelectCurrentResolution();
+        SelectCurrentFullScreenMode();
     }
 
     private void OnValidate()
     {
         UpdateResolutionDropdown();
-        UpdateFullscreenDropdown();
+        UpdateFullScreenDropdown();
         UpdateVSyncToggle();
         UpdateFrameRateLimitSlider();
         SelectCurrentResolution();
+        SelectCurrentFullScreenMode();
     }
 
     private void UpdateResolutionDropdown()
@@ -49,44 +66,61 @@ public class ScreenResolutionDropdown : MonoBehaviour
             return;
 
         ResolutionDropdown.ClearOptions();
-        optionData.Clear();
-        optionDataResolutions.Clear();
+        resolutionOptionsData.Clear();
+        resolutionOptions.Clear();
 
         foreach (Resolution resolution in Screen.resolutions)
         {
             string optionText = $"{resolution.width}x{resolution.height}";
-            TMPro.TMP_Dropdown.OptionData data = new TMPro.TMP_Dropdown.OptionData(optionText, DropdownImage, Color.white);
+            TMPro.TMP_Dropdown.OptionData data = new TMPro.TMP_Dropdown.OptionData(optionText, ResolutionDropdownImage, Color.white);
 
-            optionData.Add(data);
-            optionDataResolutions.Add(resolution);
+            resolutionOptionsData.Add(data);
+            resolutionOptions.Add(resolution);
         }
 
-        ResolutionDropdown.AddOptions(optionData);
+        ResolutionDropdown.AddOptions(resolutionOptionsData);
     }
 
     private void SelectCurrentResolution()
     {
-        for (int i = 0; i < optionDataResolutions.Count; i++)
+        if (ResolutionDropdown == null)
+            return;
+
+        for (int i = 0; i < resolutionOptions.Count; i++)
         {
-            if (Screen.currentResolution.width == optionDataResolutions[i].width &&
-                Screen.currentResolution.height == optionDataResolutions[i].height)
+            if (Screen.currentResolution.width == resolutionOptions[i].width &&
+                Screen.currentResolution.height == resolutionOptions[i].height)
                 ResolutionDropdown.value = i;
         }
     }
 
-    private void UpdateFullscreenDropdown()
+    private void UpdateFullScreenDropdown()
     {
-        if (FullscreenDropdown == null)
+        if (FullScreenModeDropdown == null)
             return;
 
-        FullscreenDropdown.ClearOptions();
+        FullScreenModeDropdown.ClearOptions();
 
-        List<string> fullscreenModes = new List<string>();
-        fullscreenModes.Add("Fullscreen"); // FullScreenMode.ExclusiveFullScreen
-        fullscreenModes.Add("Borderless Fullscreen"); // FullScreenMode.FullScreenWindow
-        fullscreenModes.Add("Windowed"); // FullScreenMode.Windowed
-        FullscreenDropdown.AddOptions(fullscreenModes);
-        // FullscreenDropdown.isOn = Screen.fullScreen;
+        foreach (FullScreenMode mode in fullScreenModeOptions)
+        {
+            TMPro.TMP_Dropdown.OptionData data = new TMPro.TMP_Dropdown.OptionData(mode.ToString(), FullScreenModeDropdownImage, Color.white);
+
+            fullScreenModeOptionsData.Add(data);
+        }
+        
+        FullScreenModeDropdown.AddOptions(fullScreenModeOptionsData);
+    }
+
+    private void SelectCurrentFullScreenMode()
+    {
+        if (FullScreenModeDropdown == null)
+            return;
+
+        for (int i = 0; i < fullScreenModeOptions.Count; i++)
+        {
+            if (fullScreenModeOptions[i] == Screen.fullScreenMode)
+                FullScreenModeDropdown.value = i;
+        }
     }
 
     private void UpdateVSyncToggle()
@@ -117,12 +151,12 @@ public class ScreenResolutionDropdown : MonoBehaviour
 
     private void OnValueChanged_ResolutionDropdown(int index)
     {
-        Resolution selectedResolution = optionDataResolutions[index];
+        Resolution selectedResolution = resolutionOptions[index];
         // TODO: Fullscreen support
         Screen.SetResolution(selectedResolution.width, selectedResolution.height, false);
     }
 
-    private void OnValueChanged_FullscreenDropdown(int index)
+    private void OnValueChanged_FullScreenDropdown(int index)
     {
     }
 }

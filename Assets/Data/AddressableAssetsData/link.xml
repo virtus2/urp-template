@@ -1,0 +1,114 @@
+<linker>
+  <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Core.AI.AICharacterController" preserve="all" />
+    <type fullname="Core.Character.BaseCharacter" preserve="all" />
+    <type fullname="Core.Character.Component.CharacterAnimationComponent" preserve="all" />
+    <type fullname="Core.Character.Component.CharacterDamageableComponent" preserve="all" />
+    <type fullname="Core.Character.Component.CharacterHealthComponent" preserve="all" />
+    <type fullname="Core.Character.Component.CharacterInteractionComponent" preserve="all" />
+    <type fullname="Core.Character.MovementSettings" preserve="all" />
+    <type fullname="Core.Character.RollingSettings" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateMachine" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateSO_Attack" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateSO_GroundMove" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateSO_Idle" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateSO_LadderClimbing" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateSO_Uninitialized" preserve="all" />
+    <type fullname="Core.Character.State.StateTransitionSO_AttackInput" preserve="all" />
+    <type fullname="Core.Character.State.StateTransitionSO_Boolean" preserve="all" />
+    <type fullname="Core.Character.State.StateTransitionSO_Interact" preserve="all" />
+    <type fullname="Core.Character.State.StateTransitionSO_MovementInput" preserve="all" />
+    <type fullname="Core.Player.PlayerCharacterController" preserve="all" />
+    <type fullname="KinematicCharacterController.KinematicCharacterMotor" preserve="all" />
+    <type fullname="Core.Character.State.CharacterStateData_Attack" preserve="nothing" serialized="true" />
+    <type fullname="Core.Character.State.CharacterStateDefinition" preserve="nothing" serialized="true" />
+    <type fullname="Core.Character.State.StateTransitionDefinition" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
+    <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />
+  </assembly>
+  <assembly fullname="Unity.Animation.Rigging, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.Animations.Rigging.MultiAimConstraint" preserve="all" />
+    <type fullname="UnityEngine.Animations.Rigging.Rig" preserve="all" />
+    <type fullname="UnityEngine.Animations.Rigging.TwoBoneIKConstraint" preserve="all" />
+    <type fullname="UnityEngine.Animations.Rigging.MultiAimConstraintData" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Animations.Rigging.RigEffectorData" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Animations.Rigging.RigEffectorData/Style" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Animations.Rigging.TwoBoneIKConstraintData" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Animations.Rigging.Vector3Bool" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Animations.Rigging.WeightedTransform" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Animations.Rigging.WeightedTransformArray" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.Behavior, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Unity.Behavior.BehaviorGraph" preserve="all" />
+    <type fullname="Unity.Behavior.BehaviorGraphAgent" preserve="all" />
+    <type fullname="Unity.Behavior.BehaviorGraphDebugInfo" preserve="all" />
+    <type fullname="Unity.Behavior.RuntimeBlackboardAsset" preserve="all" />
+    <type fullname="Unity.Behavior.BehaviorGraphModule" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.Blackboard" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.BlackboardReference" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.BlackboardVariable`1" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.BranchingConditionComposite" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.CheckDistanceCondition" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.ConditionOperator" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.FindObjectWithTagAction" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.GameObjectToComponentBlackboardVariable`1" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.SequenceComposite" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.Start" preserve="nothing" serialized="true" />
+    <type fullname="Unity.Behavior.WaitAction" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.Localization, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.Localization.Locale" preserve="all" />
+    <type fullname="UnityEngine.Localization.Tables.SharedTableData" preserve="all" />
+    <type fullname="UnityEngine.Localization.Tables.StringTable" preserve="all" />
+    <type fullname="UnityEngine.Localization.Metadata.MetadataCollection" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Localization.Tables.DistributedUIDGenerator" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Localization.Tables.SharedTableData/SharedTableEntry" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Localization.LocaleIdentifier" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Localization.Tables.TableEntryData" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.InstanceProvider" preserve="all" />
+    <type fullname="UnityEngine.ResourceManagement.ResourceProviders.SceneProvider" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.AI.NavMeshAgent" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.AnimationClip" preserve="all" />
+    <type fullname="UnityEngine.Animator" preserve="all" />
+    <type fullname="UnityEngine.AnimatorOverrideController" preserve="all" />
+    <type fullname="UnityEngine.Avatar" preserve="all" />
+    <type fullname="UnityEngine.RuntimeAnimatorController" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.AudioClip" preserve="all" />
+    <type fullname="UnityEngine.AudioSource" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.GameObject" preserve="all" />
+    <type fullname="UnityEngine.Material" preserve="all" />
+    <type fullname="UnityEngine.Mesh" preserve="all" />
+    <type fullname="UnityEngine.MeshFilter" preserve="all" />
+    <type fullname="UnityEngine.MeshRenderer" preserve="all" />
+    <type fullname="UnityEngine.Object" preserve="all" />
+    <type fullname="UnityEngine.Shader" preserve="all" />
+    <type fullname="UnityEngine.SkinnedMeshRenderer" preserve="all" />
+    <type fullname="UnityEngine.Texture2D" preserve="all" />
+    <type fullname="UnityEngine.Transform" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.ParticleSystem" preserve="all" />
+    <type fullname="UnityEngine.ParticleSystemRenderer" preserve="all" />
+  </assembly>
+  <assembly fullname="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.BoxCollider" preserve="all" />
+    <type fullname="UnityEngine.CapsuleCollider" preserve="all" />
+    <type fullname="UnityEngine.Rigidbody" preserve="all" />
+  </assembly>
+  <assembly fullname="SerializableGUID">
+    <type fullname="Unity.Behavior.GraphFramework.SerializableGUID" preserve="nothing" serialized="true" />
+  </assembly>
+</linker>

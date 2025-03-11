@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor.Animations;
 using UnityEngine.Animations.Rigging;
 
 namespace Core.Character.Component
@@ -7,8 +6,6 @@ namespace Core.Character.Component
     [RequireComponent(typeof(BaseCharacter), typeof(Animator))]
     public class CharacterAnimationComponent : MonoBehaviour
     {
-        [SerializeField] private AnimatorController AnimatorController;
-
         [Header("Animator State Machine States")]
         [SerializeField] private string Animator_State_Name_Locomotion = "Locomotion";
         [SerializeField] private string Animator_State_Name_Walk = "Walk";

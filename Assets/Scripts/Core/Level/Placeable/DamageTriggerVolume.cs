@@ -17,11 +17,13 @@ namespace Core.Level.Placeable
             }
         }
 
+        #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
             Gizmos.DrawCube(transform.position, boxCollider.size);
             Handles.Label(transform.position, $"DamageVolume Damage:{Damage}");
         }
+        #endif
     }
 }
