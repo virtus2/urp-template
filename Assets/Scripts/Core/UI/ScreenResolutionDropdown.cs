@@ -24,7 +24,12 @@ public class ScreenResolutionDropdown : MonoBehaviour
 
     [Header("Target Frame Rate")]
     [SerializeField]
-    private Slider FrameRateLimitSlider;
+    private TMPro.TMP_Text TargetFrameRateText;
+
+    [SerializeField]
+    private Slider TargetFrameRateSlider;
+    private string targetFrameRateFormatStr = "Target frame rate: {0}";
+
 
     private List<TMPro.TMP_Dropdown.OptionData> resolutionOptionsData = new List<TMPro.TMP_Dropdown.OptionData>();
     private List<Resolution> resolutionOptions = new List<Resolution>();
@@ -41,11 +46,16 @@ public class ScreenResolutionDropdown : MonoBehaviour
     {
         ResolutionDropdown.onValueChanged.AddListener(OnValueChanged_ResolutionDropdown);
         FullScreenModeDropdown.onValueChanged.AddListener(OnValueChanged_FullScreenDropdown);
+        VSyncToggle.onValueChanged.AddListener(OnValueChanged_VSyncToggle);
+        TargetFrameRateSlider.onValueChanged.AddListener(OnValueChanged_TargetFrameRateSlider);
+
+
+        Application.targetFrameRate = (int)Screen.mainWindowDisplayInfo.refreshRate.value;
 
         UpdateResolutionDropdown();
         UpdateFullScreenDropdown();
         UpdateVSyncToggle();
-        UpdateFrameRateLimitSlider();
+        UpdateTargetFrameRateSliderAndText();
         SelectCurrentResolution();
         SelectCurrentFullScreenMode();
     }
@@ -55,7 +65,7 @@ public class ScreenResolutionDropdown : MonoBehaviour
         UpdateResolutionDropdown();
         UpdateFullScreenDropdown();
         UpdateVSyncToggle();
-        UpdateFrameRateLimitSlider();
+        UpdateTargetFrameRateSliderAndText();
         SelectCurrentResolution();
         SelectCurrentFullScreenMode();
     }
@@ -69,13 +79,21 @@ public class ScreenResolutionDropdown : MonoBehaviour
         resolutionOptionsData.Clear();
         resolutionOptions.Clear();
 
+        HashSet<Vector2Int> uniqueResolutions = new HashSet<Vector2Int>();
+
         foreach (Resolution resolution in Screen.resolutions)
         {
+            Vector2Int res = new Vector2Int(resolution.width, resolution.height);
+
+            if (uniqueResolutions.Contains(res))
+                continue;
+
             string optionText = $"{resolution.width}x{resolution.height}";
             TMPro.TMP_Dropdown.OptionData data = new TMPro.TMP_Dropdown.OptionData(optionText, ResolutionDropdownImage, Color.white);
 
             resolutionOptionsData.Add(data);
             resolutionOptions.Add(resolution);
+            uniqueResolutions.Add(res);
         }
 
         ResolutionDropdown.AddOptions(resolutionOptionsData);
@@ -131,32 +149,54 @@ public class ScreenResolutionDropdown : MonoBehaviour
         VSyncToggle.isOn = QualitySettings.vSyncCount == 1;
     }
 
-    private void UpdateFrameRateLimitSlider()
+    private void UpdateTargetFrameRateSliderAndText()
     {
-        if (FrameRateLimitSlider == null)
+        if (TargetFrameRateSlider == null)
             return;
 
-        FrameRateLimitSlider.maxValue = (float)Screen.currentResolution.refreshRateRatio.value;
+        if (TargetFrameRateText == null)
+            return;
 
-        // V Sync is off
-        if (QualitySettings.vSyncCount == 0)
+        if (QualitySettings.vSyncCount >= 1)
         {
-            FrameRateLimitSlider.value = Application.targetFrameRate;
+            TargetFrameRateSlider.interactable = false;
+            TargetFrameRateSlider.minValue = 30;
+            TargetFrameRateSlider.maxValue = (float)Screen.currentResolution.refreshRateRatio.value;
+            TargetFrameRateSlider.value = (float)Screen.currentResolution.refreshRateRatio.value;
+            TargetFrameRateText.text = Mathf.CeilToInt((float)Screen.currentResolution.refreshRateRatio.value).ToString();
+            return;
         }
-        else
-        {
-            FrameRateLimitSlider.value = (float)(Screen.currentResolution.refreshRateRatio.value / (double)QualitySettings.vSyncCount);
-        }
+
+        TargetFrameRateSlider.interactable = true;
+        TargetFrameRateSlider.minValue = 30;
+        TargetFrameRateSlider.maxValue = (float)Screen.currentResolution.refreshRateRatio.value;
+        TargetFrameRateSlider.value = Application.targetFrameRate;
+        TargetFrameRateText.text = Application.targetFrameRate.ToString();
     }
 
     private void OnValueChanged_ResolutionDropdown(int index)
     {
         Resolution selectedResolution = resolutionOptions[index];
-        // TODO: Fullscreen support
-        Screen.SetResolution(selectedResolution.width, selectedResolution.height, false);
+        Screen.SetResolution(selectedResolution.width, selectedResolution.height, fullScreenModeOptions[FullScreenModeDropdown.value]);
     }
 
     private void OnValueChanged_FullScreenDropdown(int index)
     {
+        Resolution currentResolution = Screen.currentResolution;
+        Screen.SetResolution(currentResolution.width, currentResolution.height, fullScreenModeOptions[index]);
+    }
+
+    private void OnValueChanged_VSyncToggle(bool isOn)
+    {
+        QualitySettings.vSyncCount = isOn ? 1 : 0;
+
+        UpdateTargetFrameRateSliderAndText();
+    }
+
+    private void OnValueChanged_TargetFrameRateSlider(float value)
+    {
+        Application.targetFrameRate = Mathf.CeilToInt(value);
+
+        UpdateTargetFrameRateSliderAndText();
     }
 }

@@ -165,6 +165,15 @@ namespace Core.Character
             // 모르겠다~
             OnAttackFinishedCallback?.Invoke(this, stateMachine);
         }
+        private void FootL(AnimationEvent animationEvent)
+        {
+
+        }
+
+        private void FootR(AnimationEvent animationEvent)
+        {
+
+        }
 
         private void UpdateRollCooldownTime()
         {
@@ -186,6 +195,8 @@ namespace Core.Character
             // ...
             return !IsOnCooldown && !IsRolling;
         }
+
+
 
 
         private void OnDrawGizmos()
