@@ -1,4 +1,6 @@
-﻿using Core.UI;
+﻿using Core.Character;
+using Core.UI;
+using Core.UI.UserSettings;
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -9,14 +11,27 @@ namespace Core.Player
     {
         public static PlayerInstance Instance;
 
-        public Character.BaseCharacter PlayerCharacter { get; private set; }
+        [Header("Player Settings")]
+        public PlayerSettings PlayerSetting;
+
         public PlayerInputHandler PlayerInput { get; private set; }
         public PlayerCharacterFollowCamera PlayerCharacterFollowCamera { get; private set; }
-        public CinemachineBrain CinemachineBrain;
+        public CinemachineBrain CinemachineBrain { get; private set; }
+        public BaseCharacter PlayerCharacter { get; private set; }
+
+        private UserSettingsUI userSettingsUI;
+        public UserSettingsUI UserSettingsUI
+        {
+            get
+            {
+                if (userSettingsUI == null)
+                    userSettingsUI = FindAnyObjectByType<UserSettingsUI>(FindObjectsInactive.Include);
+                return userSettingsUI;
+            }
+        }
+            
 
         public Action<Core.Character.BaseCharacter> OnPlayerCharacterSpawned;
-
-        public PlayerSettings PlayerSetting;
 
         private PlayerHUD playerHUD;
         private PlayerCharacterWorldUI characterWidget;

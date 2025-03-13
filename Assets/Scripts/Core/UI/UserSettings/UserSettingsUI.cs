@@ -4,16 +4,12 @@ namespace Core.UI.UserSettings
 {
     public class UserSettingsUI : MonoBehaviour
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        public void Show()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            if (gameObject.activeInHierarchy)
+                gameObject.SetActive(false);
+            else
+                gameObject.SetActive(true);
         }
     }
 }

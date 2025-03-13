@@ -1,3 +1,4 @@
+using Core.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,7 @@ namespace Core
         public Vector2 MousePositionScreen;
 
         private Camera mainCamera;
+        private bool DisableActions = false;
 
         private void Awake()
         {
@@ -122,6 +124,9 @@ namespace Core
         {
             if (context.performed)
             {
+                DisableActions = !DisableActions;
+
+                PlayerInstance.Instance.UserSettingsUI.Show();
                 Debug.Log("MENU");
             }
         }
