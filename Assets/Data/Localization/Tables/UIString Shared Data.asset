@@ -27,8 +27,10 @@ MonoBehaviour:
     m_Key: QualitySettings_VSync
     m_Metadata:
       m_Items: []
-  - m_Id: 66999291547111424
-    m_Key: QualitySettings_TargetFrameRate
+  - m_Id: 67343623898681344
+    m_Key: 'QualitySettings_TargetFrameRate
+
+'
     m_Metadata:
       m_Items: []
   - m_Id: 66999479485485056
@@ -41,6 +43,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 67000150263746560
     m_Key: QualitySettings_Windowed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67298907786203136
+    m_Key: LocaleSettings_English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67298934571028480
+    m_Key: LocaleSettings_Korean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67299021938380800
+    m_Key: LocaleSettings_Japanese
     m_Metadata:
       m_Items: []
   m_Metadata:

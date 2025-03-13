@@ -60,7 +60,7 @@ namespace Core
 
         public void OnJumpAction(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
+            if (context.performed)
             {
                 JumpInput = true;
             }
@@ -72,7 +72,7 @@ namespace Core
 
         public void OnRollAction(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
+            if (context.performed)
             {
                 RollInput = true;
             }
@@ -84,7 +84,7 @@ namespace Core
 
         public void OnRunAction(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
+            if (context.performed)
             {
                 RunInput = true;
             }
@@ -96,7 +96,7 @@ namespace Core
 
         public void OnAttackAction(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
+            if (context.performed)
             {
                 AttackInput = true;
             }
@@ -108,7 +108,7 @@ namespace Core
 
         public void OnInteractAction(InputAction.CallbackContext context)
         {
-            if (context.started || context.performed)
+            if (context.performed)
             {
                 InteractInput = true;
             }
@@ -117,5 +117,13 @@ namespace Core
                 InteractInput = false;
             }
         }    
+        
+        public void OnMenuAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                Debug.Log("MENU");
+            }
+        }
     }
 }

@@ -1123,6 +1123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea38283f9afdf51449a87eb887d731b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerInput: {fileID: 0}
   MousePositionWorld: {x: 0, y: 0, z: 0}
   MousePositionScreen: {x: 0, y: 0}
 --- !u!114 &750036747
@@ -1205,12 +1206,24 @@ MonoBehaviour:
   MovementSettings: {fileID: 0}
   Controller: {fileID: 0}
   ControllerType: 0
+  InputEnabled: 1
+  IsInvincible: 0
+  IsDead: 0
+  MotionSpeed: 1
+  TimeScale: 1
   IsRolling: 0
   RollingCooldownTime: 0
   IsAttacking: 0
-  IsInvincible: 0
-  IsDead: 0
-  InputEnabled: 1
+  CurrentClimbingLadder: {fileID: 0}
+  LadderClimbingDirection: 0
+  IsLadderClimbing: 0
+  IsLadderClimbingOnTop: 0
+  IsLadderClimbingOnBottom: 0
+  IsLadderClimbingOffTop: 0
+  IsLadderClimbingOffBottom: 0
+  LadderClimbingStage: 0
+  AttackStage: 0
+  AttackComboCount: 0
   IsReachedDestination: 0
   ChaseTarget: {fileID: 0}
   FootstepAudioSource: {fileID: 0}

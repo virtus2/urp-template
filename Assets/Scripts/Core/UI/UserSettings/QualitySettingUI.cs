@@ -1,10 +1,10 @@
-using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using UnityEngine.Localization;
+using UnityEngine;
 using UnityEngine.Localization.Settings;
+using UnityEngine.Localization;
+using UnityEngine.UI;
 
-public class ScreenResolutionDropdown : MonoBehaviour
+public class QualitySettingUI : MonoBehaviour
 {
     [Header("Resolution")]
     [SerializeField]
@@ -182,7 +182,7 @@ public class ScreenResolutionDropdown : MonoBehaviour
 
             fullScreenModeOptionsData.Add(data);
         }
-        
+
         FullScreenModeDropdown.AddOptions(fullScreenModeOptionsData);
     }
 
@@ -220,7 +220,7 @@ public class ScreenResolutionDropdown : MonoBehaviour
             TargetFrameRateSlider.minValue = 30;
             TargetFrameRateSlider.maxValue = (float)Screen.currentResolution.refreshRateRatio.value;
             TargetFrameRateSlider.value = (float)Screen.currentResolution.refreshRateRatio.value;
-            TargetFrameRateText.text = string.Format(LocalizedStr_TargetFrameRate.GetLocalizedString(), 
+            TargetFrameRateText.text = string.Format(LocalizedStr_TargetFrameRate.GetLocalizedString(),
                 Mathf.CeilToInt((float)Screen.currentResolution.refreshRateRatio.value).ToString());
             return;
         }

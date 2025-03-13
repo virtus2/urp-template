@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 0
+  AreaName: 
   PlayerCharacterSpawner: []
   SceneTransitionVolume: []
 --- !u!1 &341766785

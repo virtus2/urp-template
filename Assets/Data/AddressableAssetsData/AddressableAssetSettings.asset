@@ -64,6 +64,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: efe86ef2609e25b4685755420bc34435, type: 2}
   - {fileID: 11400000, guid: 0998ebc661dfe354a90257bf9ab40784, type: 2}
   - {fileID: 11400000, guid: 22bf5878a221dd24da12966eb4dc6b06, type: 2}
+  - {fileID: 11400000, guid: 4c04ad45696f81d45b71c019c1214e52, type: 2}
   - {fileID: 11400000, guid: 66dbdb920eebb2747abcd04b0a110473, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -107,6 +108,8 @@ MonoBehaviour:
     - Locale
     - Locale-ko
     - Locale-en
+    - Preload
+    - Locale-ja
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 259891277924c3d47ba2bdcb6028a6ce, type: 2}

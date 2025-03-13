@@ -30,10 +30,6 @@ MonoBehaviour:
     m_Localized: "\uC218\uC9C1 \uB3D9\uAE30\uD654"
     m_Metadata:
       m_Items: []
-  - m_Id: 66999291547111424
-    m_Localized: "\uBAA9\uD45C \uD504\uB808\uC784 \uC18D\uB3C4"
-    m_Metadata:
-      m_Items: []
   - m_Id: 66999479485485056
     m_Localized: "\uC804\uCCB4 \uD654\uBA74"
     m_Metadata:
@@ -44,6 +40,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 67000150263746560
     m_Localized: "\uCC3D \uBAA8\uB4DC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67298907786203136
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67298934571028480
+    m_Localized: Korean
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67299021938380800
+    m_Localized: Japanese
+    m_Metadata:
+      m_Items: []
+  - m_Id: 67343623898681344
+    m_Localized: "\uBAA9\uD45C \uD504\uB808\uC784 \uC18D\uB3C4: {0}"
     m_Metadata:
       m_Items: []
   references:

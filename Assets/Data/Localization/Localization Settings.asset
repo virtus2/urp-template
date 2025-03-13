@@ -17,6 +17,7 @@ MonoBehaviour:
   - rid: 2559598303215616753
   - rid: 2559598303215616776
   - rid: 2559598303215616754
+  - rid: 505518361006571771
   m_AvailableLocales:
     rid: 2559598303215616755
   m_AssetDatabase:
@@ -34,6 +35,12 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 505518361006571771
+      type: {class: SpecificLocaleSelector, ns: UnityEngine.Localization.Settings,
+        asm: Unity.Localization}
+      data:
+        m_LocaleId:
+          m_Code: ja
     - rid: 2559598303215616752
       type: {class: CommandLineLocaleSelector, ns: UnityEngine.Localization.Settings,
         asm: Unity.Localization}
@@ -61,6 +68,7 @@ MonoBehaviour:
           rid: -2
         m_CustomTablePostprocessor:
           rid: -2
+        m_AsynchronousBehaviour: 0
         m_UseFallback: 0
     - rid: 2559598303215616757
       type: {class: LocalizedStringDatabase, ns: UnityEngine.Localization.Settings,
@@ -72,6 +80,7 @@ MonoBehaviour:
           rid: -2
         m_CustomTablePostprocessor:
           rid: -2
+        m_AsynchronousBehaviour: 0
         m_UseFallback: 0
         m_MissingTranslationState: 1
         m_NoTranslationFoundMessage: No translation found for '{key}' in {table.TableCollectionName}
