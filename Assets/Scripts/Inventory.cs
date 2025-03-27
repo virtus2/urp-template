@@ -1,19 +1,14 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class InventoryItemEntry
 {
     public Vector2Int Size;
-}
-
-public enum EInventoryControlState
-{
-    None,
-    ItemPickedUp,
-    UsingItemToOneTargetItem, 
-    UsingItemToTwoTargetItem, // If we dont need this, just remove. Think about POE Awakener's orb.
+    public RectInt Rect;
 }
 
 [AddComponentMenu("Arpg/Inventory")]
@@ -26,50 +21,48 @@ public class Inventory : MonoBehaviour
     [Range(1, 50)]
     public int Width;
 
-    public Vector2Int CellSize = new Vector2Int(100, 100);
+    public Action<InventoryItemEntry> OnItemAdded;
+    public Action<InventoryItemEntry> OnItemRemoved;
 
-    public Vector2Int CellGap = new Vector2Int(5, 5);
-    
-    public Transform InventoryGrid;
-    public InventoryCell InventoryCellPrefab;
-
-    [Header("Any values in GridLayoutGroup will automatically modified by the Inventory.")]
-    public GridLayoutGroup GridLayoutGroup;
-
-    [Header("Inventory Items")]
-    public InventoryItem InventoryItemPrefab;
-    public Transform InventoryItemParent;
-    private ObjectPool<InventoryItem> inventoryItemPool;
-
-
-    private List<InventoryCell> inventoryCellList = new List<InventoryCell>();
-    private Dictionary<Vector2Int, InventoryCell> inventoryCellByPosition = new Dictionary<Vector2Int, InventoryCell>(); // [y, x]
     private Dictionary<InventoryItemEntry, RectInt> inventoryItems = new Dictionary<InventoryItemEntry, RectInt>();
 
-    private void Awake()
-    {
-        inventoryItemPool = new ObjectPool<InventoryItem>(
-            createFunc: CreateInventoryItem,
-            defaultCapacity: Height * Width,
-            maxSize: Height * Width * 2
-        );
-    }
-
-    private InventoryItem CreateInventoryItem()
-    {
-        InventoryItem item = Instantiate(InventoryItemPrefab, InventoryItemParent);
-        return item;
-    }
-
-    public bool TryAddItemToEmptySpace(InventoryItemEntry entry)
+    public bool TryAddItem(InventoryItemEntry entry)
     {
         if (TryGetEmptySpace(entry.Size, out RectInt emptySpaceRect) == false)
             return false;
 
         inventoryItems.Add(entry, emptySpaceRect);
-        InventoryItem item = inventoryItemPool.Get();
-        item.SetPositionAndSize(emptySpaceRect, CellSize, CellGap);
+        entry.Rect = emptySpaceRect;
+        entry.Size = emptySpaceRect.size;
+
+        OnItemAdded?.Invoke(entry);
         return true;
+    }
+
+    public bool TryRemoveItem(InventoryItemEntry entry)
+    {
+        bool found = inventoryItems.ContainsKey(entry);
+        if (found)
+        {
+            inventoryItems.Remove(entry);
+            OnItemRemoved?.Invoke(entry);
+            return true;
+        }
+        return false;
+    }
+
+    public bool TryGetItemAt(Vector2Int position, out InventoryItemEntry entry)
+    {
+        foreach (var item in inventoryItems)
+        {
+            if (item.Value.Contains(position))
+            {
+                entry = item.Key;
+                return true;
+            }
+        }
+        entry = null;
+        return false;
     }
 
     public bool TryGetEmptySpace(Vector2Int size, out RectInt emptySpaceRect)
@@ -98,7 +91,11 @@ public class Inventory : MonoBehaviour
     //
     // Rect Utilities
     //
-    private bool IsInsideInventory(RectInt rect)
+    public bool IsInsideInventory(Vector2Int gridPosition)
+    {
+        return gridPosition.x >= 0 && gridPosition.x < Width && gridPosition.y >= 0 && gridPosition.y < Height;
+    }
+    public bool IsInsideInventory(RectInt rect)
     {
         if (rect.xMax > Width || rect.yMax > Height) return false;
         if (rect.xMin < 0 || rect.yMin < 0) return false;
@@ -121,63 +118,14 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-
 #if UNITY_EDITOR
-    private void OnValidate()
-    {
-        GridLayoutGroup.cellSize = CellSize;
-        GridLayoutGroup.spacing = CellGap;
-        GridLayoutGroup.constraintCount = Width;
-    }
-    [NaughtyAttributes.Button]
-    public void InstantiateCells()
-    {
-        if (InventoryCellPrefab == null)
-            return;
-
-        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
-        foreach (InventoryCell cell in cells)
-        {
-            DestroyImmediate(cell.gameObject);
-        }
-        inventoryCellList.Clear();
-        inventoryCellByPosition.Clear();
-
-        for (int i = 0; i < Height; i++)
-        {
-            for (int j = 0; j < Width; j++)
-            {
-                InventoryCell cell = Instantiate(InventoryCellPrefab, InventoryGrid.transform);
-                Vector2Int position = new Vector2Int(i, j);
-                inventoryCellList.Add(cell);
-                inventoryCellByPosition.Add(position, cell);
-                cell.GridPosition = position;
-            }
-        }
-    }
-
-    [NaughtyAttributes.Button]
-    public void SetCellPositions()
-    {
-        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
-        for (int i = 0; i < cells.Length; i++)
-        {
-            cells[i].GridPosition = new Vector2Int(i / Width, i%Width);
-        }
-    }
 
     [NaughtyAttributes.Button]
     public void TestAddItem()
     {
         InventoryItemEntry testItemEntry = new InventoryItemEntry();
         testItemEntry.Size = new Vector2Int(Random.Range(1, 3), Random.Range(1, 3));
-        bool added = TryAddItemToEmptySpace(testItemEntry);
-
-        if (added)
-        {
-        }
-        
-
+        bool added = TryAddItem(testItemEntry);
 
     }
 
