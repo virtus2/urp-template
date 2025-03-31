@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItemImage : MonoBehaviour, IPointerDownHandler
+public class InventoryItemImage : MonoBehaviour
 {
     public Image Image;
     public RectInt ItemRect;
-    public Action<InventoryItemImage> OnPointerDownAction;
 
     private RectTransform rectTransform;
 
@@ -29,10 +28,5 @@ public class InventoryItemImage : MonoBehaviour, IPointerDownHandler
             rect.size.x * cellSize.x + (rect.size.x - 1) * cellGap.x,
             rect.size.y * cellSize.y + (rect.size.y - 1) * cellGap.y
         );
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        OnPointerDownAction?.Invoke(this);
     }
 }

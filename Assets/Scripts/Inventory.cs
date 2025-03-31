@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -24,6 +25,8 @@ public class Inventory : MonoBehaviour
     public Action<InventoryItemEntry> OnItemAdded;
     public Action<InventoryItemEntry> OnItemRemoved;
 
+    public InventoryItemEntry PickedUpItem;
+
     private Dictionary<InventoryItemEntry, RectInt> inventoryItems = new Dictionary<InventoryItemEntry, RectInt>();
 
     public bool TryAddItem(InventoryItemEntry entry)
@@ -34,6 +37,20 @@ public class Inventory : MonoBehaviour
         inventoryItems.Add(entry, emptySpaceRect);
         entry.Rect = emptySpaceRect;
         entry.Size = emptySpaceRect.size;
+
+        OnItemAdded?.Invoke(entry);
+        return true;
+    }
+
+    public bool TryAddItem(InventoryItemEntry entry, Vector2Int gridPosition)
+    {
+        RectInt rect = new RectInt(gridPosition, entry.Size);
+        if (IsFitInInventory(rect) == false)
+            return false;
+
+        inventoryItems.Add(entry, rect);
+        entry.Rect = rect;
+        entry.Size = rect.size;
 
         OnItemAdded?.Invoke(entry);
         return true;
@@ -102,7 +119,7 @@ public class Inventory : MonoBehaviour
         return true;
     }
 
-    private bool IsFitInInventory(RectInt rect)
+    public bool IsFitInInventory(RectInt rect)
     {
         if (!IsInsideInventory(rect))
         {

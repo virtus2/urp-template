@@ -7,20 +7,24 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Inventory))]
 public class InventoryView : MonoBehaviour
 {
+    private Inventory inventory;
+
+    [Header("Inventory grid")]
     public Transform InventoryGrid;
-    public InventoryCell InventoryCellPrefab;
 
     [Header("Any values in GridLayoutGroup will automatically modified by the Inventory.")]
     public GridLayoutGroup GridLayoutGroup;
 
+    [Header("Inventory cell prefab")]
+    public InventoryCell InventoryCellPrefab;
 
+    [Header("Inventory cell size & gap")]
+    public Vector2Int CellSize = new Vector2Int(100, 100);
+    public Vector2Int CellGap = new Vector2Int(5, 5);
 
     private List<InventoryCell> inventoryCells = new List<InventoryCell>();
-    private Dictionary<Vector2Int, InventoryCell> inventoryCellsByPosition = new Dictionary<Vector2Int, InventoryCell>(); // [y, x]
+    private Dictionary<Vector2Int, InventoryCell> inventoryCellsByPosition = new Dictionary<Vector2Int, InventoryCell>();
 
-    public Vector2Int CellSize = new Vector2Int(100, 100);
-
-    public Vector2Int CellGap = new Vector2Int(5, 5);
 
     [Header("Inventory item images")]
     public InventoryItemImage InventoryItemImagePrefab;
@@ -33,8 +37,6 @@ public class InventoryView : MonoBehaviour
     public InventoryPickedUpItem InventoryPickedUpItem;
 
 
-    private Inventory inventory;
-
     private void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -43,6 +45,15 @@ public class InventoryView : MonoBehaviour
             defaultCapacity: inventory.Height * inventory.Width,
             maxSize: inventory.Height * inventory.Width * 2
         );
+
+        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
+        for (int i = 0; i < cells.Length; i++)
+        {
+            Vector2Int gridPosition = new Vector2Int(i % inventory.Width, i / inventory.Width);
+            cells[i].GridPosition = gridPosition;
+            inventoryCells.Add(cells[i]);
+            inventoryCellsByPosition.Add(gridPosition, cells[i]);
+        }
     }
 
     private InventoryItemImage CreateInventoryItemImage()
@@ -51,11 +62,11 @@ public class InventoryView : MonoBehaviour
         return item;
     }
 
-    public void AddInventoryItemImage(InventoryItemEntry item, Action<InventoryItemImage> onPointerDown)
+    public void AddInventoryItemImage(InventoryItemEntry item)
     {
         InventoryItemImage itemImage = inventoryItemImagePool.Get();
+        itemImage.gameObject.SetActive(true);
         itemImage.SetPositionAndSize(item.Rect, CellSize, CellGap);
-        itemImage.OnPointerDownAction = onPointerDown;
 
         inventoryItemImages.Add(item, itemImage);
     }
@@ -78,11 +89,65 @@ public class InventoryView : MonoBehaviour
         InventoryPickedUpItem.SetPositionAndSize(item.Rect, CellSize, CellGap);
     }
 
+    public void HidePickedUpItem()
+    {
+        InventoryPickedUpItem.gameObject.SetActive(false);
+    }
+
     public void SetPickedUpItemPosition(Vector2 position)
     {
         InventoryPickedUpItem.transform.position = position;
     }
 
+    public void ShowOccupiedItem(InventoryItemEntry entry)
+    {
+        foreach (InventoryCell cell in inventoryCells)
+        {
+            cell.Image.color = Color.white;
+        }
+
+        foreach (Vector2Int position in entry.Rect.allPositionsWithin)
+        {
+        }
+    }
+
+    public void ClearCellColor()
+    {
+        foreach (InventoryCell cell in inventoryCells)
+        {
+            cell.Image.color = Color.white;
+        }
+    }
+
+    public void SetCellColor(Vector2Int gridPosition, Color color)
+    {
+        foreach (InventoryCell cell in inventoryCells)
+        {
+            cell.Image.color = Color.white;
+        }
+
+        if(inventoryCellsByPosition.ContainsKey(gridPosition))
+        {
+            inventoryCellsByPosition[gridPosition].Image.color = color;
+        }    
+    }
+
+    public void SetCellColor(Vector2Int gridPosition, Vector2Int size, Color color)
+    {
+        foreach (InventoryCell cell in inventoryCells)
+        {
+            cell.Image.color = Color.white;
+        }
+
+        RectInt rect = new RectInt(gridPosition, size);
+        foreach (Vector2Int position in rect.allPositionsWithin)
+        {
+            if (inventoryCellsByPosition.ContainsKey(position))
+            {
+                inventoryCellsByPosition[position].Image.color = color;
+            }
+        }
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()
@@ -107,12 +172,12 @@ public class InventoryView : MonoBehaviour
         inventoryCells.Clear();
         inventoryCellsByPosition.Clear();
 
-        for (int i = 0; i < inventory.Height; i++)
+        for (int y = 0; y < inventory.Height; y++)
         {
-            for (int j = 0; j < inventory.Width; j++)
+            for (int x = 0; x < inventory.Width; x++)
             {
                 InventoryCell cell = Instantiate(InventoryCellPrefab, InventoryGrid.transform);
-                Vector2Int position = new Vector2Int(i, j);
+                Vector2Int position = new Vector2Int(x, y);
                 inventoryCells.Add(cell);
                 inventoryCellsByPosition.Add(position, cell);
                 cell.GridPosition = position;
