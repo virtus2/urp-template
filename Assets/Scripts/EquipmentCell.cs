@@ -1,14 +1,13 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryCell : MonoBehaviour
+public class EquipmentCell : MonoBehaviour
 {
-    public Vector2Int GridPosition;
+    public EEquipmentType EquipmentType;
+    public InventoryItemEntry ItemEntry;
     public Image Image;
+    public Image ItemImage;
     public Color DefaultColor;
-    
 
     private void Awake()
     {

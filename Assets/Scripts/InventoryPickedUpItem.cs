@@ -21,6 +21,7 @@ public class InventoryPickedUpItem : MonoBehaviour
         Vector2 pointerPosition = Pointer.current.position.ReadValue();
         transform.position = pointerPosition;
     }
+
     public void SetPositionAndSize(RectInt rect, Vector2Int cellSize, Vector2Int cellGap)
     {
         ItemRect = rect;

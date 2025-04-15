@@ -33,9 +33,6 @@ public class InventoryView : MonoBehaviour
     private Dictionary<InventoryItemEntry, InventoryItemImage> inventoryItemImages = new Dictionary<InventoryItemEntry, InventoryItemImage>();
     private ObjectPool<InventoryItemImage> inventoryItemImagePool;
 
-    [Header("Inventory picked up item")]
-    public InventoryPickedUpItem InventoryPickedUpItem;
-
 
     private void Awake()
     {
@@ -82,28 +79,11 @@ public class InventoryView : MonoBehaviour
         }
     }
 
-    public void ShowPickedUpItem(InventoryItemEntry item)
-    {
-        InventoryPickedUpItem.gameObject.SetActive(true);
-        // InventoryPickedUpItem.Image = item.
-        InventoryPickedUpItem.SetPositionAndSize(item.Rect, CellSize, CellGap);
-    }
-
-    public void HidePickedUpItem()
-    {
-        InventoryPickedUpItem.gameObject.SetActive(false);
-    }
-
-    public void SetPickedUpItemPosition(Vector2 position)
-    {
-        InventoryPickedUpItem.transform.position = position;
-    }
-
     public void ShowOccupiedItem(InventoryItemEntry entry)
     {
         foreach (InventoryCell cell in inventoryCells)
         {
-            cell.Image.color = Color.white;
+            cell.Image.color = cell.DefaultColor;
         }
 
         foreach (Vector2Int position in entry.Rect.allPositionsWithin)
@@ -115,7 +95,7 @@ public class InventoryView : MonoBehaviour
     {
         foreach (InventoryCell cell in inventoryCells)
         {
-            cell.Image.color = Color.white;
+            cell.Image.color = cell.DefaultColor;
         }
     }
 
@@ -123,7 +103,7 @@ public class InventoryView : MonoBehaviour
     {
         foreach (InventoryCell cell in inventoryCells)
         {
-            cell.Image.color = Color.white;
+            cell.Image.color = cell.DefaultColor;
         }
 
         if(inventoryCellsByPosition.ContainsKey(gridPosition))
@@ -136,7 +116,7 @@ public class InventoryView : MonoBehaviour
     {
         foreach (InventoryCell cell in inventoryCells)
         {
-            cell.Image.color = Color.white;
+            cell.Image.color = cell.DefaultColor;
         }
 
         RectInt rect = new RectInt(gridPosition, size);

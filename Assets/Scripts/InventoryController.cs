@@ -13,10 +13,9 @@ public enum EInventoryControlState
     UsingItemToTwoTargetItem, // If we dont need this, just remove. Think about POE Awakener's orb.
 }
 
-[RequireComponent(typeof(InventoryView))]
+[RequireComponent(typeof(InventoryView), typeof(Inventory))]
 public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerDownHandler, IPointerExitHandler
 {
-    public EInventoryControlState InventoryControlState = EInventoryControlState.None;
     public Vector2Int CurrentGridPositionOfPointer;
     
     private Inventory inventory;
@@ -38,18 +37,6 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
     {
         inventory = GetComponent<Inventory>();
         inventoryView = GetComponent<InventoryView>();
-    }
-
-    private void Update()
-    {
-        switch (InventoryControlState)
-        {
-            case EInventoryControlState.ItemPickedUp:
-
-                break;
-            default:
-                break;
-        }
     }
 
     private void HandleOnItemAdded(InventoryItemEntry entry)
@@ -96,6 +83,7 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
         Vector2Int gridPosition = ScreenToGrid(eventData.position);
         bool inside = inventory.IsInsideInventory(gridPosition);
 
+        Debug.Log(gridPosition);
         if (inside == false)
             return;
         
@@ -105,7 +93,7 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
         CurrentGridPositionOfPointer = gridPosition;
         inventoryView.ClearCellColor();
 
-        switch (InventoryControlState)
+        switch (InventoryManager.Instance.InventoryControlState)
         {
             case EInventoryControlState.None:
                 {
@@ -117,18 +105,16 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
                 break;
             case EInventoryControlState.ItemPickedUp:
                 {
-                    Vector2Int position = gridPosition - inventory.PickedUpItem.Size + Vector2Int.one;
-                    RectInt rect = new RectInt(position, inventory.PickedUpItem.Size);
-                    if (inventory.IsInsideInventory(rect) == false)
-                        return;
+                    Vector2Int position = gridPosition - InventoryManager.Instance.PickedUpItemEntry.Size + Vector2Int.one;
+                    RectInt rect = new RectInt(position, InventoryManager.Instance.PickedUpItemEntry.Size);
 
                     if (inventory.IsFitInInventory(rect))
                     {
-                        inventoryView.SetCellColor(position, inventory.PickedUpItem.Size, Color.green);
+                        inventoryView.SetCellColor(position, InventoryManager.Instance.PickedUpItemEntry.Size, Color.green);
                     }
                     else
                     {
-                        inventoryView.SetCellColor(position, inventory.PickedUpItem.Size, Color.red);
+                        inventoryView.SetCellColor(position, InventoryManager.Instance.PickedUpItemEntry.Size, Color.red);
                     }
                 }
 
@@ -145,7 +131,7 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
         if (inside == false)
             return;
 
-        switch (InventoryControlState)
+        switch (InventoryManager.Instance.InventoryControlState)
         {
             case EInventoryControlState.None:
                 {
@@ -153,9 +139,7 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
                     {
                         if (inventory.TryRemoveItem(entry))
                         {
-                            InventoryControlState = EInventoryControlState.ItemPickedUp;
-                            inventoryView.ShowPickedUpItem(entry);
-                            inventory.PickedUpItem = entry;
+                            InventoryManager.Instance.PickUpItem(entry, inventoryView.CellSize, inventoryView.CellGap);
 
                             RectInt rect = new RectInt(gridPosition - entry.Size + Vector2Int.one, entry.Size);
                             if (inventory.IsFitInInventory(rect))
@@ -173,13 +157,11 @@ public class InventoryController : MonoBehaviour, IPointerMoveHandler, IPointerD
                 break;
             case EInventoryControlState.ItemPickedUp:
                 {
-                    Vector2Int position = gridPosition - inventory.PickedUpItem.Size + Vector2Int.one;
-                    if (inventory.TryAddItem(inventory.PickedUpItem, position))
+                    Vector2Int position = gridPosition - InventoryManager.Instance.PickedUpItemEntry.Size + Vector2Int.one;
+                    if (inventory.TryAddItem(InventoryManager.Instance.PickedUpItemEntry, position))
                     {
-                        InventoryControlState = EInventoryControlState.None;
-                        inventoryView.HidePickedUpItem();
-                        inventoryView.SetCellColor(position, inventory.PickedUpItem.Size, Color.yellow);
-                        inventory.PickedUpItem = null;
+                        inventoryView.SetCellColor(position, InventoryManager.Instance.PickedUpItemEntry.Size, Color.yellow);
+                        InventoryManager.Instance.DropPickedUpItem();
                     }
                 }
 

@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class InventoryItemEntry
 {
+    public EEquipmentType EquipmentType;
     public Vector2Int Size;
     public RectInt Rect;
 }
@@ -24,8 +25,6 @@ public class Inventory : MonoBehaviour
 
     public Action<InventoryItemEntry> OnItemAdded;
     public Action<InventoryItemEntry> OnItemRemoved;
-
-    public InventoryItemEntry PickedUpItem;
 
     private Dictionary<InventoryItemEntry, RectInt> inventoryItems = new Dictionary<InventoryItemEntry, RectInt>();
 
@@ -141,6 +140,7 @@ public class Inventory : MonoBehaviour
     public void TestAddItem()
     {
         InventoryItemEntry testItemEntry = new InventoryItemEntry();
+        testItemEntry.EquipmentType = EEquipmentType.LeftWeapon;
         testItemEntry.Size = new Vector2Int(Random.Range(1, 3), Random.Range(1, 3));
         bool added = TryAddItem(testItemEntry);
 

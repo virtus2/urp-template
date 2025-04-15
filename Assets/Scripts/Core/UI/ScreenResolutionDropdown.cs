@@ -85,6 +85,9 @@ public class ScreenResolutionDropdown : MonoBehaviour
     private void OnEnable()
     {
         LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
+
+        // TODO:
+        ClientPrefs.GetScreenResolution();
     }
 
     private void OnDisable()
@@ -236,12 +239,15 @@ public class ScreenResolutionDropdown : MonoBehaviour
     {
         Resolution selectedResolution = resolutionOptions[index];
         Screen.SetResolution(selectedResolution.width, selectedResolution.height, fullScreenModeOptions[FullScreenModeDropdown.value]);
+        ClientPrefs.SetScreenResolution(selectedResolution);
     }
 
     private void OnValueChanged_FullScreenDropdown(int index)
     {
         Resolution currentResolution = Screen.currentResolution;
-        Screen.SetResolution(currentResolution.width, currentResolution.height, fullScreenModeOptions[index]);
+        FullScreenMode selectedFullScreenMode = fullScreenModeOptions[index];
+        Screen.SetResolution(currentResolution.width, currentResolution.height, selectedFullScreenMode);
+        ClientPrefs.SetFullScreenMode(selectedFullScreenMode);
 
         UpdateResolutionDropdown();
         SelectCurrentResolution();
