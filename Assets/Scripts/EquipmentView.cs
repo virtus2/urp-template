@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public enum EEquipmentType
 {
@@ -16,17 +15,17 @@ public enum EEquipmentType
     Boots,
 }
 
-public class EquipmentView : MonoBehaviour
+public class EquipmentView
 {
     public List<EquipmentCell> EquipmentCells;
 
     private Dictionary<EEquipmentType, EquipmentCell> equipmentCellsByType;
 
-    private void Awake()
+    public EquipmentView(EquipmentCell[] cells)
     {
         equipmentCellsByType = new Dictionary<EEquipmentType, EquipmentCell>();
 
-        foreach (EquipmentCell cell in EquipmentCells)
+        foreach (EquipmentCell cell in cells)
         {
             equipmentCellsByType.Add(cell.EquipmentType, cell);
         }

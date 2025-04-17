@@ -1,69 +1,48 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.UI;
 
-[RequireComponent(typeof(Inventory))]
-public class InventoryView : MonoBehaviour
+public class InventoryView
 {
-    private Inventory inventory;
+    private int inventoryHeight;
+    private int inventoryWidth;
 
-    [Header("Inventory grid")]
-    public Transform InventoryGrid;
+    private Vector2Int inventoryCellSize;
+    private Vector2Int inventoryCellGap;
 
-    [Header("Any values in GridLayoutGroup will automatically modified by the Inventory.")]
-    public GridLayoutGroup GridLayoutGroup;
+    private List<InventoryCell> inventoryCells;
+    private Dictionary<Vector2Int, InventoryCell> inventoryCellsByPosition;
 
-    [Header("Inventory cell prefab")]
-    public InventoryCell InventoryCellPrefab;
+    private ObjectPool<InventoryItemImage> imagePool;
+    private Dictionary<InventoryItemEntry, InventoryItemImage> inventoryItemImages;
 
-    [Header("Inventory cell size & gap")]
-    public Vector2Int CellSize = new Vector2Int(100, 100);
-    public Vector2Int CellGap = new Vector2Int(5, 5);
-
-    private List<InventoryCell> inventoryCells = new List<InventoryCell>();
-    private Dictionary<Vector2Int, InventoryCell> inventoryCellsByPosition = new Dictionary<Vector2Int, InventoryCell>();
-
-
-    [Header("Inventory item images")]
-    public InventoryItemImage InventoryItemImagePrefab;
-    public Transform InventoryItemImageParent;
-
-    private Dictionary<InventoryItemEntry, InventoryItemImage> inventoryItemImages = new Dictionary<InventoryItemEntry, InventoryItemImage>();
-    private ObjectPool<InventoryItemImage> inventoryItemImagePool;
-
-
-    private void Awake()
+    public InventoryView(int height, int width, Vector2Int cellSize, Vector2Int cellGap, InventoryCell[] cells, ObjectPool<InventoryItemImage> pool)
     {
-        inventory = GetComponent<Inventory>();
-        inventoryItemImagePool = new ObjectPool<InventoryItemImage>(
-            createFunc: CreateInventoryItemImage,
-            defaultCapacity: inventory.Height * inventory.Width,
-            maxSize: inventory.Height * inventory.Width * 2
-        );
+        inventoryHeight = height;
+        inventoryWidth = width;
 
-        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
+        inventoryCellSize = cellSize;
+        inventoryCellGap = cellGap;
+
+        inventoryCells = new List<InventoryCell>();
+        inventoryCellsByPosition = new Dictionary<Vector2Int, InventoryCell>();
         for (int i = 0; i < cells.Length; i++)
         {
-            Vector2Int gridPosition = new Vector2Int(i % inventory.Width, i / inventory.Width);
+            Vector2Int gridPosition = new Vector2Int(i % inventoryWidth, i / inventoryWidth);
             cells[i].GridPosition = gridPosition;
             inventoryCells.Add(cells[i]);
             inventoryCellsByPosition.Add(gridPosition, cells[i]);
         }
-    }
 
-    private InventoryItemImage CreateInventoryItemImage()
-    {
-        InventoryItemImage item = Instantiate(InventoryItemImagePrefab, InventoryItemImageParent);
-        return item;
+        imagePool = pool;
+        inventoryItemImages = new Dictionary<InventoryItemEntry, InventoryItemImage>(); 
     }
 
     public void AddInventoryItemImage(InventoryItemEntry item)
     {
-        InventoryItemImage itemImage = inventoryItemImagePool.Get();
+        InventoryItemImage itemImage = imagePool.Get();
         itemImage.gameObject.SetActive(true);
-        itemImage.SetPositionAndSize(item.Rect, CellSize, CellGap);
+        itemImage.SetPositionAndSize(item.Rect, inventoryCellSize, inventoryCellGap);
 
         inventoryItemImages.Add(item, itemImage);
     }
@@ -74,7 +53,7 @@ public class InventoryView : MonoBehaviour
         if (found)
         {
             inventoryItemImages[entry].gameObject.SetActive(false);
-            inventoryItemImagePool.Release(inventoryItemImages[entry]);
+            imagePool.Release(inventoryItemImages[entry]);
             inventoryItemImages.Remove(entry);
         }
     }
@@ -128,51 +107,4 @@ public class InventoryView : MonoBehaviour
             }
         }
     }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        inventory = GetComponent<Inventory>();
-        GridLayoutGroup.cellSize = CellSize;
-        GridLayoutGroup.spacing = CellGap;
-        GridLayoutGroup.constraintCount = inventory.Width;
-    }
-
-    [NaughtyAttributes.Button]
-    public void InstantiateCells()
-    {
-        if (InventoryCellPrefab == null)
-            return;
-
-        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
-        foreach (InventoryCell cell in cells)
-        {
-            DestroyImmediate(cell.gameObject);
-        }
-        inventoryCells.Clear();
-        inventoryCellsByPosition.Clear();
-
-        for (int y = 0; y < inventory.Height; y++)
-        {
-            for (int x = 0; x < inventory.Width; x++)
-            {
-                InventoryCell cell = Instantiate(InventoryCellPrefab, InventoryGrid.transform);
-                Vector2Int position = new Vector2Int(x, y);
-                inventoryCells.Add(cell);
-                inventoryCellsByPosition.Add(position, cell);
-                cell.GridPosition = position;
-            }
-        }
-    }
-
-    [NaughtyAttributes.Button]
-    public void SetCellPositions()
-    {
-        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
-        for (int i = 0; i < cells.Length; i++)
-        {
-            cells[i].GridPosition = new Vector2Int(i / inventory.Width, i % inventory.Width);
-        }
-    }
-#endif
 }

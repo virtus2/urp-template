@@ -139,6 +139,15 @@ namespace Core.Level
                 Vector3 spawnPosition = spawner != null ? spawner.transform.position : Vector3.zero;
                 PlayerInstance.RespawnPlayerCharacter(spawnPosition);
             }
+            if (PlayerInstance.Instance.Inventory.gameObject.activeSelf)
+            {
+                if (GUILayout.Button("Add test item"))
+                {
+                    PlayerInstance.Instance.Inventory.TestAddItem();
+                }
+            }
+
+            
         }
     }
 }

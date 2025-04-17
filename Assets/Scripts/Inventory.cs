@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using UnityEngine.EventSystems;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class InventoryItemEntry
 {
@@ -13,128 +15,156 @@ public class InventoryItemEntry
     public RectInt Rect;
 }
 
-[AddComponentMenu("Arpg/Inventory")]
-public class Inventory : MonoBehaviour
+public enum EInventoryControlState
 {
-    [Header("Inventory Grid")]
-    [Range(1, 50)]
-    public int Height;
+    None,
+    ItemPickedUp,
 
-    [Range(1, 50)]
-    public int Width;
+}
 
+public interface IItemPickUpHandler
+{
+    public void PickUpItem(InventoryItemEntry entry);
+}
+
+public interface IItemDropHandler
+{
+    public void DropPickedUpItem();
+}
+
+[AddComponentMenu("Arpg/Inventory")]
+public class Inventory : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler, IPointerExitHandler, IItemPickUpHandler, IItemDropHandler
+{
     public Action<InventoryItemEntry> OnItemAdded;
     public Action<InventoryItemEntry> OnItemRemoved;
 
-    private Dictionary<InventoryItemEntry, RectInt> inventoryItems = new Dictionary<InventoryItemEntry, RectInt>();
+    private ObjectPool<InventoryItemImage> inventoryItemImagePool;
 
-    public bool TryAddItem(InventoryItemEntry entry)
+    [Header("Inventory")]
+    [SerializeField] [Range(1, 50)] private int height = 5;
+    [SerializeField] [Range(1, 50)] private int width = 12;
+    [SerializeField] private RectTransform inventoryRectTransform;
+    [SerializeField] private GridLayoutGroup gridLayoutGroup;
+    [SerializeField] private Vector2Int cellSize = new Vector2Int(100, 100);
+    [SerializeField] private Vector2Int cellGap = new Vector2Int(5, 5);
+    [SerializeField] private InventoryCell inventoryCellPrefab;
+    [SerializeField] private InventoryCell[] inventoryCells;
+    private InventoryModel inventoryModel;
+    private InventoryView inventoryView;
+    private InventoryPresenter inventoryPresenter;
+
+
+    [Header("Equipment")]
+    [SerializeField] private EquipmentCell[] equipmentCells;
+    private EquipmentModel equipmentModel;
+    private EquipmentView equipmentView;
+    private EquipmentPresenter equipmentPresenter;
+
+
+    [Header("Inventory Picked Up Item")]
+    [SerializeField] private EInventoryControlState inventoryControlState;
+    public Action<InventoryItemEntry> OnItemPickedUp;
+    public Action OnItemDropped;
+
+
+    [Header("Inventory picked up item")]
+    public InventoryPickedUpItem PickedUpItemObj;
+    public InventoryItemEntry PickedUpItemEntry;
+
+
+    [Header("Inventory item images")]
+    public InventoryItemImage InventoryItemImagePrefab;
+    public Transform InventoryItemImageParent;
+
+
+    private void Awake()
     {
-        if (TryGetEmptySpace(entry.Size, out RectInt emptySpaceRect) == false)
-            return false;
+        inventoryItemImagePool = new ObjectPool<InventoryItemImage>(
+            createFunc: CreateInventoryItemImage,
+            defaultCapacity: height * width,
+            maxSize: height * width * 2
+        );
 
-        inventoryItems.Add(entry, emptySpaceRect);
-        entry.Rect = emptySpaceRect;
-        entry.Size = emptySpaceRect.size;
+        inventoryModel = new InventoryModel(height, width);
+        inventoryView = new InventoryView(height, width, cellSize, cellGap, inventoryCells, inventoryItemImagePool);
+        inventoryPresenter = new InventoryPresenter(inventoryModel, inventoryView, this, this, inventoryRectTransform, height, width, cellSize, cellGap);
 
-        OnItemAdded?.Invoke(entry);
-        return true;
+        equipmentModel = new EquipmentModel();
+        equipmentView = new EquipmentView(equipmentCells);
+        equipmentPresenter = new EquipmentPresenter(equipmentModel, equipmentView, this, this);
     }
 
-    public bool TryAddItem(InventoryItemEntry entry, Vector2Int gridPosition)
+    private InventoryItemImage CreateInventoryItemImage()
     {
-        RectInt rect = new RectInt(gridPosition, entry.Size);
-        if (IsFitInInventory(rect) == false)
-            return false;
-
-        inventoryItems.Add(entry, rect);
-        entry.Rect = rect;
-        entry.Size = rect.size;
-
-        OnItemAdded?.Invoke(entry);
-        return true;
+        InventoryItemImage item = Instantiate(InventoryItemImagePrefab, InventoryItemImageParent);
+        return item;
     }
 
-    public bool TryRemoveItem(InventoryItemEntry entry)
+    public void Show()
     {
-        bool found = inventoryItems.ContainsKey(entry);
-        if (found)
-        {
-            inventoryItems.Remove(entry);
-            OnItemRemoved?.Invoke(entry);
-            return true;
-        }
-        return false;
+        if (gameObject.activeInHierarchy)
+            gameObject.SetActive(false);
+        else
+            gameObject.SetActive(true);
     }
 
-    public bool TryGetItemAt(Vector2Int position, out InventoryItemEntry entry)
+    public void PickUpItem(InventoryItemEntry entry)
     {
-        foreach (var item in inventoryItems)
-        {
-            if (item.Value.Contains(position))
-            {
-                entry = item.Key;
-                return true;
-            }
-        }
-        entry = null;
-        return false;
+        inventoryControlState = EInventoryControlState.ItemPickedUp;
+        PickedUpItemEntry = entry;
+        PickedUpItemObj.gameObject.SetActive(true);
+        // InventoryPickedUpItem.Image = item.
+        PickedUpItemObj.SetPositionAndSize(entry.Rect, cellSize, cellGap);
+
+        inventoryPresenter.HandleItemPickedUp(entry);
+        equipmentPresenter.HandleItemPickedUp(entry);
+
+
+        OnItemPickedUp?.Invoke(entry);
     }
 
-    public bool TryGetEmptySpace(Vector2Int size, out RectInt emptySpaceRect)
+    public void DropPickedUpItem()
     {
-        for (int y = 0; y < Height; y++)
-        {
-            for (int x = 0; x < Width; x++)
-            {
-                Vector2Int position = new Vector2Int(x, y);
-                RectInt rect = new RectInt(position, size);
+        inventoryControlState = EInventoryControlState.None;
+        PickedUpItemEntry = null;
+        PickedUpItemObj.gameObject.SetActive(false);
 
-                if (!IsFitInInventory(rect))
-                {
-                    continue;
-                }
+        inventoryPresenter.HandleItemDropped();
+        equipmentPresenter.HandleItemDropped();
 
-                emptySpaceRect = rect;
-                return true;
-            }
-        }
-
-        emptySpaceRect = new RectInt();
-        return false;
+        OnItemDropped?.Invoke();
     }
 
-    //
-    // Rect Utilities
-    //
-    public bool IsInsideInventory(Vector2Int gridPosition)
+    public void OnPointerMove(PointerEventData eventData)
     {
-        return gridPosition.x >= 0 && gridPosition.x < Width && gridPosition.y >= 0 && gridPosition.y < Height;
-    }
-    public bool IsInsideInventory(RectInt rect)
-    {
-        if (rect.xMax > Width || rect.yMax > Height) return false;
-        if (rect.xMin < 0 || rect.yMin < 0) return false;
-        return true;
+        inventoryPresenter.OnPointerMove(eventData, inventoryControlState);
+        equipmentPresenter.OnPointerMove(eventData);
     }
 
-    public bool IsFitInInventory(RectInt rect)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (!IsInsideInventory(rect))
-        {
-            return false;
-        }
-        foreach (var item in inventoryItems)
-        {
-            if (item.Value.Overlaps(rect))
-            {
-                return false;
-            }
-        }
-        return true;
+        inventoryPresenter.OnPointerDown(eventData, inventoryControlState);
+        equipmentPresenter.OnPointerDown(eventData, inventoryControlState);
     }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        inventoryPresenter.OnPointerExit(eventData);
+        equipmentPresenter.OnPointerExit(eventData);
+    }
+
 
 #if UNITY_EDITOR
+
+    private void OnValidate()
+    {
+        if(gridLayoutGroup)
+        {
+            gridLayoutGroup.cellSize = cellSize;
+            gridLayoutGroup.spacing = cellGap;
+            gridLayoutGroup.constraintCount = width;
+        }
+    }
 
     [NaughtyAttributes.Button]
     public void TestAddItem()
@@ -142,13 +172,46 @@ public class Inventory : MonoBehaviour
         InventoryItemEntry testItemEntry = new InventoryItemEntry();
         testItemEntry.EquipmentType = EEquipmentType.LeftWeapon;
         testItemEntry.Size = new Vector2Int(Random.Range(1, 3), Random.Range(1, 3));
-        bool added = TryAddItem(testItemEntry);
-
+        bool added = inventoryModel.TryAddItem(testItemEntry);
     }
 
     public void TestRemoveItem()
     {
 
+    }
+
+
+    [NaughtyAttributes.Button]
+    public void InstantiateCells()
+    {
+        if (inventoryCellPrefab == null)
+            return;
+
+        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
+        foreach (InventoryCell cell in cells)
+        {
+            DestroyImmediate(cell.gameObject);
+        }
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                InventoryCell cell = Instantiate(inventoryCellPrefab, gridLayoutGroup.transform);
+                Vector2Int position = new Vector2Int(x, y);
+                cell.GridPosition = position;
+            }
+        }
+    }
+
+    [NaughtyAttributes.Button]
+    public void SetCellPositions()
+    {
+        InventoryCell[] cells = transform.GetComponentsInChildren<InventoryCell>();
+        for (int i = 0; i < cells.Length; i++)
+        {
+            cells[i].GridPosition = new Vector2Int(i / width, i % width);
+        }
     }
 #endif
 }

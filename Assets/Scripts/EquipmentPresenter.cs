@@ -1,42 +1,36 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
+using static UnityEngine.EventSystems.EventTrigger;
 
-[RequireComponent(typeof(EquipmentView), typeof(Equipment))]
-public class EquipmentPresenter : MonoBehaviour, IPointerMoveHandler, IPointerDownHandler, IPointerExitHandler
+public class EquipmentPresenter
 {
-    private Equipment equipment;
+    private EquipmentModel equipmentModel;
     private EquipmentView equipmentView;
+    private IItemPickUpHandler itemPickUpHandler;
+    private IItemDropHandler itemDropHandler;
 
-    private void Awake()
+    private InventoryItemEntry currentPickedUpItem;
+
+    public EquipmentPresenter(EquipmentModel model, EquipmentView view, IItemPickUpHandler pickUpHandler, IItemDropHandler dropHandler)
     {
-        equipment = GetComponent<Equipment>();
-        equipmentView = GetComponent<EquipmentView>();
+        equipmentModel = model;
+        equipmentView = view;
+
+        itemPickUpHandler = pickUpHandler;
+        itemDropHandler = dropHandler;
+
+        equipmentModel.OnItemEquipped += HandleItemEquipped;
+        equipmentModel.OnItemUnequipped += HandleItemUnequipped;
     }
 
-    private void OnEnable()
+    public void HandleItemPickedUp(InventoryItemEntry entry)
     {
-        InventoryManager.OnItemPickedUp += HandleItemPickedUp;
-        InventoryManager.OnItemDropped += HandleItemDropped;
-
-        equipment.OnItemEquipped += HandleItemEquipped;
-        equipment.OnItemUnequipped += HandleItemUnequipped;
+        equipmentView.HighlightEquipmentCell(entry);
+        currentPickedUpItem = entry;
     }
 
-    private void OnDisable()
-    {
-        InventoryManager.OnItemPickedUp -= HandleItemPickedUp;
-        InventoryManager.OnItemDropped -= HandleItemDropped;
-
-        equipment.OnItemEquipped -= HandleItemEquipped;
-        equipment.OnItemUnequipped -= HandleItemUnequipped;
-    }
-
-    private void HandleItemPickedUp(InventoryItemEntry entry)
-    {
-        equipmentView.HighlightEquipmentCell(entry);   
-    }
-
-    private void HandleItemDropped()
+    public void HandleItemDropped()
     {
         equipmentView.ResetHighlight();
     }
@@ -51,33 +45,45 @@ public class EquipmentPresenter : MonoBehaviour, IPointerMoveHandler, IPointerDo
         equipmentView.HideEquipmentImage(equipmentType);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData, EInventoryControlState state)
     {
         if (eventData.pointerCurrentRaycast.gameObject == null)
             return;
 
         EquipmentCell cell = eventData.pointerCurrentRaycast.gameObject.GetComponent<EquipmentCell>();
-        if (cell)
+        if (cell == null)
+            return;
+
+        InventoryItemEntry equippedItem = equipmentModel.GetEquippedItem(cell.EquipmentType);
+        switch (state)
         {
-            switch (InventoryManager.Instance.InventoryControlState)
-            {
-                case EInventoryControlState.None:
+            case EInventoryControlState.None:
+                if (equippedItem != null)
+                {
+                    if (itemPickUpHandler != null)
                     {
-
+                        itemPickUpHandler.PickUpItem(equippedItem);
+                        equipmentModel.Unequip(cell.EquipmentType);
                     }
-                    break;
-                case EInventoryControlState.ItemPickedUp:
-                    {
-                        if (cell.EquipmentType == InventoryManager.Instance.PickedUpItemEntry.EquipmentType)
-                        {
-                            equipment.Equip(InventoryManager.Instance.PickedUpItemEntry);
-                        }
-                    }
-                    break;
+                }
 
-            }
+                break;
+            case EInventoryControlState.ItemPickedUp:
+                if (cell.EquipmentType != currentPickedUpItem.EquipmentType || equippedItem != null)
+                {
+                    // ÀåÂø ºÒ°¡
+
+                }
+                else
+                {
+                    equipmentModel.Equip(currentPickedUpItem);
+                    itemDropHandler?.DropPickedUpItem();
+                }
+
+                break;
         }
     }
+    
 
     public void OnPointerExit(PointerEventData eventData)
     {

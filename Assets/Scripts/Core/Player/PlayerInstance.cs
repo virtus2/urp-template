@@ -29,7 +29,17 @@ namespace Core.Player
                 return userSettingsUI;
             }
         }
-            
+
+        private Inventory inventory;
+        public Inventory Inventory
+        {
+            get
+            {
+                if (inventory == null)
+                    inventory = FindAnyObjectByType<Inventory>(FindObjectsInactive.Include);
+                return inventory;
+            }
+        }
 
         public Action<Core.Character.BaseCharacter> OnPlayerCharacterSpawned;
 

@@ -533,6 +533,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: cda71889-2e5a-483d-b4fe-55d06ee24473
     m_ActionName: 'Player/Menu[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7322128057125960765}
+        m_TargetAssemblyTypeName: Core.PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnInventoryAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e3ad9b30-c9d7-46e9-9648-1be11918ffbd
+    m_ActionName: 'Player/Inventory[/Keyboard/i]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -550,7 +566,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c52fc8a9b7cc40b43917bbb8383e3cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CinemachineBrain: {fileID: 0}
   PlayerSetting: {fileID: 11400000, guid: 8536be226555bfa419963e434b4de185, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

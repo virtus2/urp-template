@@ -130,5 +130,13 @@ namespace Core
                 Debug.Log("MENU");
             }
         }
+
+        public void OnInventoryAction(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                PlayerInstance.Instance.Inventory.Show();
+            }
+        }
     }
 }
