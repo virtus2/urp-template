@@ -1,0 +1,369 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81325975f84154b4ba40c973e5bdaad2, type: 3}
+  m_Name: TreasureClass
+  m_EditorClassIdentifier: 
+  SheetName: Assets/ScriptableObjects/QuickSheet/TreasureClass.xlsx
+  WorksheetName: TreasureClass
+  dataArray:
+  - id: 0
+    class_name: Act1NormalGroup1
+    group: 1
+    req_level: 1
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Act1_EquipA
+    prob1: 21
+    item2: Act1_JunkA
+    prob2: 16
+    item3: Act1_GoodA
+    prob3: 2
+    item4: Act1_SupremeA
+    prob4: 1
+    item5: 
+    prob5: 0
+  - id: 1
+    class_name: Act1NormalGroup2
+    group: 1
+    req_level: 6
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Act1_EquipB
+    prob1: 21
+    item2: Act1_JunkB
+    prob2: 16
+    item3: Act1_GoodB
+    prob3: 2
+    item4: Act1_SupremeB
+    prob4: 1
+    item5: Act1_EquipA
+    prob5: 12
+  - id: 2
+    class_name: Act2NormalGroup1
+    group: 1
+    req_level: 11
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Act2_EquipA
+    prob1: 21
+    item2: Act2_JunkA
+    prob2: 16
+    item3: Act2_GoodA
+    prob3: 2
+    item4: Act2_SupremeA
+    prob4: 1
+    item5: Act1_EquipB
+    prob5: 12
+  - id: 3
+    class_name: Act2NormalGroup2
+    group: 1
+    req_level: 16
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Act2_EquipB
+    prob1: 21
+    item2: Act2_JunkB
+    prob2: 16
+    item3: Act2_GoodB
+    prob3: 2
+    item4: Act2_SupremeB
+    prob4: 1
+    item5: Act2_EquipA
+    prob5: 12
+  - id: 4
+    class_name: Act3NormalGroup1
+    group: 1
+    req_level: 21
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Act3_EquipA
+    prob1: 21
+    item2: Act3_JunkA
+    prob2: 16
+    item3: Act3_GoodA
+    prob3: 2
+    item4: Act3_SupremeA
+    prob4: 1
+    item5: Act2_EquipB
+    prob5: 12
+  - id: 5
+    class_name: Act3NormalGroup2
+    group: 1
+    req_level: 26
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Act3_EquipB
+    prob1: 21
+    item2: Act3_JunkB
+    prob2: 16
+    item3: Act3_GoodB
+    prob3: 2
+    item4: Act3_SupremeB
+    prob4: 1
+    item5: Act3_EquipA
+    prob5: 12
+  - id: 21
+    class_name: Tier15NormalGroup
+    group: 1
+    req_level: 81
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 100
+    item1: Tier15_EquipA
+    prob1: 21
+    item2: Tier15_JunkA
+    prob2: 16
+    item3: Tier15_GoodA
+    prob3: 2
+    item4: Tier15_SupremeA
+    prob4: 1
+    item5: Tier14_EquipA
+    prob5: 12
+  - id: 22
+    class_name: Tier16NormalGroup
+    group: 1
+    req_level: 82
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 47
+    rare: 190
+    magic: 380
+    nodrop: 100
+    item1: Tier16_EquipA
+    prob1: 21
+    item2: Tier16_JunkA
+    prob2: 16
+    item3: Tier16_GoodA
+    prob3: 2
+    item4: Tier16_SupremeA
+    prob4: 1
+    item5: Tier15_EquipA
+    prob5: 12
+  - id: 23
+    class_name: Tier17NormalGroup
+    group: 1
+    req_level: 83
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 300
+    rare: 200
+    magic: 100
+    nodrop: 100
+    item1: Tier17_EquipA
+    prob1: 21
+    item2: Tier17_JunkA
+    prob2: 16
+    item3: Tier17_GoodA
+    prob3: 2
+    item4: Tier17_SupremeA
+    prob4: 1
+    item5: Tier16_EquipA
+    prob5: 12
+  - id: 24
+    class_name: Act1_EquipA
+    group: 2
+    req_level: 1
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: WeaponLv1
+    prob1: 20
+    item2: WeaponLv3
+    prob2: 10
+    item3: ArmorLv1
+    prob3: 20
+    item4: ArmorLv3
+    prob4: 10
+    item5: 
+    prob5: 0
+  - id: 25
+    class_name: Act1_EquipB
+    group: 2
+    req_level: 1
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: WeaponLv4
+    prob1: 20
+    item2: WeaponLv8
+    prob2: 7
+    item3: ArmorLv4
+    prob3: 20
+    item4: ArmorLv8
+    prob4: 7
+    item5: Act1_EquipA
+    prob5: 6
+  - id: 26
+    class_name: Act2_EquipA
+    group: 3
+    req_level: 1
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: WeaponLv7
+    prob1: 20
+    item2: WeaponLv13
+    prob2: 7
+    item3: ArmorLv7
+    prob3: 20
+    item4: ArmorLv13
+    prob4: 7
+    item5: Act1_EquipB
+    prob5: 6
+  - id: 27
+    class_name: Act2_EquipB
+    group: 3
+    req_level: 1
+    picks: 1
+    finalcheck: 0
+    edropreqlvl: 0
+    refersheet: 
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: WeaponLv10
+    prob1: 20
+    item2: WeaponLv18
+    prob2: 7
+    item3: ArmorLv10
+    prob3: 20
+    item4: ArmorLv18
+    prob4: 7
+    item5: Act2_EquipA
+    prob5: 6
+  - id: 28
+    class_name: WeaponLv10
+    group: 4
+    req_level: 1
+    picks: 1
+    finalcheck: 1
+    edropreqlvl: 10
+    refersheet: eWeapon
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: 
+    prob1: 0
+    item2: 
+    prob2: 0
+    item3: 
+    prob3: 0
+    item4: 
+    prob4: 0
+    item5: 
+    prob5: 0
+  - id: 29
+    class_name: ArmorLv10
+    group: 4
+    req_level: 1
+    picks: 1
+    finalcheck: 1
+    edropreqlvl: 10
+    refersheet: eArmour
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: 
+    prob1: 0
+    item2: 
+    prob2: 0
+    item3: 
+    prob3: 0
+    item4: 
+    prob4: 0
+    item5: 
+    prob5: 0
+  - id: 30
+    class_name: Act1_Currency
+    group: 5
+    req_level: 1
+    picks: 1
+    finalcheck: 1
+    edropreqlvl: 10
+    refersheet: eCurrency
+    unique: 0
+    rare: 0
+    magic: 0
+    nodrop: 0
+    item1: eCurrency
+    prob1: 0
+    item2: 
+    prob2: 0
+    item3: 
+    prob3: 0
+    item4: 
+    prob4: 0
+    item5: 
+    prob5: 0

@@ -123,6 +123,8 @@ namespace UnityQuickSheet
                 for (var i = 0; i < p.Length; i++)
                 {
                     ICell cell = row.GetCell(i);
+                    if (cell == null) 
+                        continue;
 
                     var property = p[i];
                     if (property.CanWrite)
