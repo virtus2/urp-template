@@ -39,5 +39,4 @@ public class TreasureClass : ScriptableObject
     //
     // Highly recommand to use LINQ to query the data sources.
     //
-
 }
