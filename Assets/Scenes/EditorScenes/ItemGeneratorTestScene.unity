@@ -522,6 +522,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06349fb152c859c4fbfb01ea59d37518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TreasureClass: {fileID: 11400000, guid: fc3f1c09f73583741b68c45f71e20fbe, type: 2}
+  TestDropTreasureClassName: Act3NormalGroup2
+  TestLevel: 18
   ItemLabelPrefab: {fileID: 2362845688507064232, guid: 74b5b3e3de523b24498331f57766175e,
     type: 3}
   ItemLabelCanvas: {fileID: 475979809}
