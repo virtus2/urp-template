@@ -123,6 +123,11 @@ public class Inventory : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
         OnItemPickedUp?.Invoke(entry);
     }
 
+    public void PickUpItemFromGround(GroundItem groundItem)
+    {
+        // groundItem.e
+    }
+
     public void DropPickedUpItem()
     {
         inventoryControlState = EInventoryControlState.None;

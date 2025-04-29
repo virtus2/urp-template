@@ -9,7 +9,8 @@ public class GroundItemLabel : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TextMeshProUGUI TextMesh;
     [SerializeField] private Image BackgroundImage;
 
-    public Action OnLabelClicked;
+    public Action<GroundItem> OnLabelClicked;
+    public GroundItem GroundItem;
 
     public void SetText(string text)
     {
@@ -28,7 +29,6 @@ public class GroundItemLabel : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log($"{this.name} OnPointerClick");
-        OnLabelClicked?.Invoke();
+        OnLabelClicked?.Invoke(GroundItem);
     }
 }

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd40b816ab748c4f9ad171c4dcbb4b5, type: 3}
+  m_Name: WeaponBaseData
+  m_EditorClassIdentifier: 
+  SheetName: "Assets/ScriptableObjects/QuickSheet/\uC2E4\uD5D8 250422.xlsx"
+  WorksheetName: WeaponBaseData
+  dataArray:
+  - id: 0
+    name: "\uC808\uB300\uAD70\uC8FC \uD55C\uC190\uAC80"
+    itemclasscategoryid: 3
+    itemclasscategory: "\uD55C\uC190 \uAC80"
+    inventorywidth: 1
+    inventoryheight: 1
+    canbecorrupted: 0
+    canbedoublecorrupted: 0
+    canhaveinfluence: 0
+    canhaveincubator: 0
+  - id: 1
+    name: "\uC774\uC911\uC2DC\uC704 \uD55C\uC190\uAC80"
+    itemclasscategoryid: 3
+    itemclasscategory: "\uD55C\uC190 \uAC80"
+    inventorywidth: 5
+    inventoryheight: 8
+    canbecorrupted: 0
+    canbedoublecorrupted: 0
+    canhaveinfluence: 0
+    canhaveincubator: 0
+  - id: 2
+    name: "\uC591\uC190\uB454\uAE30 1"
+    itemclasscategoryid: 8
+    itemclasscategory: "\uC591\uC190 \uB454\uAE30"
+    inventorywidth: 1
+    inventoryheight: 1
+    canbecorrupted: 0
+    canbedoublecorrupted: 0
+    canhaveinfluence: 0
+    canhaveincubator: 0
+  - id: 3
+    name: "\uC591\uC190 \uB454\uAE30 2"
+    itemclasscategoryid: 8
+    itemclasscategory: "\uC591\uC190 \uB454\uAE30"
+    inventorywidth: 10
+    inventoryheight: 13
+    canbecorrupted: 0
+    canbedoublecorrupted: 0
+    canhaveinfluence: 0
+    canhaveincubator: 0
